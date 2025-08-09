@@ -16,4 +16,5 @@ export class HttpException extends Error {
 export enum ErrorCode {
   UNPROCESSABLE_ENTITY = 1001,
   INTERNAL_EXCEPTION = 1005,
+  USER_ALREADY_EXISTS = 2001,
 }
