@@ -26,6 +26,9 @@ importers:
       express:
         specifier: 5.1.0
         version: 5.1.0
+      zod:
+        specifier: 4.0.16
+        version: 4.0.16
     devDependencies:
       '@types/cors':
         specifier: 2.8.19
@@ -2169,6 +2172,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  zod@4.0.16:
+    resolution: {integrity: sha512-Djo/cM339grjI7/HmN+ixYO2FzEMcWr/On50UlQ/RjrWK1I/hPpWhpC76heCptnRFpH0LMwrEbUY50HDc0V8wg==}
+
 snapshots:
 
   '@ampproject/remapping@2.3.0':
@@ -4147,3 +4153,5 @@ snapshots:
   yn@3.1.1: {}
 
   yocto-queue@0.1.0: {}
+
+  zod@4.0.16: {}
