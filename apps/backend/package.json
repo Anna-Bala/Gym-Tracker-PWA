@@ -12,13 +12,13 @@
   "license": "ISC",
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
+    "@gym-tracker-pwa/schemas": "workspace:*",
     "@prisma/client": "6.13.0",
     "bcrypt": "6.0.0",
     "cors": "2.8.5",
     "dotenv": "17.2.1",
     "express": "5.1.0",
-    "jsonwebtoken": "9.0.2",
-    "zod": "4.0.16"
+    "jsonwebtoken": "9.0.2"
   },
   "devDependencies": {
     "@types/bcrypt": "6.0.0",

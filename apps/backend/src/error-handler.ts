@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ZodError } from "zod";
+import { ZodError } from "@gym-tracker-pwa/schemas";
 import { ErrorCode, HttpException } from "./exceptions";
 import { BadRequestException } from "./exceptions/bad-request";
 import { InternalException } from "./exceptions/internal-exception";
