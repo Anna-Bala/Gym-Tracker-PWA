@@ -4,6 +4,7 @@ logs
 npm-debug.log*
 pnpm-debug.log*
 
+.env*
 node_modules
 dist
 dist-ssr
