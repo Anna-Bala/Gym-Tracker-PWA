@@ -24,3 +24,8 @@ export const SignupSchema = z
       });
     }
   });
+
+export const LoginSchema = z.object({
+  email: z.email({ message: "Invalid email address" }),
+  password: z.string().trim().min(1, { message: "Password is required" }),
+});
