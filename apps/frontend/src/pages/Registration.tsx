@@ -1,11 +1,15 @@
-import { Link } from "react-router-dom";
+import { useActionState, startTransition } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { User } from "lucide-react";
+import { CircleAlert, User } from "lucide-react";
 import { z, SignupSchema } from "@gym-tracker-pwa/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { API_ENDPOINT_PREFIX } from "@/secrets";
+import { Alert } from "@/components/Alert";
 import { Button, Input } from "@/components/ui";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
 
 type RegistrationFormData = z.infer<typeof SignupSchema>;
@@ -22,24 +26,58 @@ const Registration = () => {
     resolver: zodResolver(SignupSchema),
   });
 
-  const onSubmit = async (values: RegistrationFormData) => {
-    console.log({ values });
-  };
-
   const {
     formState: { errors },
+    handleSubmit,
   } = form;
+
+  const navigate = useNavigate();
+
+  const handleFormSubmission = async (_prevState: object, data: FormData) => {
+    try {
+      const formData = Object.fromEntries(data);
+      const response = await fetch(`${API_ENDPOINT_PREFIX}/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) return { success: false };
+
+      navigate("/login");
+      return { success: true };
+    } catch {
+      return { success: false };
+    }
+  };
+
+  const [state, submitAction, isPending] = useActionState(handleFormSubmission, { success: true });
+
+  const onSubmit = (data: RegistrationFormData) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    startTransition(() => {
+      submitAction(formData);
+    });
+  };
 
   return (
     <section>
+      <Loader variant="full-screen" isLoading={isPending} color="white" />
       <Typography className="font-bold flex flex-row items-center w-full gap-4" variant="h2">
         Create Your Account <User width={30} height={30} strokeWidth={3} absoluteStrokeWidth={true} />
       </Typography>
       <Typography className="mt-2 font-light" variant="md-24">
         Sign up now to get access to personalized workouts and achieve your fitness goals.
       </Typography>
+      {!state.success && (
+        <Alert className="mt-4" description="An error occurred while creating your account. Please try again later." icon={<CircleAlert />} title="Account Creation Error" variant="destructive" />
+      )}
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="w-full flex flex-col gap-4 mt-6">
             <FormField
               control={form.control}
@@ -108,7 +146,9 @@ const Registration = () => {
             />
           </div>
           <div className="flex w-full fixed bottom-0 left-0 px-6 py-4 bg-background border-t border-muted shadow-wide-xl">
-            <Button className="w-full">Sign up</Button>
+            <Button className="w-full" type="submit">
+              Sign up
+            </Button>
           </div>
         </form>
       </Form>
