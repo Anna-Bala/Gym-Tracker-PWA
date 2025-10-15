@@ -5,12 +5,13 @@ import { CircleAlert, Smile } from "lucide-react";
 import { z, LoginSchema } from "@gym-tracker-pwa/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { API_ENDPOINT_PREFIX } from "@/secrets";
 import { Alert } from "@/components/Alert";
+import { API_ENDPOINT_PREFIX } from "@/secrets";
 import { Button, Input } from "@/components/ui";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
+import { useAuth } from "@/contexts/auth/useAuth";
 
 type LoginFormData = z.infer<typeof LoginSchema>;
 
@@ -29,6 +30,7 @@ const Login = () => {
   } = form;
 
   const navigate = useNavigate();
+  const { setAccessToken } = useAuth();
 
   const handleFormSubmission = async (_prevState: object, data: FormData) => {
     try {
@@ -36,12 +38,15 @@ const Login = () => {
       const response = await fetch(`${API_ENDPOINT_PREFIX}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(formData),
       });
 
       if (!response.ok) return { success: false };
 
-      navigate("/");
+      const responseData = await response.json();
+      setAccessToken(responseData.token);
+
       return { success: true };
     } catch {
       return { success: false };
@@ -59,6 +64,8 @@ const Login = () => {
     startTransition(() => {
       submitAction(formData);
     });
+
+    if (state.success) navigate("/home");
   };
 
   return (
