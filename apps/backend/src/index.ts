@@ -4,7 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import { PrismaClient } from "@prisma/client";
 import { errorMiddleware } from "./middlewares/error";
-import { PORT } from "./secrets";
+import { FRONT_END_ORIGIN, PORT } from "./secrets";
 import rootRouter from "./routes";
 
 const app: Express = express();
@@ -12,7 +12,12 @@ const app: Express = express();
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: FRONT_END_ORIGIN,
+    credentials: true,
+  })
+);
 
 export const prismaClient = new PrismaClient();
 
