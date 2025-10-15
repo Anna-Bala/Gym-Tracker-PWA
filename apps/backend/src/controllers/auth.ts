@@ -76,9 +76,8 @@ export const refresh = async (req: Request, res: Response) => {
     const newRefreshToken = signRefreshToken(Number(jwtPayload.userId));
 
     await prismaClient.$transaction([
-      prismaClient.refreshToken.update({
+      prismaClient.refreshToken.delete({
         where: { token: refreshToken },
-        data: { revoked: true },
       }),
       prismaClient.refreshToken.create({
         data: {
@@ -89,7 +88,7 @@ export const refresh = async (req: Request, res: Response) => {
       }),
     ]);
 
-    res.cookie("session", refreshToken, {
+    res.cookie("session", newRefreshToken, {
       httpOnly: true,
       secure: ENVIRONMENT === "production",
       sameSite: "lax",
@@ -108,9 +107,8 @@ export const logout = async (req: Request, res: Response) => {
   const refreshToken = req.cookies.session;
 
   if (refreshToken) {
-    await prismaClient.refreshToken.updateMany({
+    await prismaClient.refreshToken.deleteMany({
       where: { token: refreshToken },
-      data: { revoked: true },
     });
     res.clearCookie("session", { path: "/api/auth/refresh" });
     res.json({ ok: true });
