@@ -6,3 +6,5 @@ export const signAccessToken = (userId: number) => jwt.sign({ userId }, JWT_ACCE
 export const signRefreshToken = (userId: number) => jwt.sign({ userId }, JWT_REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
 
 export const verifyRefreshToken = (token: any) => jwt.verify(token, JWT_REFRESH_TOKEN_SECRET);
+
+export const verifyAccessToken = (token: any) => jwt.verify(token, JWT_ACCESS_TOKEN_SECRET);

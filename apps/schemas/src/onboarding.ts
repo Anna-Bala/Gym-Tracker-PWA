@@ -38,3 +38,15 @@ export const OnboardingStepWeightSchema = z.object({
 export const OnboardingStepWorkoutGoalSchema = z.object({
   workoutGoal: z.enum(["loseWeight", "buildMuscle", "stayFit"]),
 });
+
+export const FullOnboardingSchema = z.object({
+  ...OnboardingStepActivityLevelSchema.shape,
+  ...OnboardingStepFitnessLevelSchema.shape,
+  ...OnboardingStepFocusAreaSchema.shape,
+  ...OnboardingStepGenderSchema.shape,
+  ...OnboardingStepAgeSchema.shape,
+  ...OnboardingStepDaysSchema.shape,
+  ...OnboardingStepHeightSchema.shape,
+  ...OnboardingStepWeightSchema.shape,
+  ...OnboardingStepWorkoutGoalSchema.shape,
+});
