@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
+import { FullOnboardingSchema } from "@gym-tracker-pwa/schemas";
 import { BadRequestException } from "../exceptions/bad-request";
 import { ErrorCode } from "../exceptions";
 import { prismaClient } from "..";
-import { z, FullOnboardingSchema } from "@gym-tracker-pwa/schemas";
 
 export const create = async (req: Request, res: Response) => {
-  const { activityLevel, age, days, fitnessLevel, focusArea, gender, height, userId, weight, workoutGoal } = FullOnboardingSchema.extend({ userId: z.number().positive() }).parse(req.body);
+  const userId = req.userId;
+
+  const { activityLevel, age, days, fitnessLevel, focusArea, gender, height, weight, workoutGoal } = FullOnboardingSchema.parse(req.body);
 
   let onboarding = await prismaClient.onboarding.findFirst({ where: { userId } });
   if (onboarding) {

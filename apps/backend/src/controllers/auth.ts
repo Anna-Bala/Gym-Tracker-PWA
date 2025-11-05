@@ -59,9 +59,11 @@ export const login = async (req: Request, res: Response) => {
     maxAge: tokenLifetime,
   });
 
+  const onboarding = await prismaClient.onboarding.findFirst({ where: { userId: user.id } });
+
   const { createdAt, updatedAt, password: responseUserPassword, ...responseUser } = user;
 
-  res.json({ user: responseUser, token: accessToken });
+  res.json({ user: responseUser, token: accessToken, onboardingFilled: !!onboarding });
 };
 
 export const refresh = async (req: Request, res: Response) => {
