@@ -8,3 +8,4 @@ export { default as OnboardingStepHeight } from "./OnboardingStepHeight";
 export { default as OnboardingStepLoading } from "./OnboardingStepLoading";
 export { default as OnboardingStepWeight } from "./OnboardingStepWeight";
 export { default as OnboardingStepWorkoutGoal } from "./OnboardingStepWorkoutGoal";
+export { default as OnboardingStepWrapper } from "./OnboardingStepWrapper";

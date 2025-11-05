@@ -47,13 +47,13 @@ const Login = () => {
       const responseData = await response.json();
       setAccessToken(responseData.token);
 
-      return { success: true };
+      return { success: true, onboardingFilled: responseData.onboardingFilled };
     } catch {
       return { success: false };
     }
   };
 
-  const [state, submitAction, isPending] = useActionState(handleFormSubmission, { success: true });
+  const [state, submitAction, isPending] = useActionState(handleFormSubmission, { success: false, onboardingFilled: true });
 
   const onSubmit = (data: LoginFormData) => {
     const formData = new FormData();
@@ -63,9 +63,15 @@ const Login = () => {
 
     startTransition(() => {
       submitAction(formData);
-    });
 
-    if (state.success) navigate("/home");
+      if (state.success) {
+        if (state.onboardingFilled) {
+          navigate("/home");
+        } else {
+          navigate("/onboarding/1");
+        }
+      }
+    });
   };
 
   return (

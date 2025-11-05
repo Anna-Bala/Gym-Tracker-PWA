@@ -5,6 +5,7 @@ import { Typography } from "@/components/base/Typography";
 
 interface CheckboxCardItem {
   className?: string;
+  checked?: boolean;
   description?: string;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   label: string;
@@ -12,10 +13,11 @@ interface CheckboxCardItem {
   value: string;
 }
 
-export const CheckboxCardItem: React.FC<CheckboxCardItem> = ({ className, description, Icon, label, onCheckedChange, value }) => (
+export const CheckboxCardItem: React.FC<CheckboxCardItem> = ({ className, checked, description, Icon, label, onCheckedChange, value }) => (
   <Checkbox
     id={value}
     onCheckedChange={onCheckedChange}
+    checked={checked}
     value={value}
     className={cn("flex flex-row gap-4 bg-card items-center w-full ring-[1px] ring-border rounded py-4 px-4 data-[state=checked]:ring-2 data-[state=checked]:ring-primary", className)}
   >
