@@ -1,14 +1,14 @@
-import { useActionState, startTransition } from "react";
+import { useActionState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { CircleAlert, User } from "lucide-react";
 import { z, SignupSchema } from "@gym-tracker-pwa/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { API_ENDPOINT_PREFIX } from "@/secrets";
 import { Alert } from "@/components/Alert";
 import { Button, Input } from "@/components/ui";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { handleRegistrationAction } from "./actions";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
 
@@ -28,41 +28,18 @@ const Registration = () => {
 
   const {
     formState: { errors },
-    handleSubmit,
   } = form;
 
   const navigate = useNavigate();
 
-  const handleFormSubmission = async (_prevState: object, data: FormData) => {
-    try {
-      const formData = Object.fromEntries(data);
-      const response = await fetch(`${API_ENDPOINT_PREFIX}/auth/signup`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+  const [state, submitAction, isPending] = useActionState(handleRegistrationAction, { success: null });
 
-      if (!response.ok) return { success: false };
-
+  useEffect(() => {
+    if (state.success) {
       navigate("/login");
-      return { success: true };
-    } catch {
-      return { success: false };
     }
-  };
-
-  const [state, submitAction, isPending] = useActionState(handleFormSubmission, { success: true });
-
-  const onSubmit = (data: RegistrationFormData) => {
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-
-    startTransition(() => {
-      submitAction(formData);
-    });
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   return (
     <section>
@@ -73,11 +50,11 @@ const Registration = () => {
       <Typography className="mt-2 font-light" variant="md-24">
         Sign up now to get access to personalized workouts and achieve your fitness goals.
       </Typography>
-      {!state.success && (
+      {state.success === false && (
         <Alert className="mt-4" description="An error occurred while creating your account. Please try again later." icon={<CircleAlert />} title="Account Creation Error" variant="destructive" />
       )}
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form action={submitAction} noValidate>
           <div className="w-full flex flex-col gap-4 mt-6">
             <FormField
               control={form.control}

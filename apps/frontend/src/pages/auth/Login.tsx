@@ -1,4 +1,4 @@
-import { useActionState, startTransition } from "react";
+import { useActionState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { CircleAlert, Smile } from "lucide-react";
@@ -6,9 +6,9 @@ import { z, LoginSchema } from "@gym-tracker-pwa/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Alert } from "@/components/Alert";
-import { API_ENDPOINT_PREFIX } from "@/secrets";
 import { Button, Input } from "@/components/ui";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { handleLoginAction } from "./actions";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
 import { useAuth } from "@/contexts/auth/useAuth";
@@ -26,53 +26,25 @@ const Login = () => {
 
   const {
     formState: { errors },
-    handleSubmit,
   } = form;
 
   const navigate = useNavigate();
   const { setAccessToken } = useAuth();
 
-  const handleFormSubmission = async (_prevState: object, data: FormData) => {
-    try {
-      const formData = Object.fromEntries(data);
-      const response = await fetch(`${API_ENDPOINT_PREFIX}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(formData),
-      });
+  const [state, submitAction, isPending] = useActionState(handleLoginAction, { accessToken: null, success: null });
 
-      if (!response.ok) return { success: false };
+  useEffect(() => {
+    if (state.success) {
+      setAccessToken(state.accessToken);
 
-      const responseData = await response.json();
-      setAccessToken(responseData.token);
-
-      return { success: true, onboardingFilled: responseData.onboardingFilled };
-    } catch {
-      return { success: false };
-    }
-  };
-
-  const [state, submitAction, isPending] = useActionState(handleFormSubmission, { success: false, onboardingFilled: true });
-
-  const onSubmit = (data: LoginFormData) => {
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-
-    startTransition(() => {
-      submitAction(formData);
-
-      if (state.success) {
-        if (state.onboardingFilled) {
-          navigate("/home");
-        } else {
-          navigate("/onboarding/1");
-        }
+      if (state.onboardingFilled) {
+        navigate("/home");
+      } else {
+        navigate("/onboarding/1");
       }
-    });
-  };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   return (
     <section>
@@ -83,11 +55,11 @@ const Login = () => {
       <Typography className="mt-2 font-light" variant="md-24">
         Sign in to access your personalized workouts and track your progress.
       </Typography>
-      {!state.success && (
+      {state.success === false && (
         <Alert className="mt-4" description="Login attempt failed. Make sure your account exists and your details are correct." icon={<CircleAlert />} title="Unable to Log In" variant="destructive" />
       )}
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form action={submitAction} noValidate>
           <div className="w-full flex flex-col gap-4 mt-6">
             <FormField
               control={form.control}
