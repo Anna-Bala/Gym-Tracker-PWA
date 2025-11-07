@@ -35,6 +35,10 @@ function App() {
             }
           >
             <Route path="/home" element={<div>home</div>} />
+            <Route path="/discover" element={<div>discover</div>} />
+            <Route path="/report" element={<div>report</div>} />
+            <Route path="/history" element={<div>history</div>} />
+            <Route path="/settings" element={<div>settings</div>} />
             <Route path="/onboarding/1" element={<OnboardingStepGender />} />
             <Route path="/onboarding/2" element={<OnboardingStepFocusArea />} />
             <Route path="/onboarding/3" element={<OnboardingStepAge />} />
