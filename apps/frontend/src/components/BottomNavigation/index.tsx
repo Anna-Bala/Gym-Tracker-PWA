@@ -23,6 +23,7 @@ export const BottomNavigation: React.FC<BottomNavigation> = ({ children, isHidde
               cn("flex flex-1 flex-col items-center", { "text-accent-foreground font-bold stroke-[3]": isActive, "stroke-2 text-muted-foreground dark:text-accent": !isActive })
             }
             to={location}
+            key={location}
           >
             <>
               <Icon className={cn("w-10 h-10", customIconClasses)} />
