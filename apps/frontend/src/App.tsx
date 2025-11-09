@@ -15,6 +15,7 @@ import {
   OnboardingStepWorkoutGoal,
 } from "./pages/onboarding";
 import Layout from "./components/base/Layout";
+import History from "./pages/history/History";
 import Login from "./pages/auth/Login";
 import PrivateRoute from "./components/base/PrivateRoute";
 import Registration from "./pages/auth/Registration";
@@ -37,7 +38,7 @@ function App() {
             <Route path="/home" element={<div>home</div>} />
             <Route path="/discover" element={<div>discover</div>} />
             <Route path="/report" element={<div>report</div>} />
-            <Route path="/history" element={<div>history</div>} />
+            <Route path="/history" element={<History />} />
             <Route path="/settings" element={<div>settings</div>} />
             <Route path="/onboarding/1" element={<OnboardingStepGender />} />
             <Route path="/onboarding/2" element={<OnboardingStepFocusArea />} />
