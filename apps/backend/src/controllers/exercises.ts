@@ -1,11 +1,11 @@
 import fetch from "node-fetch";
 import { Request, Response } from "express";
-import { FilterExercisesSchema, SearchExercisesSchema } from "@gym-tracker-pwa/schemas";
+import { Exercise, FilterExercisesSchema, SearchExercisesSchema } from "@gym-tracker-pwa/schemas";
 import { ErrorCode } from "../exceptions";
 import { InternalException } from "../exceptions/internal-exception";
 import { WORKOUT_API_KEY } from "../secrets";
 
-const appendImagesToExerciseResult = async (exercises: { id: string }[]) => {
+const appendImagesToExerciseResults = async (exercises: Exercise[]) => {
   const searchResultWithImages = await Promise.all(
     exercises.map(async (result) => {
       const imageResponse = await fetch(`https://api.workoutapi.com/exercises/${result.id}/image`, {
@@ -33,12 +33,12 @@ export const getAllExercises = async (_req: Request, res: Response) => {
       headers: { Accept: "application/json", "x-api-key": WORKOUT_API_KEY },
     });
 
-    const allExercisesResponseResult = ((await allExercisesResponse.json()) || []) as { id: string }[];
-    const allExercisesResultWithImages = await appendImagesToExerciseResult(allExercisesResponseResult);
+    const allExercisesResponseResult = ((await allExercisesResponse.json()) || []) as Exercise[];
+    const allExercisesResultWithImages = await appendImagesToExerciseResults(allExercisesResponseResult);
 
     res.json(allExercisesResultWithImages);
   } catch (error) {
-    throw new InternalException("Something went wrong while fetching workouts", error, ErrorCode.INTERNAL_EXCEPTION);
+    throw new InternalException("Something went wrong while fetching exercises", error, ErrorCode.INTERNAL_EXCEPTION);
   }
 };
 
@@ -51,12 +51,12 @@ export const getExercisesByName = async (req: Request, res: Response) => {
       headers: { Accept: "application/json", "x-api-key": WORKOUT_API_KEY },
     });
 
-    const searchResponseResult = ((await searchResponse.json()) || []) as { id: string }[];
-    const searchResultWithImages = await appendImagesToExerciseResult(searchResponseResult);
+    const searchResponseResult = ((await searchResponse.json()) || []) as Exercise[];
+    const searchResultWithImages = await appendImagesToExerciseResults(searchResponseResult);
 
     res.json(searchResultWithImages);
   } catch (error) {
-    throw new InternalException("Something went wrong while fetching workouts", error, ErrorCode.INTERNAL_EXCEPTION);
+    throw new InternalException("Something went wrong while fetching exercises", error, ErrorCode.INTERNAL_EXCEPTION);
   }
 };
 
@@ -74,11 +74,11 @@ export const getFilteredExercises = async (req: Request, res: Response) => {
       }),
     });
 
-    const filterResponseResult = ((await filterResponse.json()) || []) as { id: string }[];
-    const filterResultWithImages = await appendImagesToExerciseResult(filterResponseResult);
+    const filterResponseResult = ((await filterResponse.json()) || []) as Exercise[];
+    const filterResultWithImages = await appendImagesToExerciseResults(filterResponseResult);
 
     res.json(filterResultWithImages);
   } catch (error) {
-    throw new InternalException("Something went wrong while fetching workouts", error, ErrorCode.INTERNAL_EXCEPTION);
+    throw new InternalException("Something went wrong while fetching exercises", error, ErrorCode.INTERNAL_EXCEPTION);
   }
 };
