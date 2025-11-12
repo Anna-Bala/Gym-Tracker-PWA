@@ -14,6 +14,7 @@ import {
   OnboardingStepWeight,
   OnboardingStepWorkoutGoal,
 } from "./pages/onboarding";
+import DiscoverExercises from "./pages/discover/DiscoverExercises";
 import Layout from "./components/base/Layout";
 import History from "./pages/history/History";
 import Login from "./pages/auth/Login";
@@ -36,7 +37,7 @@ function App() {
             }
           >
             <Route path="/home" element={<div>home</div>} />
-            <Route path="/discover" element={<div>discover</div>} />
+            <Route path="/discover" element={<DiscoverExercises />} />
             <Route path="/report" element={<div>report</div>} />
             <Route path="/history" element={<History />} />
             <Route path="/settings" element={<div>settings</div>} />

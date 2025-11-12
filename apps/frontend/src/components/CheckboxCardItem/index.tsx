@@ -8,7 +8,7 @@ interface CheckboxCardItem {
   checked?: boolean;
   description?: string;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  label: string;
+  label?: string;
   onCheckedChange?: (checked: boolean) => void;
   value: string;
 }
@@ -24,9 +24,11 @@ export const CheckboxCardItem: React.FC<CheckboxCardItem> = ({ className, checke
     <>
       {Icon && <Icon className="w-12 h-12" />}
       <div className="flex flex-col gap-1">
-        <Typography className="font-bold w-full text-left" variant="md-24">
-          {label}
-        </Typography>
+        {label && (
+          <Typography className="font-bold w-full text-left" variant="md-24">
+            {label}
+          </Typography>
+        )}
         {description && (
           <Typography className="font-light text-left" variant="sm-20">
             {description}
