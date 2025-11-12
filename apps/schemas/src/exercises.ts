@@ -11,3 +11,17 @@ export const FilterExercisesSchema = z.object({
 export const SearchExercisesSchema = z.object({
   name: z.string().optional(),
 });
+
+export const ExerciseSchema = z.object({
+  id: z.string(),
+  code: z.string(),
+  name: z.string(),
+  description: z.string().optional(),
+  image: z.string().optional(),
+  primaryMuscles: z.array(z.object({ id: z.string(), code: z.string(), name: z.string() })).optional(),
+  secondaryMuscles: z.array(z.object({ id: z.string(), code: z.string(), name: z.string() })).optional(),
+  types: z.array(z.object({ id: z.string(), code: z.string(), name: z.string() })).optional(),
+  categories: z.array(z.object({ id: z.string(), code: z.string(), name: z.string() })).optional(),
+});
+
+export type Exercise = z.infer<typeof ExerciseSchema>;
