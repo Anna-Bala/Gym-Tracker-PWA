@@ -35,7 +35,7 @@ const DiscoverExercises = () => {
 
   return (
     <section className="flex flex-col h-[80vh] pt-2">
-      <Typography className="font-semibold" variant="h2">
+      <Typography className="w-full text-center font-semibold" variant="h2">
         Discover exercises
       </Typography>
       <DiscoverExercisesFilter accessToken={accessToken} setExercisesList={setExercisesList} setIsLoading={setIsLoading} />
