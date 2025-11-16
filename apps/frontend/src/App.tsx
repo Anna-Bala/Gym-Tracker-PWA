@@ -15,11 +15,12 @@ import {
   OnboardingStepWorkoutGoal,
 } from "./pages/onboarding";
 import DiscoverExercises from "./pages/discover/DiscoverExercises";
-import Layout from "./components/base/Layout";
 import History from "./pages/history/History";
+import Layout from "./components/base/Layout";
 import Login from "./pages/auth/Login";
 import PrivateRoute from "./components/base/PrivateRoute";
 import Registration from "./pages/auth/Registration";
+import Report from "./pages/report/Report";
 
 function App() {
   return (
@@ -38,7 +39,7 @@ function App() {
           >
             <Route path="/home" element={<div>home</div>} />
             <Route path="/discover" element={<DiscoverExercises />} />
-            <Route path="/report" element={<div>report</div>} />
+            <Route path="/report" element={<Report />} />
             <Route path="/history" element={<History />} />
             <Route path="/settings" element={<div>settings</div>} />
             <Route path="/onboarding/1" element={<OnboardingStepGender />} />
