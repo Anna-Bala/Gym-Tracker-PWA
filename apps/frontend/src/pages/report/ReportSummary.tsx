@@ -25,7 +25,7 @@ const ReportSummary = () => {
   return (
     <section className="flex justify-between py-2 px-3 border border-border rounded-md">
       {reportSummaryColumns.map(({ amount, Icon, label }) => (
-        <div className="flex flex-col flex-1 items-center gap-1">
+        <div className="flex flex-col flex-1 items-center gap-1" key={label}>
           <Icon className="w-8 h-8 text-chart-2 stroke-2" />
           <Typography className="font-semibold" variant="sm-16">
             {amount}

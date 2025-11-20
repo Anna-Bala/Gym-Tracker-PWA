@@ -1,4 +1,5 @@
 import { Typography } from "@/components/base/Typography";
+import ReportBmi from "./ReportBmi";
 import ReportSummary from "./ReportSummary";
 
 const Report = () => {
@@ -7,7 +8,10 @@ const Report = () => {
       <Typography className="w-full text-center font-semibold mb-6" variant="h2">
         Report
       </Typography>
-      <ReportSummary />
+      <div className="flex flex-col gap-6">
+        <ReportSummary />
+        <ReportBmi />
+      </div>
     </section>
   );
 };
