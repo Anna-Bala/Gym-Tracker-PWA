@@ -1,4 +1,5 @@
 export * from "zod";
-export * from "./users";
-export * from "./onboarding";
 export * from "./exercises";
+export * from "./onboarding";
+export * from "./statistics";
+export * from "./users";

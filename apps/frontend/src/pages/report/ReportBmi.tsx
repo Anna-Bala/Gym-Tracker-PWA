@@ -1,6 +1,9 @@
 import { type ChartConfig } from "@/components/ui/chart";
-import { Typography } from "@/components/base/Typography";
+import { Button } from "@/components/ui";
+import { calculateBMI, calculateBmiNeedlePosition } from "./utils";
 import { PieChart } from "@/components/PieChart";
+import { Typography } from "@/components/base/Typography";
+import Pencil from "@icons/pencil.svg?react";
 
 const chartData = [
   { label: "Under\nweight", value: 1, fill: "var(--chart-1)", labelAdditionalInfo: "< 18.5" },
@@ -33,32 +36,48 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const ReportBmi = () => {
+interface ReportBmiProps {
+  height: number;
+  weight: number;
+}
+
+const ReportBmi = ({ height, weight }: ReportBmiProps) => {
+  const bmi = calculateBMI(weight, height / 100);
+  const needlePosition = calculateBmiNeedlePosition(bmi || 0);
+
   return (
     <section className="flex flex-col py-2 px-2 border border-border rounded-md">
       <div className="flex justify-between p-3">
         <Typography className="font-semibold" variant="h4">
-          BMI (kg/m2): XXX
+          BMI (kg/m<sup>2</sup>): {bmi || "none"}
         </Typography>
+
+        <Button className="!p-0" variant="ghost" onClick={() => {}} type="button">
+          <Pencil className="!w-7 !h-7 text-muted-foreground" />
+        </Button>
       </div>
       <hr className="my-4 w-full border-border dark:border-accent" />
-      <PieChart
-        showNeedle
-        isAnimationActive={false}
-        className="w-full h-[300]"
-        chartConfig={chartConfig}
-        data={chartData}
-        labelLine={false}
-        dataKey="value"
-        nameKey="label"
-        startAngle={180}
-        endAngle={0}
-        cx="50%"
-        cy="95%"
-        innerRadius="90%"
-        outerRadius="185%"
-        stroke="none"
-      />
+      {bmi ? (
+        <PieChart
+          chartConfig={chartConfig}
+          className="w-full h-[300]"
+          cx="50%"
+          cy="95%"
+          data={chartData}
+          dataKey="value"
+          endAngle={0}
+          innerRadius="90%"
+          isAnimationActive={false}
+          labelLine={false}
+          nameKey="label"
+          needleIndex={needlePosition}
+          outerRadius="185%"
+          startAngle={180}
+          stroke="none"
+        />
+      ) : (
+        <Typography variant="md-24">No data</Typography>
+      )}
     </section>
   );
 };

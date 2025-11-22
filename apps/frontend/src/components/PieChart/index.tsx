@@ -8,17 +8,17 @@ import { renderCustomLabel } from "./utils";
 type PieChartProps = {
   chartConfig: ChartConfig;
   className?: string;
-  showNeedle?: boolean;
+  needleIndex?: number;
 } & Omit<PieProps, "ref">;
 
-export const PieChart: React.FC<PieChartProps> = ({ chartConfig, className, showNeedle, ...pieProps }) => {
+export const PieChart: React.FC<PieChartProps> = ({ chartConfig, className, needleIndex, ...pieProps }) => {
   return (
     <ChartContainer className={className} config={chartConfig}>
       <ResponsiveContainer>
         <PieChartBase>
           <Pie {...pieProps} label={renderCustomLabel} />
-          {showNeedle && <Pie activeShape={Needle as PieProps["activeShape"]} {...pieProps} label={renderCustomLabel} />}
-          {showNeedle && <Tooltip defaultIndex={2} content={() => null} active />}
+          {needleIndex !== undefined && <Pie activeShape={Needle as PieProps["activeShape"]} {...pieProps} label={renderCustomLabel} />}
+          {needleIndex !== undefined && <Tooltip defaultIndex={needleIndex} content={() => null} active />}
         </PieChartBase>
       </ResponsiveContainer>
     </ChartContainer>
