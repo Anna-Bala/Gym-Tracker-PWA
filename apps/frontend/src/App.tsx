@@ -21,6 +21,7 @@ import Login from "./pages/auth/Login";
 import PrivateRoute from "./components/base/PrivateRoute";
 import Registration from "./pages/auth/Registration";
 import Report from "./pages/report/Report";
+import Settings from "./pages/settings/Settings";
 
 function App() {
   return (
@@ -41,7 +42,7 @@ function App() {
             <Route path="/discover" element={<DiscoverExercises />} />
             <Route path="/report" element={<Report />} />
             <Route path="/history" element={<History />} />
-            <Route path="/settings" element={<div>settings</div>} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="/onboarding/1" element={<OnboardingStepGender />} />
             <Route path="/onboarding/2" element={<OnboardingStepFocusArea />} />
             <Route path="/onboarding/3" element={<OnboardingStepAge />} />
