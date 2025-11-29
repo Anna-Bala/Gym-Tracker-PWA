@@ -1,37 +1,37 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui";
 import { cn } from "@/lib/utils";
+import { Switch } from "@/components/ui/switch";
 import { Typography } from "@/components/base/Typography";
 import Chevron from "@icons/chevron.svg?react";
+import Label from "@/components/ui/label";
 import Moon from "@icons/moon-no-color.svg?react";
 import PersonExit from "@icons/person-exit-no-color.svg?react";
 import PersonLifting from "@icons/person-lifting-no-color.svg?react";
 import PersonPortrait from "@icons/person-portrait-no-color.svg?react";
 
+const settingsOptions = [
+  {
+    label: "Profile & Security",
+    Icon: PersonPortrait,
+    to: "/settings/profile",
+  },
+  {
+    label: "Body Metrics",
+    Icon: PersonLifting,
+    to: "/settings/metrics",
+  },
+];
+
 const Settings = () => {
-  const settingsOptions = [
-    {
-      label: "Profile & Security",
-      Icon: PersonPortrait,
-      to: "/settings/profile",
-    },
-    {
-      label: "Body Metrics",
-      Icon: PersonLifting,
-      to: "/settings/metrics",
-    },
-    {
-      label: "Dark Mode",
-      Icon: Moon,
-      onClick: () => {},
-    },
-    {
-      label: "Logout",
-      Icon: PersonExit,
-      onClick: () => {},
-    },
-  ];
+  const [isDarkModeActive, setIsDarkModeActive] = useState(document.body.classList.contains("dark"));
+
+  const handleDarkModeChange = () => {
+    setIsDarkModeActive((prevState) => !prevState);
+    document.body.classList.toggle("dark");
+  };
 
   const buttonClasses = "text-base flex items-center !px-0 justify-start text-foreground py-2 gap-4 font-medium";
   const iconClasses = "!w-10 !h-10 text-foreground";
@@ -43,10 +43,8 @@ const Settings = () => {
         Settings
       </Typography>
       <div className="flex flex-col w-full mt-6 gap-4 h-[calc(100vh-230px)]">
-        {settingsOptions.map(({ Icon, label, onClick, to }) => {
-          const isLogout = label === "Logout";
-
-          return to ? (
+        {settingsOptions.map(({ Icon, label, to }) => {
+          return (
             <Link className={buttonClasses} to={to} key={label}>
               <>
                 <Icon className={iconClasses} />
@@ -54,16 +52,23 @@ const Settings = () => {
                 <Chevron className={chevronClasses} />
               </>
             </Link>
-          ) : onClick ? (
-            <Button className={cn(buttonClasses, { "mt-auto text-destructive border border-destructive justify-center gap-1": isLogout })} variant="link" size="lg" onClick={onClick} key={label}>
-              <>
-                <Icon className={cn(iconClasses, { "text-destructive": isLogout })} />
-                {label}
-                {!isLogout && <Chevron className={chevronClasses} />}
-              </>
-            </Button>
-          ) : null;
+          );
         })}
+
+        <div className="flex items-center">
+          <Moon className={iconClasses} />
+          <Label className={cn(buttonClasses, "ml-4")} htmlFor="dark-mode">
+            Dark Mode
+          </Label>
+          <Switch className="ml-auto" checked={isDarkModeActive} onCheckedChange={handleDarkModeChange} id="dark-mode" />
+        </div>
+
+        <Button className={cn(buttonClasses, "mt-auto text-destructive border border-destructive justify-center gap-1")} variant="outline" size="lg">
+          <>
+            <PersonExit className={cn(iconClasses, "text-destructive")} />
+            Logout
+          </>
+        </Button>
       </div>
     </section>
   );
