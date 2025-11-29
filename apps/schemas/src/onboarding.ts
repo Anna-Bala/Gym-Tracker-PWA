@@ -50,3 +50,10 @@ export const FullOnboardingSchema = z.object({
   ...OnboardingStepWeightSchema.shape,
   ...OnboardingStepWorkoutGoalSchema.shape,
 });
+
+export const BodyMetricsSchema = z.object({
+  ...OnboardingStepGenderSchema.shape,
+  ...OnboardingStepAgeSchema.shape,
+  ...OnboardingStepHeightSchema.shape,
+  ...OnboardingStepWeightSchema.shape,
+});

@@ -20,7 +20,7 @@ const OnboardingStepLoading = () => {
     try {
       setIsError(false);
 
-      const response = await fetch(`${API_ENDPOINT_PREFIX}/onboarding/create`, {
+      const response = await fetch(`${API_ENDPOINT_PREFIX}/onboarding`, {
         method: "POST",
         headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
         credentials: "include",
