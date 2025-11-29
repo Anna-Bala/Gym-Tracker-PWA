@@ -1,5 +1,6 @@
+import { Link } from "react-router-dom";
+
 import { type ChartConfig } from "@/components/ui/chart";
-import { Button } from "@/components/ui";
 import { calculateBMI, calculateBmiNeedlePosition } from "./utils";
 import { PieChart } from "@/components/PieChart";
 import { Typography } from "@/components/base/Typography";
@@ -52,9 +53,9 @@ const ReportBmi = ({ height, weight }: ReportBmiProps) => {
           BMI (kg/m<sup>2</sup>): {bmi || "none"}
         </Typography>
 
-        <Button className="!p-0" variant="ghost" onClick={() => {}} type="button">
+        <Link className="!p-0" to="/settings/metrics">
           <Pencil className="!w-7 !h-7 text-muted-foreground" />
-        </Button>
+        </Link>
       </div>
       <hr className="my-4 w-full border-border dark:border-accent" />
       {bmi ? (
