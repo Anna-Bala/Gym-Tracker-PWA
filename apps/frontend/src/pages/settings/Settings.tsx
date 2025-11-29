@@ -4,11 +4,10 @@ import { Button } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { Typography } from "@/components/base/Typography";
 import Chevron from "@icons/chevron.svg?react";
-// import Moon from "@icons/moon-no-color.svg?react";
+import Moon from "@icons/moon-no-color.svg?react";
 import PersonExit from "@icons/person-exit-no-color.svg?react";
 import PersonLifting from "@icons/person-lifting-no-color.svg?react";
 import PersonPortrait from "@icons/person-portrait-no-color.svg?react";
-import Sun from "@icons/sun-no-color.svg?react";
 
 const Settings = () => {
   const settingsOptions = [
@@ -18,13 +17,13 @@ const Settings = () => {
       to: "/settings/profile",
     },
     {
-      label: "Workout Preferences",
+      label: "Body Metrics",
       Icon: PersonLifting,
-      to: "/settings/workout",
+      to: "/settings/metrics",
     },
     {
-      label: "App Theme",
-      Icon: Sun,
+      label: "Dark Mode",
+      Icon: Moon,
       onClick: () => {},
     },
     {

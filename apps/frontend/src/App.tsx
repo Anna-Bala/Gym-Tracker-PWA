@@ -20,6 +20,7 @@ import Layout from "./components/base/Layout";
 import Login from "./pages/auth/Login";
 import PrivateRoute from "./components/base/PrivateRoute";
 import ProfileSettings from "./pages/settings/ProfileSettings";
+import BodyMetricsSettings from "./pages/settings/BodyMetricsSettings";
 import Registration from "./pages/auth/Registration";
 import Report from "./pages/report/Report";
 import Settings from "./pages/settings/Settings";
@@ -45,6 +46,7 @@ function App() {
             <Route path="/history" element={<History />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/settings/profile" element={<ProfileSettings />} />
+            <Route path="/settings/metrics" element={<BodyMetricsSettings />} />
             <Route path="/onboarding/1" element={<OnboardingStepGender />} />
             <Route path="/onboarding/2" element={<OnboardingStepFocusArea />} />
             <Route path="/onboarding/3" element={<OnboardingStepAge />} />
