@@ -4,6 +4,17 @@ import { BadRequestException } from "../exceptions/bad-request";
 import { ErrorCode } from "../exceptions";
 import { prismaClient } from "..";
 
+export const get = async (req: Request, res: Response) => {
+  const userId = req.userId;
+
+  let onboarding = await prismaClient.onboarding.findFirst({ where: { userId } });
+  if (!onboarding) {
+    throw new BadRequestException("Onboarding data is missing", ErrorCode.USER_ONBOARDING_MISSING);
+  }
+
+  res.json(onboarding);
+};
+
 export const create = async (req: Request, res: Response) => {
   const userId = req.userId;
 
