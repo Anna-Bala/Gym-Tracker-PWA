@@ -57,3 +57,5 @@ export const BodyMetricsSchema = z.object({
   ...OnboardingStepHeightSchema.shape,
   ...OnboardingStepWeightSchema.shape,
 });
+
+export type FullOnboarding = z.infer<typeof FullOnboardingSchema>;
