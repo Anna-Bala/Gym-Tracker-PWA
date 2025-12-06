@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { BodyMetricsSchema, FullOnboardingSchema } from "@gym-tracker-pwa/schemas";
+import { NotFoundException } from "../exceptions/not-found";
 import { BadRequestException } from "../exceptions/bad-request";
 import { ErrorCode } from "../exceptions";
 import { prismaClient } from "..";
@@ -9,7 +10,7 @@ export const get = async (req: Request, res: Response) => {
 
   let onboarding = await prismaClient.onboarding.findFirst({ where: { userId } });
   if (!onboarding) {
-    throw new BadRequestException("Onboarding data is missing", ErrorCode.USER_ONBOARDING_MISSING);
+    throw new NotFoundException("Onboarding data is missing", ErrorCode.USER_ONBOARDING_MISSING);
   }
 
   res.json(onboarding);
@@ -50,7 +51,7 @@ export const patch = async (req: Request, res: Response) => {
 
   let onboarding = await prismaClient.onboarding.findFirst({ where: { userId } });
   if (!onboarding) {
-    throw new BadRequestException("Onboarding data is missing", ErrorCode.USER_ONBOARDING_MISSING);
+    throw new NotFoundException("Onboarding data is missing", ErrorCode.USER_ONBOARDING_MISSING);
   }
 
   const {

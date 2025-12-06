@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useActionState } from "react";
 import { useForm } from "react-hook-form";
-import { z, ProfileSettingsSchema } from "@gym-tracker-pwa/schemas";
+import { z, UserUpdateSchema } from "@gym-tracker-pwa/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button, Input } from "@/components/ui";
@@ -11,7 +11,7 @@ import Bin from "@icons/bin.svg?react";
 import Chevron from "@icons/chevron.svg?react";
 import Locked from "@icons/locked.svg?react";
 
-type ProfileSettingsFormData = z.infer<typeof ProfileSettingsSchema>;
+type ProfileSettingsFormData = z.infer<typeof UserUpdateSchema>;
 
 const ProfileSettings = () => {
   const form = useForm<ProfileSettingsFormData>({
@@ -20,7 +20,7 @@ const ProfileSettings = () => {
       lastName: "",
       email: "",
     },
-    resolver: zodResolver(ProfileSettingsSchema),
+    resolver: zodResolver(UserUpdateSchema),
   });
 
   const {
