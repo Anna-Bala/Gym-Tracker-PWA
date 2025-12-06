@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
-import { UserUpdateSchema } from "@gym-tracker-pwa/schemas";
-import { NotFoundException } from "../exceptions/not-found";
+import { compareSync, hashSync } from "bcrypt";
+import { BadRequestException } from "../exceptions/bad-request";
+import { ChangePasswordSchema, UserPersonalInfoSchema } from "@gym-tracker-pwa/schemas";
 import { ErrorCode } from "../exceptions";
+import { NotFoundException } from "../exceptions/not-found";
 import { prismaClient } from "..";
 
 export const get = async (req: Request, res: Response) => {
@@ -20,7 +22,7 @@ export const get = async (req: Request, res: Response) => {
 export const patch = async (req: Request, res: Response) => {
   const userId = req.userId;
 
-  const { email, firstName, lastName } = UserUpdateSchema.parse(req.body);
+  const { email, firstName, lastName } = UserPersonalInfoSchema.parse(req.body);
 
   let user = await prismaClient.user.findUnique({ where: { id: userId } });
   if (!user) {
@@ -47,6 +49,47 @@ export const patch = async (req: Request, res: Response) => {
     firstName: newFirstName,
     lastName: newLastName,
   });
+};
+
+export const changePassword = async (req: Request, res: Response) => {
+  const userId = req.userId;
+
+  const { currentPassword, newPassword } = ChangePasswordSchema.parse(req.body);
+
+  if (!currentPassword || !newPassword) {
+    throw new BadRequestException("Both current and new password are required", ErrorCode.MISSING_PASSWORD);
+  }
+
+  try {
+    await prismaClient.$transaction(async (tx) => {
+      const user = await tx.user.findUnique({
+        where: { id: req.userId },
+      });
+
+      if (!user) throw new NotFoundException("User not found", ErrorCode.USER_NOT_FOUND);
+
+      const isCurrentPasswordCorrect = await compareSync(currentPassword, user.password);
+      if (!isCurrentPasswordCorrect) {
+        throw new BadRequestException("Incorrect password", ErrorCode.INCORRECT_PASSWORD);
+      }
+
+      const newPasswordHash = hashSync(newPassword, 10);
+
+      await tx.user.update({
+        where: { id: userId },
+        data: { password: newPasswordHash },
+      });
+
+      await tx.refreshToken.deleteMany({ where: { userId } });
+
+      return true;
+    });
+
+    res.clearCookie("session");
+    res.status(204).end();
+  } catch {
+    res.status(500).json({ error: "Failed to change password" });
+  }
 };
 
 export const getUserStatistics = async (req: Request, res: Response) => {
