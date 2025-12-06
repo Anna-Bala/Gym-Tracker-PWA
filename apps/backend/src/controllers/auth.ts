@@ -13,7 +13,7 @@ import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../helper
 export const signup = async (req: Request, res: Response) => {
   const { email, firstName, lastName, password } = SignupSchema.parse(req.body);
 
-  let user = await prismaClient.user.findFirst({ where: { email } });
+  let user = await prismaClient.user.findUnique({ where: { email } });
   if (user) {
     throw new BadRequestException("User already exists", ErrorCode.USER_ALREADY_EXISTS);
   }
@@ -36,7 +36,7 @@ const tokenLifetime = 7 * 24 * 3600 * 1000;
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  let user = await prismaClient.user.findFirst({ where: { email } });
+  let user = await prismaClient.user.findUnique({ where: { email } });
   if (!user) throw new NotFoundException("User not found", ErrorCode.USER_NOT_FOUND);
   if (!compareSync(password, user.password)) throw new BadRequestException("Incorrect password", ErrorCode.INCORRECT_PASSWORD);
 

@@ -29,3 +29,9 @@ export const LoginSchema = z.object({
   email: z.email({ message: "Invalid email address" }),
   password: z.string().trim().min(1, { message: "Password is required" }),
 });
+
+export const UserUpdateSchema = z.object({
+  firstName: z.string().trim().min(2, { message: "First name must be at least 2 characters long" }).max(50, { message: "First name must not exceed 50 characters" }).optional(),
+  lastName: z.string().trim().min(2, { message: "Last name must be at least 2 characters long" }).max(50, { message: "Last name must not exceed 50 characters" }).optional(),
+  email: z.email({ message: "Invalid email address" }).optional(),
+});
