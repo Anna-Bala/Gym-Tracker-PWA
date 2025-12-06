@@ -9,12 +9,12 @@ interface DrawerProps {
   description?: ReactNode;
   footerContent?: ReactNode;
   isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onAnimationEnd?: (open: boolean) => void;
   title?: ReactNode;
 }
 
-export const Drawer: React.FC<DrawerProps> = ({ children, className, description, footerContent, isOpen, setIsOpen, title }) => (
-  <DrawerBase open={isOpen} onAnimationEnd={() => setIsOpen(false)}>
+export const Drawer: React.FC<DrawerProps> = ({ children, className, description, footerContent, isOpen, onAnimationEnd, title }) => (
+  <DrawerBase open={isOpen} onAnimationEnd={onAnimationEnd}>
     <DrawerContent className={cn("px-6", className)}>
       <DrawerHeader>
         <DrawerTitle>{title}</DrawerTitle>

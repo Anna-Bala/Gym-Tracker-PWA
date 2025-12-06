@@ -5,9 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { OnboardingStepWrapper } from ".";
-import { ScrollPicker } from "@/components/ScrollPicker";
 import { useOnboardingForm } from "@/contexts/onboarding/useOnboardingForm";
-import { weightOptions } from "./constants";
+import { WeightSelector } from "@/components/WeightSelector";
 
 type OnboardingStepWeightFormData = z.infer<typeof OnboardingStepWeightSchema>;
 
@@ -42,7 +41,7 @@ const OnboardingStepWeight = () => {
         render={({ field }) => (
           <FormItem>
             <FormControl>
-              <ScrollPicker className="!w-3/4" infinite initialValue={field.value.toString()} onChange={field.onChange} optionItemHeight={60} options={weightOptions} suffix="kg" visibleCount={30} />
+              <WeightSelector className="!w-3/4" initialValue={field.value.toString()} onChange={field.onChange} visibleCount={30} />
             </FormControl>
             <FormMessage />
           </FormItem>

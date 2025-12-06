@@ -42,7 +42,7 @@ const DiscoverExercisesDetails = ({ exerciseDetails, isExercisePanelOpen, setIsE
   ];
 
   return (
-    <Drawer isOpen={isExercisePanelOpen} setIsOpen={setIsExercisePanelOpen}>
+    <Drawer isOpen={isExercisePanelOpen} onAnimationEnd={() => setIsExercisePanelOpen(false)}>
       <div className="flex flex-row justify-between w-full">
         <Typography className="font-semibold" variant="h3">
           {exerciseDetails.name}

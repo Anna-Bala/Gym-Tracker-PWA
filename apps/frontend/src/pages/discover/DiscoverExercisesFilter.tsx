@@ -88,7 +88,7 @@ const DiscoverExercisesFilter = ({ setExercisesList, setIsLoading }: DiscoverExe
   return (
     <Form {...form}>
       <form noValidate>
-        <Drawer className="px-5" isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} footerContent={<Button onClick={handleFilterRequest}>Apply filter</Button>}>
+        <Drawer className="px-5" isOpen={isFilterOpen} onAnimationEnd={() => setIsFilterOpen(false)} footerContent={<Button onClick={handleFilterRequest}>Apply filter</Button>}>
           <div className="flex flex-row justify-between px-1 w-full">
             <Typography className="font-semibold" variant="h3">
               Filter

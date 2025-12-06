@@ -5,9 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { RadioGroup } from "@radix-ui/react-radio-group";
 
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { genderOptions } from "./constants";
+import { GenderSelector } from "@/components/GenderSelector";
 import { OnboardingStepWrapper } from ".";
-import { RadioGroupCardItem } from "@/components/RadioGroupCardItem";
 import { useOnboardingForm } from "@/contexts/onboarding/useOnboardingForm";
 
 type OnboardingStepGenderFormData = z.infer<typeof OnboardingStepGenderSchema>;
@@ -44,9 +43,7 @@ const OnboardingStepGender = () => {
           <FormItem>
             <FormControl>
               <RadioGroup className="flex flex-row gap-4" onValueChange={field.onChange} value={field.value}>
-                {genderOptions.map((option) => (
-                  <RadioGroupCardItem key={option.value} className="flex-col" {...option} />
-                ))}
+                <GenderSelector />
               </RadioGroup>
             </FormControl>
             <FormMessage />
