@@ -51,6 +51,23 @@ export const patch = async (req: Request, res: Response) => {
   });
 };
 
+export const deleteAllUserRelatedData = async (req: Request, res: Response) => {
+  const userId = req.userId;
+
+  try {
+    await prismaClient.user.delete({
+      where: { id: userId },
+    });
+
+    res.clearCookie("session");
+
+    return res.status(204).end();
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Failed to delete account" });
+  }
+};
+
 export const changePassword = async (req: Request, res: Response) => {
   const userId = req.userId;
 
