@@ -52,10 +52,10 @@ export const FullOnboardingSchema = z.object({
 });
 
 export const BodyMetricsSchema = z.object({
-  ...OnboardingStepGenderSchema.shape,
-  ...OnboardingStepAgeSchema.shape,
-  ...OnboardingStepHeightSchema.shape,
-  ...OnboardingStepWeightSchema.shape,
+  age: OnboardingStepAgeSchema.shape.age.optional(),
+  gender: OnboardingStepGenderSchema.shape.gender.optional(),
+  height: OnboardingStepHeightSchema.shape.height.optional(),
+  weight: OnboardingStepWeightSchema.shape.weight.optional(),
 });
 
 export type FullOnboarding = z.infer<typeof FullOnboardingSchema>;

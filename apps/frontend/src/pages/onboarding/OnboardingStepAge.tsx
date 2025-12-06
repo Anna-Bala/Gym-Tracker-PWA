@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { z, OnboardingStepAgeSchema } from "@gym-tracker-pwa/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ageOptions } from "./constants";
+import { AgeSelector } from "@/components/AgeSelector";
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { OnboardingStepWrapper } from ".";
-import { ScrollPicker } from "@/components/ScrollPicker";
 import { useOnboardingForm } from "@/contexts/onboarding/useOnboardingForm";
 
 type OnboardingStepAgeFormData = z.infer<typeof OnboardingStepAgeSchema>;
@@ -42,7 +41,7 @@ const OnboardingStepAge = () => {
         render={({ field }) => (
           <FormItem>
             <FormControl>
-              <ScrollPicker className="!w-3/4" infinite initialValue={field.value.toString()} onChange={field.onChange} optionItemHeight={60} options={ageOptions} suffix="years" visibleCount={30} />
+              <AgeSelector className="!w-3/4" initialValue={field.value.toString()} onChange={field.onChange} visibleCount={30} />
             </FormControl>
             <FormMessage />
           </FormItem>

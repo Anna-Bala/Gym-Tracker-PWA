@@ -47,7 +47,7 @@ const OnboardingStepDays = () => {
         render={({ field }) => (
           <FormItem>
             <FormControl>
-              <ScrollPicker className="!w-3/4" infinite initialValue={field.value.toString()} onChange={field.onChange} optionItemHeight={60} options={daysOptions} suffix="days" visibleCount={30} />
+              <ScrollPicker className="!w-3/4" infinite initialValue={field.value.toString()} onChange={field.onChange} optionItemHeight={60} options={daysOptions} suffix="days" visibleCount={25} />
             </FormControl>
             <FormMessage />
           </FormItem>

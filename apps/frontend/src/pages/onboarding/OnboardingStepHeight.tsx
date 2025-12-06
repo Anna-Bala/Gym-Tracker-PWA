@@ -4,9 +4,8 @@ import { z, OnboardingStepHeightSchema } from "@gym-tracker-pwa/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { heightOptions } from "./constants";
+import { HeightSelector } from "@/components/HeightSelector";
 import { OnboardingStepWrapper } from ".";
-import { ScrollPicker } from "@/components/ScrollPicker";
 import { useOnboardingForm } from "@/contexts/onboarding/useOnboardingForm";
 
 type OnboardingStepHeightFormData = z.infer<typeof OnboardingStepHeightSchema>;
@@ -42,7 +41,7 @@ const OnboardingStepHeight = () => {
         render={({ field }) => (
           <FormItem>
             <FormControl>
-              <ScrollPicker className="!w-3/4" infinite initialValue={field.value.toString()} onChange={field.onChange} optionItemHeight={60} options={heightOptions} suffix="cm" visibleCount={30} />
+              <HeightSelector className="!w-3/4" initialValue={field.value.toString()} onChange={field.onChange} visibleCount={30} />
             </FormControl>
             <FormMessage />
           </FormItem>
