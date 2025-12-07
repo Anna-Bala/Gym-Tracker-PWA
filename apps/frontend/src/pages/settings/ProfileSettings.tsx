@@ -1,11 +1,14 @@
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { CircleAlert } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z, UserPersonalInfoSchema } from "@gym-tracker-pwa/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { Alert } from "@/components/Alert";
 import { Button, Input } from "@/components/ui";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { handleProfileSettingSave } from "./actions";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
 import { useAuth } from "@/contexts/auth/useAuth";
@@ -16,7 +19,7 @@ import Locked from "@icons/locked.svg?react";
 type ProfileSettingsFormData = z.infer<typeof UserPersonalInfoSchema>;
 
 const ProfileSettings = () => {
-  const { user } = useAuth();
+  const { refreshUser, user } = useAuth();
 
   const form = useForm<ProfileSettingsFormData>({
     defaultValues: {
@@ -28,10 +31,15 @@ const ProfileSettings = () => {
   });
 
   const {
-    formState: { errors },
+    formState: { isDirty, errors },
   } = form;
 
-  const [state, submitAction, isPending] = useActionState(() => {}, { success: null });
+  const [state, submitAction, isPending] = useActionState(handleProfileSettingSave, { success: null });
+
+  useEffect(() => {
+    if (state.success) refreshUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   return (
     <section className="flex flex-col h-[90vh]">
@@ -40,6 +48,16 @@ const ProfileSettings = () => {
       <Typography className="w-full text-center font-semibold" variant="h2">
         Profile & Security
       </Typography>
+
+      {state.success === false && (
+        <Alert
+          className="mt-4"
+          title="Unable to update personal info"
+          description="Updating your account information failed. Please check your inputs and try again."
+          icon={<CircleAlert />}
+          variant="destructive"
+        />
+      )}
 
       <Typography className="w-full font-semibold mt-6" variant="h4">
         Personal Info
@@ -88,11 +106,9 @@ const ProfileSettings = () => {
               )}
             />
           </div>
-          <div className="flex w-full fixed bottom-0 left-0 px-6 py-4 bg-background border-t border-muted shadow-wide-xl">
-            <Button className="w-full" type="submit">
-              Save
-            </Button>
-          </div>
+          <Button className="w-full mt-6" disabled={!isDirty} type="submit">
+            Save
+          </Button>
         </form>
       </Form>
 
