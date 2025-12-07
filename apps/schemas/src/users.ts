@@ -38,3 +38,9 @@ export const ChangePasswordSchema = z.object({
   currentPassword: z.string(),
   newPassword: PasswordSchema,
 });
+
+export type User = z.infer<typeof UserPersonalInfoSchema> & {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+};

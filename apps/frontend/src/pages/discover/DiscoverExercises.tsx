@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Exercise } from "@gym-tracker-pwa/schemas";
 
-import { API_ENDPOINT_PREFIX } from "@/secrets";
+import { authFetch } from "@/lib/fetchClient";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
 import DiscoverExercisesFilter from "./DiscoverExercisesFilter";
@@ -13,7 +13,7 @@ const DiscoverExercises = () => {
 
   useEffect(() => {
     const fetchAllExercises = async () => {
-      await fetch(`${API_ENDPOINT_PREFIX}/exercises`, {
+      await authFetch("/exercises", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

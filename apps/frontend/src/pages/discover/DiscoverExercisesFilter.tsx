@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { z, FilterExercisesSchema, SearchExercisesSchema, type Exercise } from "@gym-tracker-pwa/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { API_ENDPOINT_PREFIX } from "@/secrets";
+import { authFetch } from "@/lib/fetchClient";
 import { Button } from "@/components/ui";
 import { CheckboxCardItem } from "@/components/CheckboxCardItem";
 import { discoverExercisesFilterFields } from "./constants";
@@ -45,7 +45,7 @@ const DiscoverExercisesFilter = ({ setExercisesList, setIsLoading }: DiscoverExe
     const values = getValues();
     const { categories, muscles, name, types } = values;
 
-    await fetch(`${API_ENDPOINT_PREFIX}/exercises/filter`, {
+    await authFetch("/exercises/filter", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -64,7 +64,7 @@ const DiscoverExercisesFilter = ({ setExercisesList, setIsLoading }: DiscoverExe
   const debouncedSearchFieldValue = useDebounce(watch("name"), 1800);
 
   const handleSearchFieldRequest = async (value: string) => {
-    await fetch(`${API_ENDPOINT_PREFIX}/exercises/search`, {
+    await authFetch("/exercises/search", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",

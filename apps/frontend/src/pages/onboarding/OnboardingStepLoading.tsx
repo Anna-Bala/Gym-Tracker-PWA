@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { API_ENDPOINT_PREFIX } from "@/secrets";
+import { authFetch } from "@/lib/fetchClient";
 import { Button } from "@/components/ui";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
@@ -18,7 +18,7 @@ const OnboardingStepLoading = () => {
     try {
       setIsError(false);
 
-      const response = await fetch(`${API_ENDPOINT_PREFIX}/onboarding`, {
+      const response = await authFetch("/onboarding", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
