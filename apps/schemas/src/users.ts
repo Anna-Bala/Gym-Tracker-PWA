@@ -39,6 +39,18 @@ export const ChangePasswordSchema = z.object({
   newPassword: PasswordSchema,
 });
 
+export const ChangePasswordWithConfirmationSchema = ChangePasswordSchema.extend({
+  confirmNewPassword: z.string(),
+}).superRefine((data, ctx) => {
+  if (data.newPassword !== data.confirmNewPassword) {
+    ctx.addIssue({
+      path: ["confirmNewPassword"],
+      message: "Passwords do not match",
+      code: "custom",
+    });
+  }
+});
+
 export type User = z.infer<typeof UserPersonalInfoSchema> & {
   id: number;
   createdAt: string;
