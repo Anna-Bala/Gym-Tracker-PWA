@@ -2,12 +2,13 @@ import { createContext, useEffect, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import type { User } from "@gym-tracker-pwa/schemas";
 
-import { API_ENDPOINT_PREFIX } from "@/secrets";
+import { authFetch } from "@/lib/fetchClient";
 import { Loader } from "@/components/Loader";
 
 export interface AuthContextValue {
-  user: User | null;
   isLoading: boolean;
+  refreshUser: () => Promise<void>;
+  user: User | null;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -31,7 +32,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsLoading(true);
 
     try {
-      const res = await fetch(`${API_ENDPOINT_PREFIX}/user`, {
+      const res = await authFetch("/user", {
         method: "GET",
         credentials: "include",
       });
@@ -55,7 +56,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading }}>
+    <AuthContext.Provider value={{ user, refreshUser, isLoading }}>
       <>
         <Loader variant="full-screen" isLoading={isLoading} color="white" />
         {children}

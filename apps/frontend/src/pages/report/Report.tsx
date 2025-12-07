@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { UserStatistics } from "@gym-tracker-pwa/schemas";
 
-import { API_ENDPOINT_PREFIX } from "@/secrets";
+import { authFetch } from "@/lib/fetchClient";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
 import ReportBmi from "./ReportBmi";
@@ -13,7 +13,7 @@ const Report = () => {
 
   useEffect(() => {
     const fetchUserStatisticsReport = async () => {
-      await fetch(`${API_ENDPOINT_PREFIX}/user/statistic`, {
+      await authFetch("/user/statistic", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

@@ -115,7 +115,7 @@ export const refresh = async (req: Request, res: Response) => {
       maxAge: refreshTokenLifetime,
     });
 
-    res.status(200);
+    res.status(204).end();
   } catch {
     throw new UnauthorizedException("Invalid or expired refresh token", ErrorCode.INVALID_TOKEN);
   }
