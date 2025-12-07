@@ -20,12 +20,11 @@ const DiscoverExercisesSchema = FilterExercisesSchema.merge(SearchExercisesSchem
 type DiscoverExercisesFormData = z.infer<typeof DiscoverExercisesSchema>;
 
 interface DiscoverExercisesFilterProps {
-  accessToken: string | null;
   setExercisesList: React.Dispatch<React.SetStateAction<Exercise[]>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DiscoverExercisesFilter = ({ accessToken, setExercisesList, setIsLoading }: DiscoverExercisesFilterProps) => {
+const DiscoverExercisesFilter = ({ setExercisesList, setIsLoading }: DiscoverExercisesFilterProps) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const form = useForm<DiscoverExercisesFormData>({
@@ -48,7 +47,7 @@ const DiscoverExercisesFilter = ({ accessToken, setExercisesList, setIsLoading }
 
     await fetch(`${API_ENDPOINT_PREFIX}/exercises/filter`, {
       method: "POST",
-      headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ categories, muscles, types, name }),
     })
@@ -67,7 +66,7 @@ const DiscoverExercisesFilter = ({ accessToken, setExercisesList, setIsLoading }
   const handleSearchFieldRequest = async (value: string) => {
     await fetch(`${API_ENDPOINT_PREFIX}/exercises/search`, {
       method: "POST",
-      headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ name: value }),
     })

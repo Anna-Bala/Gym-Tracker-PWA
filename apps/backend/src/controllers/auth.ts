@@ -31,7 +31,8 @@ export const signup = async (req: Request, res: Response) => {
   res.json(responseUser);
 };
 
-const tokenLifetime = 7 * 24 * 3600 * 1000;
+const accessTokenLifetime = 30 * 60 * 1000;
+const refreshTokenLifetime = 7 * 24 * 3600 * 1000;
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -47,27 +48,34 @@ export const login = async (req: Request, res: Response) => {
     data: {
       token: refreshToken,
       userId: user.id,
-      expiresAt: new Date(Date.now() + tokenLifetime),
+      expiresAt: new Date(Date.now() + refreshTokenLifetime),
     },
   });
 
-  res.cookie("session", refreshToken, {
+  res.cookie("access_token", accessToken, {
     httpOnly: true,
     secure: ENVIRONMENT === "production",
-    sameSite: "lax",
+    sameSite: "strict",
+    maxAge: accessTokenLifetime,
+  });
+
+  res.cookie("refresh_token", refreshToken, {
+    httpOnly: true,
+    secure: ENVIRONMENT === "production",
+    sameSite: "strict",
     path: "/api/auth/refresh",
-    maxAge: tokenLifetime,
+    maxAge: refreshTokenLifetime,
   });
 
   const onboarding = await prismaClient.onboarding.findFirst({ where: { userId: user.id } });
 
   const { createdAt, updatedAt, password: responseUserPassword, ...responseUser } = user;
 
-  res.json({ user: responseUser, token: accessToken, onboardingFilled: !!onboarding });
+  res.json({ user: responseUser, onboardingFilled: !!onboarding });
 };
 
 export const refresh = async (req: Request, res: Response) => {
-  const refreshToken = req.cookies.session;
+  const refreshToken = req.cookies.refresh_token;
   if (!refreshToken) throw new UnauthorizedException("Token missing", ErrorCode.MISSING_TOKEN);
 
   const dbRefreshToken = await prismaClient.refreshToken.findFirst({ where: { token: refreshToken } });
@@ -85,34 +93,43 @@ export const refresh = async (req: Request, res: Response) => {
         data: {
           token: newRefreshToken,
           userId: Number(jwtPayload.userId),
-          expiresAt: new Date(Date.now() + tokenLifetime),
+          expiresAt: new Date(Date.now() + refreshTokenLifetime),
         },
       }),
     ]);
 
-    res.cookie("session", newRefreshToken, {
+    const accessToken = signAccessToken(Number(jwtPayload.userId));
+
+    res.cookie("access_token", accessToken, {
       httpOnly: true,
       secure: ENVIRONMENT === "production",
-      sameSite: "lax",
-      path: "/api/auth/refresh",
-      maxAge: tokenLifetime,
+      sameSite: "strict",
+      maxAge: accessTokenLifetime,
     });
 
-    const accessToken = signAccessToken(Number(jwtPayload.userId));
-    res.json({ token: accessToken });
+    res.cookie("refresh_token", newRefreshToken, {
+      httpOnly: true,
+      secure: ENVIRONMENT === "production",
+      sameSite: "strict",
+      path: "/api/auth/refresh",
+      maxAge: refreshTokenLifetime,
+    });
+
+    res.status(200);
   } catch {
     throw new UnauthorizedException("Invalid or expired refresh token", ErrorCode.INVALID_TOKEN);
   }
 };
 
 export const logout = async (req: Request, res: Response) => {
-  const refreshToken = req.cookies.session;
+  const refreshToken = req.cookies.refresh_token;
 
   if (refreshToken) {
     await prismaClient.refreshToken.deleteMany({
       where: { token: refreshToken },
     });
-    res.clearCookie("session", { path: "/api/auth/refresh" });
+    res.clearCookie("access_token");
+    res.clearCookie("refresh_token", { path: "/api/auth/refresh" });
     res.json({ ok: true });
   } else {
     res.json({ ok: false });

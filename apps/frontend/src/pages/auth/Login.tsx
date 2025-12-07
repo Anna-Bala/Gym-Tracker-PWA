@@ -11,7 +11,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { handleLoginAction } from "./actions";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
-import { useAuth } from "@/contexts/auth/useAuth";
 
 type LoginFormData = z.infer<typeof LoginSchema>;
 
@@ -29,14 +28,10 @@ const Login = () => {
   } = form;
 
   const navigate = useNavigate();
-  const { setAccessToken } = useAuth();
-
   const [state, submitAction, isPending] = useActionState(handleLoginAction, { accessToken: null, success: null });
 
   useEffect(() => {
     if (state.success) {
-      setAccessToken(state.accessToken);
-
       if (state.onboardingFilled) {
         navigate("/home");
       } else {

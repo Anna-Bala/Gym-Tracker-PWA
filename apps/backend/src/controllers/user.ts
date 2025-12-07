@@ -16,7 +16,7 @@ export const get = async (req: Request, res: Response) => {
 
   const { password: responseUserPassword, ...responseUser } = user;
 
-  res.json(responseUser);
+  res.status(200).json(responseUser);
 };
 
 export const patch = async (req: Request, res: Response) => {
@@ -59,11 +59,11 @@ export const deleteAllUserRelatedData = async (req: Request, res: Response) => {
       where: { id: userId },
     });
 
-    res.clearCookie("session");
+    res.clearCookie("access_token");
+    res.clearCookie("refresh_token");
 
     return res.status(204).end();
   } catch (err) {
-    console.error(err);
     return res.status(500).json({ error: "Failed to delete account" });
   }
 };
@@ -102,7 +102,8 @@ export const changePassword = async (req: Request, res: Response) => {
       return true;
     });
 
-    res.clearCookie("session");
+    res.clearCookie("access_token");
+    res.clearCookie("refresh_token");
     res.status(204).end();
   } catch {
     res.status(500).json({ error: "Failed to change password" });
