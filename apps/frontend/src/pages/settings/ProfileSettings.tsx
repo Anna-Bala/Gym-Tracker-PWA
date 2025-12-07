@@ -1,6 +1,7 @@
 import { useActionState, useEffect } from "react";
 import { CircleAlert } from "lucide-react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { z, UserPersonalInfoSchema } from "@gym-tracker-pwa/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -37,7 +38,10 @@ const ProfileSettings = () => {
   const [state, submitAction, isPending] = useActionState(handleProfileSettingSave, { success: null });
 
   useEffect(() => {
-    if (state.success) refreshUser();
+    if (state.success) {
+      toast.success("Your changes have been saved successfully.");
+      refreshUser();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
