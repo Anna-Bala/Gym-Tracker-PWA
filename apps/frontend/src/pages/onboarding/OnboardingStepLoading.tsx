@@ -5,7 +5,6 @@ import { API_ENDPOINT_PREFIX } from "@/secrets";
 import { Button } from "@/components/ui";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
-import { useAuth } from "@/contexts/auth/useAuth";
 import { useOnboardingForm } from "@/contexts/onboarding/useOnboardingForm";
 import Warning from "@icons/warning.svg?react";
 
@@ -14,7 +13,6 @@ const OnboardingStepLoading = () => {
   const { formData } = useOnboardingForm();
 
   const navigate = useNavigate();
-  const { accessToken } = useAuth();
 
   const handleUserOnboardingCreation = async () => {
     try {
@@ -22,7 +20,7 @@ const OnboardingStepLoading = () => {
 
       const response = await fetch(`${API_ENDPOINT_PREFIX}/onboarding`, {
         method: "POST",
-        headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify(formData),
       });
@@ -37,10 +35,9 @@ const OnboardingStepLoading = () => {
   };
 
   useEffect(() => {
-    if (!accessToken) return;
     handleUserOnboardingCreation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken]);
+  }, []);
 
   const navigateToHomeScreen = () => navigate("/home");
 

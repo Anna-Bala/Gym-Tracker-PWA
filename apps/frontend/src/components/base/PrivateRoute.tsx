@@ -4,12 +4,12 @@ import { BottomNavigation } from "@/components/BottomNavigation";
 import { useAuth } from "@/contexts/auth/useAuth";
 
 const PrivateRoute = () => {
-  const { accessToken, isLoading } = useAuth();
+  const { user, isLoading } = useAuth();
 
   const { pathname } = useLocation();
   const isOnboarding = pathname.includes("onboarding");
 
-  return accessToken || isLoading ? (
+  return user || isLoading ? (
     <BottomNavigation isHidden={isOnboarding}>
       <Outlet />
     </BottomNavigation>

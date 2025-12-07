@@ -5,8 +5,7 @@ import { UnauthorizedException } from "../exceptions/unauthorized";
 import { verifyAccessToken } from "../helpers";
 
 export const authenticateToken = async (req: Request, _res: Response, next: NextFunction) => {
-  const authHeader = req.headers["authorization"];
-  const accessToken = authHeader && authHeader.split(" ")[1];
+  const accessToken = req.cookies.access_token;
 
   try {
     const decoded = verifyAccessToken(accessToken) as JwtPayload;
