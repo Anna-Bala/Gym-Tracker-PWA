@@ -1,4 +1,4 @@
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { CircleAlert } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -15,11 +15,14 @@ import { Typography } from "@/components/base/Typography";
 import { useAuth } from "@/contexts/auth/useAuth";
 import Bin from "@icons/bin.svg?react";
 import Chevron from "@icons/chevron.svg?react";
+import DeleteAccountDrawer from "./drawers/DeleteAccountDrawer";
 import Locked from "@icons/locked.svg?react";
 
 type ProfileSettingsFormData = z.infer<typeof UserPersonalInfoSchema>;
 
 const ProfileSettings = () => {
+  const [isDeleteAccountDrawerOpen, setIsDeleteAccountDrawerOpen] = useState(false);
+
   const { refreshUser, user } = useAuth();
 
   const form = useForm<ProfileSettingsFormData>({
@@ -128,7 +131,7 @@ const ProfileSettings = () => {
         </>
       </Link>
 
-      <Button className="w-full text-base !p-0 text-destructive justify-center gap-4 mt-3" variant="link" size="lg" onClick={() => {}}>
+      <Button className="w-full text-base !p-0 text-destructive justify-center gap-4 mt-3" variant="link" size="lg" onClick={() => setIsDeleteAccountDrawerOpen(true)}>
         <>
           <Bin className="!w-10 !h-10 text-destructive" />
           Delete account
@@ -138,6 +141,8 @@ const ProfileSettings = () => {
       <Typography className="px-2 text-muted-foreground" variant="sm-20">
         Permanently remove your account and data. Proceed with caution.
       </Typography>
+
+      <DeleteAccountDrawer isOpen={isDeleteAccountDrawerOpen} handleClose={() => setIsDeleteAccountDrawerOpen(false)} />
     </section>
   );
 };
