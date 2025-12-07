@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import type { FullOnboarding } from "@gym-tracker-pwa/schemas";
 
 import { AgeDrawer, GenderDrawer, HeightDrawer, WeightDrawer } from "./drawers";
@@ -66,6 +67,8 @@ const BodyMetricsSettings = () => {
       credentials: "include",
       body: JSON.stringify({ [key]: value }),
     }).then(async (response) => {
+      toast.success("Your changes have been saved successfully.");
+
       const responseData = await response.json();
       setUserOnboardingData(responseData);
       closeDrawers();
