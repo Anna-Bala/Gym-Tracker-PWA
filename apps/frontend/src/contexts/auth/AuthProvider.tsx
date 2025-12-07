@@ -8,6 +8,7 @@ import { Loader } from "@/components/Loader";
 export interface AuthContextValue {
   isLoading: boolean;
   refreshUser: () => Promise<void>;
+  unauthorizeUser: () => void;
   user: User | null;
 }
 
@@ -55,8 +56,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const unauthorizeUser = () => setUser(null);
+
   return (
-    <AuthContext.Provider value={{ user, refreshUser, isLoading }}>
+    <AuthContext.Provider value={{ user, refreshUser, unauthorizeUser, isLoading }}>
       <>
         <Loader variant="full-screen" isLoading={isLoading} color="white" />
         {children}
