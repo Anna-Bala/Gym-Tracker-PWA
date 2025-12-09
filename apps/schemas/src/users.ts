@@ -15,6 +15,10 @@ export const UserPersonalInfoSchema = z.object({
   email: z.email({ message: "Invalid email address" }),
 });
 
+export const UserThemeSchema = z.object({
+  theme: z.enum(["light", "dark"]),
+});
+
 export const SignupSchema = UserPersonalInfoSchema.extend({
   confirmPassword: z.string(),
   password: PasswordSchema,

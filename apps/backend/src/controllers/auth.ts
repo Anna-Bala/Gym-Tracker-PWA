@@ -24,6 +24,7 @@ export const signup = async (req: Request, res: Response) => {
       lastName,
       email,
       password: hashSync(password, 10),
+      theme: null,
     },
   });
 
