@@ -42,7 +42,7 @@ const Registration = () => {
   }, [state]);
 
   return (
-    <section>
+    <section className="flex flex-col pb-24">
       <Loader variant="full-screen" isLoading={isPending} color="white" />
       <Typography className="font-bold flex flex-row items-center w-full gap-4" variant="h2">
         Create Your Account <User width={30} height={30} strokeWidth={3} absoluteStrokeWidth={true} />
