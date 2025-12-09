@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { compareSync, hashSync } from "bcrypt";
 import { BadRequestException } from "../exceptions/bad-request";
-import { ChangePasswordSchema, UserPersonalInfoSchema } from "@gym-tracker-pwa/schemas";
+import { ChangePasswordSchema, UserPersonalInfoSchema, UserThemeSchema } from "@gym-tracker-pwa/schemas";
 import { ErrorCode } from "../exceptions";
 import { NotFoundException } from "../exceptions/not-found";
 import { prismaClient } from "..";
@@ -108,6 +108,30 @@ export const changePassword = async (req: Request, res: Response) => {
   } catch {
     res.status(500).json({ error: "Failed to change password" });
   }
+};
+
+export const changeTheme = async (req: Request, res: Response) => {
+  const userId = req.userId;
+
+  const { theme } = UserThemeSchema.parse(req.body);
+
+  let user = await prismaClient.user.findUnique({ where: { id: userId } });
+  if (!user) {
+    if (!user) throw new NotFoundException("User not found", ErrorCode.USER_NOT_FOUND);
+  }
+
+  const { theme: newThemePreference } = await prismaClient.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      theme,
+    },
+  });
+
+  return res.status(200).json({
+    theme: newThemePreference,
+  });
 };
 
 export const getUserStatistics = async (req: Request, res: Response) => {
