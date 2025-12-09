@@ -29,7 +29,7 @@ const History = () => {
   ];
 
   return (
-    <section>
+    <section className="flex flex-col pb-24">
       <Typography className="w-full text-center font-semibold" variant="h2">
         History
       </Typography>

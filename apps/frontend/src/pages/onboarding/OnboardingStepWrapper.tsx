@@ -21,7 +21,7 @@ const OnboardingStepWrapper = ({ children, disableBackButton, description, form,
   const navigateToPreviousScreen = () => navigate(-1);
 
   return (
-    <section>
+    <section className="flex flex-col pb-24">
       <Typography className="font-bold w-full text-center" variant="h2">
         {title}
       </Typography>
