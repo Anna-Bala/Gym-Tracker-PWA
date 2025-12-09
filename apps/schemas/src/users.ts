@@ -57,6 +57,7 @@ export const ChangePasswordWithConfirmationSchema = ChangePasswordSchema.extend(
 
 export type User = z.infer<typeof UserPersonalInfoSchema> & {
   id: number;
+  theme: z.infer<typeof UserThemeSchema.shape.theme> | null;
   createdAt: string;
   updatedAt: string;
 };

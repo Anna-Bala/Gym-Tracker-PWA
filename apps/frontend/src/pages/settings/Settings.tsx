@@ -1,10 +1,11 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui";
+import { changeUserTheme } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
 import { Typography } from "@/components/base/Typography";
+import { useTheme } from "@/contexts/theme/useTheme";
 import Chevron from "@icons/chevron.svg?react";
 import Label from "@/components/ui/label";
 import Moon from "@icons/moon-no-color.svg?react";
@@ -26,10 +27,12 @@ const settingsOptions = [
 ];
 
 const Settings = () => {
-  const [isDarkModeActive, setIsDarkModeActive] = useState(document.body.classList.contains("dark"));
+  const { theme, setTheme } = useTheme();
 
-  const handleDarkModeChange = () => {
-    setIsDarkModeActive((prevState) => !prevState);
+  const handleDarkModeChange = (value: boolean) => {
+    const newTheme = value ? "dark" : "light";
+    setTheme(newTheme);
+    changeUserTheme(newTheme);
     document.body.classList.toggle("dark");
   };
 
@@ -60,7 +63,7 @@ const Settings = () => {
           <Label className={cn(buttonClasses, "ml-4")} htmlFor="dark-mode">
             Dark Mode
           </Label>
-          <Switch className="ml-auto" checked={isDarkModeActive} onCheckedChange={handleDarkModeChange} id="dark-mode" />
+          <Switch className="ml-auto" checked={theme === "dark"} onCheckedChange={handleDarkModeChange} id="dark-mode" />
         </div>
 
         <Button className={cn(buttonClasses, "mt-auto text-destructive border border-destructive justify-center gap-1")} variant="outline" size="lg">
