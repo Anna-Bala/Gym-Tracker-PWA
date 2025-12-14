@@ -28,6 +28,7 @@ import ProfileSettings from "./pages/settings/ProfileSettings";
 import Registration from "./pages/auth/Registration";
 import Report from "./pages/report/Report";
 import Settings from "./pages/settings/Settings";
+import WorkoutPlanForm from "./pages/workoutPlans/WorkoutPlanForm";
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
               <Route path="/onboarding/8" element={<OnboardingStepFitnessLevel />} />
               <Route path="/onboarding/9" element={<OnboardingStepDays />} />
               <Route path="/onboarding/loading" element={<OnboardingStepLoading />} />
+              <Route path="/workout-plan" element={<WorkoutPlanForm />} />
             </Route>
 
             <Route path="*" element={<p>Page not found!</p>} />
