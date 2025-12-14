@@ -16,13 +16,14 @@ import {
   OnboardingStepWeight,
   OnboardingStepWorkoutGoal,
 } from "./pages/onboarding";
+import BodyMetricsSettings from "./pages/settings/BodyMetricsSettings";
+import ChangePassword from "./pages/settings/ChangePassword";
 import DiscoverExercises from "./pages/discover/DiscoverExercises";
 import History from "./pages/history/History";
+import Home from "./pages/home/Home";
 import Layout from "./components/base/Layout";
 import Login from "./pages/auth/Login";
 import PrivateRoute from "./components/base/PrivateRoute";
-import BodyMetricsSettings from "./pages/settings/BodyMetricsSettings";
-import ChangePassword from "./pages/settings/ChangePassword";
 import ProfileSettings from "./pages/settings/ProfileSettings";
 import Registration from "./pages/auth/Registration";
 import Report from "./pages/report/Report";
@@ -46,7 +47,7 @@ function App() {
                 </OnboardingFormProvider>
               }
             >
-              <Route path="/home" element={<div>home</div>} />
+              <Route path="/home" element={<Home />} />
               <Route path="/discover" element={<DiscoverExercises />} />
               <Route path="/report" element={<Report />} />
               <Route path="/history" element={<History />} />
