@@ -6,14 +6,18 @@ import { Drawer } from "@/components/Drawer";
 import { Typography } from "@/components/base/Typography";
 import Badge from "@/components/ui/badge";
 
-interface DiscoverExercisesDetailsProps {
+interface ExercisesDetailsProps {
   exerciseDetails: Exercise;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  footerContent?: React.ComponentType<any>;
   isExercisePanelOpen: boolean;
   setIsExercisePanelOpen: React.Dispatch<React.SetStateAction<boolean>>;
   toggleExercisePanelOpen: () => void;
 }
 
-const DiscoverExercisesDetails = ({ exerciseDetails, isExercisePanelOpen, setIsExercisePanelOpen, toggleExercisePanelOpen }: DiscoverExercisesDetailsProps) => {
+const ExercisesDetails = ({ exerciseDetails, footerContent: Footer, isExercisePanelOpen, setIsExercisePanelOpen, toggleExercisePanelOpen }: ExercisesDetailsProps) => {
+  const closeExerciseDetailsPanel = () => setIsExercisePanelOpen(false);
+
   const exerciseDetailsRows = [
     {
       label: "Primary muscles",
@@ -42,7 +46,11 @@ const DiscoverExercisesDetails = ({ exerciseDetails, isExercisePanelOpen, setIsE
   ];
 
   return (
-    <Drawer isOpen={isExercisePanelOpen} onAnimationEnd={() => setIsExercisePanelOpen(false)}>
+    <Drawer
+      isOpen={isExercisePanelOpen}
+      onAnimationEnd={closeExerciseDetailsPanel}
+      footerContent={Footer && <Footer closeExerciseDetailsPanel={closeExerciseDetailsPanel} exerciseDetails={exerciseDetails} />}
+    >
       <div className="flex flex-row justify-between w-full">
         <Typography className="font-semibold" variant="h3">
           {exerciseDetails.name}
@@ -74,4 +82,4 @@ const DiscoverExercisesDetails = ({ exerciseDetails, isExercisePanelOpen, setIsE
   );
 };
 
-export default DiscoverExercisesDetails;
+export default ExercisesDetails;

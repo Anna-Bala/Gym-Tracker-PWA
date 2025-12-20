@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/auth/AuthProvider";
 import { ThemeProvider } from "./contexts/theme/ThemeProvider";
 import { OnboardingFormProvider } from "./contexts/onboarding/OnboardingFormProvider";
+import { WorkoutPlanFormProvider } from "./contexts/workoutPlan/WorkoutPlanFormProvider";
 import { ScrollToTop } from "./components/ScrollToTop";
 import {
   OnboardingStepActivityLevel,
@@ -44,7 +45,9 @@ function App() {
             <Route
               element={
                 <OnboardingFormProvider>
-                  <PrivateRoute />
+                  <WorkoutPlanFormProvider>
+                    <PrivateRoute />
+                  </WorkoutPlanFormProvider>
                 </OnboardingFormProvider>
               }
             >
