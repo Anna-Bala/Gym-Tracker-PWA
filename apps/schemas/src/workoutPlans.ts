@@ -22,4 +22,15 @@ export const ApiWorkoutPlanSchema = FormWorkoutPlanSchema.extend({
   exercises: z.array(WorkoutPlanApiExerciseSchema),
 });
 
+export const WorkoutPlan = z.object({
+  id: z.number(),
+  description: z.string().optional(),
+  duration: z.number(),
+  focusArea: z.array(z.enum(["arms", "back", "chest", "fullBody", "legs", "shoulders", "stomach"])),
+  name: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
 export type WorkoutPlanExercise = z.infer<typeof WorkoutPlanApiExerciseSchema>;
+export type WorkoutPlan = z.infer<typeof WorkoutPlan>;

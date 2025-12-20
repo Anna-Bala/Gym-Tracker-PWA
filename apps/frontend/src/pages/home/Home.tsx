@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { WorkoutPlan } from "@gym-tracker-pwa/schemas";
 
 import { authFetch } from "@/lib/fetchClient";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
+import Chevron from "@icons/chevron.svg?react";
 import Paper from "@icons/paper.svg?react";
+import Plus from "@icons/plus.svg?react";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [userWorkoutPlans, setUserWorkoutPlans] = useState([]);
+  const [userWorkoutPlans, setUserWorkoutPlans] = useState<WorkoutPlan[]>([]);
 
   useEffect(() => {
     const fetchUserWorkoutPlans = async () => {
@@ -28,6 +32,8 @@ const Home = () => {
     fetchUserWorkoutPlans();
   }, []);
 
+  const emptyUserWorkoutPlans = userWorkoutPlans.length === 0;
+
   return (
     <section className="flex flex-col h-[90vh] pb-24">
       <Typography className="w-full text-center font-semibold" variant="h2">
@@ -38,12 +44,17 @@ const Home = () => {
         <Loader className="m-auto" color="primary" variant="inline" size="lg" isLoading={isLoading} />
       ) : (
         <>
-          <Typography className="w-full font-semibold mt-6" variant="h4">
-            Your Workout Plans
-          </Typography>
-          {userWorkoutPlans.length === 0 ? (
+          <div className="w-full flex justify-between items-center mt-6">
+            <Typography className="w-full font-semibold" variant="h4">
+              Your Workout Plans
+            </Typography>
+            <Link className={cn("bg-primary rounded-3xl p-2", { hidden: emptyUserWorkoutPlans })} to="/workout-plan">
+              <Plus className="text-white w-5 h-5" />
+            </Link>
+          </div>
+          {emptyUserWorkoutPlans ? (
             <>
-              <Paper className="!w-24 !h-24  mt-4 text-primary mx-auto" />{" "}
+              <Paper className="!w-24 !h-24 mt-4 text-primary mx-auto" />
               <Typography className="w-full text-center font-normal text-muted-foreground mt-2" variant="md-20">
                 You haven't created any workout plans yet
               </Typography>
@@ -54,7 +65,32 @@ const Home = () => {
                 <Link to="/workout-plan">Create your workout plan</Link>
               </Button>
             </>
-          ) : null}
+          ) : (
+            <div className="flex flex-col w-full gap-2 mt-3">
+              {userWorkoutPlans.map((userWorkoutPlan) => (
+                <div className="flex items-center bg-card border border-border p-3 rounded-md" key={userWorkoutPlan.id}>
+                  <div className="flex flex-col w-full">
+                    <Typography className="font-normal text-left text-card-foreground" variant="lg">
+                      {userWorkoutPlan.name}
+                    </Typography>
+                    <div className="flex gap-2 items-center mt-1">
+                      <Typography className="font-light text-card-foreground" variant="sm-20">
+                        {userWorkoutPlan.duration / 60} mins
+                      </Typography>
+                      <Typography className="font-thin text-[3px] text-card-foreground" variant="sm-20">
+                        &#9679;
+                      </Typography>
+                      <Typography className="font-light text-card-foreground" variant="sm-20">
+                        {userWorkoutPlan.focusArea.join(" / ")}
+                      </Typography>
+                    </div>
+                  </div>
+
+                  <Chevron className="!w-6 !h-6 rotate-180 mr-2" />
+                </div>
+              ))}
+            </div>
+          )}
         </>
       )}
     </section>
