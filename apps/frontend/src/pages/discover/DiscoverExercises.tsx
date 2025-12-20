@@ -4,8 +4,8 @@ import type { Exercise } from "@gym-tracker-pwa/schemas";
 import { authFetch } from "@/lib/fetchClient";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
-import DiscoverExercisesFilter from "./DiscoverExercisesFilter";
-import DiscoverExercisesList from "./DiscoverExercisesList";
+import ExercisesFilter from "@/components/exercises/ExercisesFilter";
+import ExercisesList from "@/components/exercises/ExercisesList";
 
 const DiscoverExercises = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,8 +33,8 @@ const DiscoverExercises = () => {
       <Typography className="w-full text-center font-semibold" variant="h2">
         Discover exercises
       </Typography>
-      <DiscoverExercisesFilter setExercisesList={setExercisesList} setIsLoading={setIsLoading} />
-      {isLoading ? <Loader className="m-auto" color="primary" variant="inline" isLoading={isLoading} size="lg" /> : <DiscoverExercisesList exercisesList={exercisesList} />}
+      <ExercisesFilter setExercisesList={setExercisesList} setIsLoading={setIsLoading} />
+      {isLoading ? <Loader className="m-auto" color="primary" variant="inline" isLoading={isLoading} size="lg" /> : <ExercisesList exercisesList={exercisesList} />}
     </section>
   );
 };

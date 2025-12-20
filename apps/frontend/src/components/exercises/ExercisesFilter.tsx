@@ -15,26 +15,26 @@ import Filter from "@icons/filter.svg?react";
 import MagnifyingGlass from "@icons/magnifying-glass.svg?react";
 import useDebounce from "@/hooks/useDebounce";
 
-const DiscoverExercisesSchema = FilterExercisesSchema.merge(SearchExercisesSchema);
+const ExercisesFilterSchema = FilterExercisesSchema.merge(SearchExercisesSchema);
 
-type DiscoverExercisesFormData = z.infer<typeof DiscoverExercisesSchema>;
+type ExercisesFilterFormData = z.infer<typeof ExercisesFilterSchema>;
 
-interface DiscoverExercisesFilterProps {
+interface ExercisesFilterProps {
   setExercisesList: React.Dispatch<React.SetStateAction<Exercise[]>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DiscoverExercisesFilter = ({ setExercisesList, setIsLoading }: DiscoverExercisesFilterProps) => {
+const ExercisesFilter = ({ setExercisesList, setIsLoading }: ExercisesFilterProps) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const form = useForm<DiscoverExercisesFormData>({
+  const form = useForm<ExercisesFilterFormData>({
     defaultValues: {
       categories: undefined,
       muscles: undefined,
       types: undefined,
       name: undefined,
     },
-    resolver: zodResolver(DiscoverExercisesSchema),
+    resolver: zodResolver(ExercisesFilterSchema),
   });
 
   const { getValues, watch } = form;
@@ -158,4 +158,4 @@ const DiscoverExercisesFilter = ({ setExercisesList, setIsLoading }: DiscoverExe
   );
 };
 
-export default DiscoverExercisesFilter;
+export default ExercisesFilter;

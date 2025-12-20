@@ -4,13 +4,15 @@ import type { Exercise } from "@gym-tracker-pwa/schemas";
 
 import { Typography } from "@/components/base/Typography";
 import Badge from "@/components/ui/badge";
-import DiscoverExercisesDetails from "./DiscoverExercisesDetails";
+import ExercisesDetails from "./ExercisesDetails";
 
-interface DiscoverExercisesListProps {
+interface ExercisesListProps {
   exercisesList: Exercise[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  exerciseDetailsFooterContent?: React.ComponentType<any>;
 }
 
-const DiscoverExercisesList = ({ exercisesList }: DiscoverExercisesListProps) => {
+const ExercisesList = ({ exercisesList, exerciseDetailsFooterContent }: ExercisesListProps) => {
   const [exerciseDetails, setExerciseDetails] = useState<Exercise>();
   const [isExercisePanelOpen, setIsExercisePanelOpen] = useState(false);
 
@@ -19,8 +21,9 @@ const DiscoverExercisesList = ({ exercisesList }: DiscoverExercisesListProps) =>
   return (
     <>
       {exerciseDetails ? (
-        <DiscoverExercisesDetails
+        <ExercisesDetails
           exerciseDetails={exerciseDetails}
+          footerContent={exerciseDetailsFooterContent}
           isExercisePanelOpen={isExercisePanelOpen}
           setIsExercisePanelOpen={setIsExercisePanelOpen}
           toggleExercisePanelOpen={toggleExercisePanelOpen}
@@ -60,4 +63,4 @@ const DiscoverExercisesList = ({ exercisesList }: DiscoverExercisesListProps) =>
   );
 };
 
-export default DiscoverExercisesList;
+export default ExercisesList;
