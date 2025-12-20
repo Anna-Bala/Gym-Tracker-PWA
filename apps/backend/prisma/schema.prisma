@@ -24,7 +24,8 @@ model User {
   updatedAt DateTime @updatedAt
   refreshTokens RefreshToken[]
   onboarding Onboarding?
-  
+  workoutPlans  WorkoutPlan[]
+
   @@map("users")
 }
 
@@ -53,4 +54,31 @@ model Onboarding {
   workoutGoal String
 
   @@map("onboarding")
+}
+
+model WorkoutPlan {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+  name String
+  description String?
+  duration Int
+  focusArea Json
+  exercises WorkoutPlanExercise[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("workoutPlans")
+}
+
+model WorkoutPlanExercise {
+  id Int @id @default(autoincrement())
+  workoutPlan WorkoutPlan @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
+  workoutPlanId Int
+  exerciseApiId String
+  sets Int
+  reps Int
+  createdAt DateTime @default(now())
+
+  @@map("workoutPlanExercises")
 }
