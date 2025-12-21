@@ -25,3 +25,4 @@ export const ExerciseSchema = z.object({
 });
 
 export type Exercise = z.infer<typeof ExerciseSchema>;
+export type FilterExercises = z.infer<typeof FilterExercisesSchema>;
