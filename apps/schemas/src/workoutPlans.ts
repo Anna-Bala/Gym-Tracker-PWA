@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ExerciseDetailsSchema } from "./exercises";
 
 export const WorkoutPlanFormExerciseSchema = z.object({
   exerciseApiId: z.string(),
@@ -32,5 +33,10 @@ export const WorkoutPlan = z.object({
   updatedAt: z.string(),
 });
 
-export type WorkoutPlanExercise = z.infer<typeof WorkoutPlanApiExerciseSchema>;
+export const WorkoutPlanDetails = WorkoutPlan.extend({
+  exercises: z.array(ExerciseDetailsSchema),
+});
+
 export type WorkoutPlan = z.infer<typeof WorkoutPlan>;
+export type WorkoutPlanDetails = z.infer<typeof WorkoutPlanDetails>;
+export type WorkoutPlanExercise = z.infer<typeof WorkoutPlanApiExerciseSchema>;
