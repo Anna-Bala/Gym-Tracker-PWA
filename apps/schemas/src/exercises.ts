@@ -24,5 +24,13 @@ export const ExerciseSchema = z.object({
   categories: z.array(z.object({ id: z.string(), code: z.string(), name: z.string() })).optional(),
 });
 
+export const ExerciseDetailsSchema = ExerciseSchema.extend({
+  exerciseApiId: z.string(),
+  reps: z.number(),
+  sets: z.number(),
+  workoutPlanId: z.number(),
+});
+
 export type Exercise = z.infer<typeof ExerciseSchema>;
+export type ExerciseDetails = z.infer<typeof ExerciseDetailsSchema>;
 export type FilterExercises = z.infer<typeof FilterExercisesSchema>;

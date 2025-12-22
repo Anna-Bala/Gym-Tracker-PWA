@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
-import Chevron from "@icons/chevron.svg?react";
 import Paper from "@icons/paper.svg?react";
 import Plus from "@icons/plus.svg?react";
+import WorkoutPlanItem from "../workoutPlans/WorkoutPlanItem";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -48,7 +48,7 @@ const Home = () => {
             <Typography className="w-full font-semibold" variant="h4">
               Your Workout Plans
             </Typography>
-            <Link className={cn("bg-primary rounded-3xl p-2", { hidden: emptyUserWorkoutPlans })} to="/workout-plan">
+            <Link className={cn("bg-primary rounded-3xl p-2", { hidden: emptyUserWorkoutPlans })} to="/home/create-workout-plan">
               <Plus className="text-white w-5 h-5" />
             </Link>
           </div>
@@ -62,32 +62,13 @@ const Home = () => {
                 Create your own workout plans for routines you already love or want full control over.
               </Typography>
               <Button className="mt-3" variant="default" asChild>
-                <Link to="/workout-plan">Create your workout plan</Link>
+                <Link to="/home/create-workout-plan">Create your workout plan</Link>
               </Button>
             </>
           ) : (
             <div className="flex flex-col w-full gap-2 mt-3">
               {userWorkoutPlans.map((userWorkoutPlan) => (
-                <div className="flex items-center bg-card border border-border p-3 rounded-md" key={userWorkoutPlan.id}>
-                  <div className="flex flex-col w-full">
-                    <Typography className="font-normal text-left text-card-foreground" variant="lg">
-                      {userWorkoutPlan.name}
-                    </Typography>
-                    <div className="flex gap-2 items-center mt-1">
-                      <Typography className="font-light text-card-foreground" variant="sm-20">
-                        {userWorkoutPlan.duration / 60} mins
-                      </Typography>
-                      <Typography className="font-thin text-[3px] text-card-foreground" variant="sm-20">
-                        &#9679;
-                      </Typography>
-                      <Typography className="font-light text-card-foreground" variant="sm-20">
-                        {userWorkoutPlan.focusArea.join(" / ")}
-                      </Typography>
-                    </div>
-                  </div>
-
-                  <Chevron className="!w-6 !h-6 rotate-180 mr-2" />
-                </div>
+                <WorkoutPlanItem workoutPlan={userWorkoutPlan} key={userWorkoutPlan.id} />
               ))}
             </div>
           )}
