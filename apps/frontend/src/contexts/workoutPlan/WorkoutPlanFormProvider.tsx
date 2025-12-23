@@ -25,6 +25,7 @@ const WorkoutPlanFormProvider = ({ children }: WorkoutPlanFormProviderProps) => 
       description: "",
       exercises: [],
       primaryMuscles: undefined,
+      days: [],
     },
     resolver: zodResolver(FormWorkoutPlanSchema),
   });

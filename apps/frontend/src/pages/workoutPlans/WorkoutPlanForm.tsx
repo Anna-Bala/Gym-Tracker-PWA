@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { CircleAlert } from "lucide-react";
+import { type WorkoutPlanDay } from "@gym-tracker-pwa/schemas";
 import { toast } from "sonner";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Alert } from "@/components/Alert";
 import { authFetch } from "@/lib/fetchClient";
 import { Button, Input } from "@/components/ui";
+import { CheckboxCardItem } from "@/components/CheckboxCardItem";
+import { daysOptions } from "./constants";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Loader } from "@/components/Loader";
 import { Textarea } from "@/components/ui/textarea";
@@ -57,7 +60,7 @@ const WorkoutPlanForm = () => {
   });
 
   return (
-    <section>
+    <section className="flex flex-col pb-24">
       <Loader variant="full-screen" isLoading={isSubmitting} color="white" />
       <Typography className="font-bold flex flex-row items-center w-full gap-4" variant="h2">
         Create Workout Plan
@@ -93,6 +96,32 @@ const WorkoutPlanForm = () => {
                   <Textarea placeholder="Focuses on compound lifts with moderate volume." {...field} />
                 </FormControl>
                 {errors.description && <FormMessage>{errors.description.message}</FormMessage>}
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="days"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Plan Schedule</FormLabel>
+                <FormControl>
+                  <div className="flex flex-wrap gap-2">
+                    {daysOptions.map((option) => (
+                      <CheckboxCardItem
+                        className="w-fit p-3"
+                        key={option.value}
+                        onCheckedChange={(checked) => {
+                          const newValue = checked ? [...(field.value || []), option.value] : field.value.filter((value) => value !== option.value);
+                          field.onChange(newValue);
+                        }}
+                        checked={field.value?.includes(option.value as WorkoutPlanDay)}
+                        {...option}
+                      />
+                    ))}
+                  </div>
+                </FormControl>
+                {errors.days && <FormMessage>{errors.days.message}</FormMessage>}
               </FormItem>
             )}
           />
