@@ -16,7 +16,6 @@ import Trophy from "@icons/trophy.svg?react";
 
 export const daysOptions = Array.from({ length: 7 - 1 + 1 }, (_, i) => (i + 1).toString()).map((day) => ({ label: day, value: day }));
 
-
 export const activityLevelOptions = [
   {
     label: "Sedentary",

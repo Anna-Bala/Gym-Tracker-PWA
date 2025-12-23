@@ -28,6 +28,7 @@ export const WorkoutPlan = z.object({
   id: z.number(),
   description: z.string().optional(),
   duration: z.number(),
+  days: z.array(z.enum(["1", "2", "3", "4", "5", "6", "7"])),
   focusArea: z.array(z.enum(["arms", "back", "chest", "fullBody", "legs", "shoulders", "stomach"])),
   name: z.string(),
   createdAt: z.string(),
@@ -41,3 +42,4 @@ export const WorkoutPlanDetails = WorkoutPlan.extend({
 export type WorkoutPlan = z.infer<typeof WorkoutPlan>;
 export type WorkoutPlanDetails = z.infer<typeof WorkoutPlanDetails>;
 export type WorkoutPlanExercise = z.infer<typeof WorkoutPlanApiExerciseSchema>;
+export type WorkoutPlanDay = "1" | "2" | "3" | "4" | "5" | "6" | "7";

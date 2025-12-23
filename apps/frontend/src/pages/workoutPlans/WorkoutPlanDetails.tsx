@@ -3,11 +3,14 @@ import { useParams } from "react-router-dom";
 import { type WorkoutPlanDetails as WorkouPlan } from "@gym-tracker-pwa/schemas";
 
 import { authFetch } from "@/lib/fetchClient";
+import { daysOptions } from "./constants";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
 import ExercisesList from "@/components/exercises/ExercisesList";
 import PersonRunning from "@icons/person-running.svg?react";
 import Timer from "@icons/timer.svg?react";
+
+const daysMapped = Object.fromEntries(daysOptions.map((day) => [day.value, day.label]));
 
 const WorkoutPlanDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -58,6 +61,13 @@ const WorkoutPlanDetails = () => {
         </Typography>
       )}
 
+      <div className="flex flex-wrap gap-2 mt-6">
+        <Typography variant="lg">Plan Schedule:</Typography>
+        <Typography className="text-muted-foreground" variant="md-24">
+          {workoutPlanDetails?.days.map((day) => daysMapped[day]).join(", ")}
+        </Typography>
+      </div>
+
       <div className="flex justify-between py-2 px-3 border border-border rounded-md mt-4">
         {workoutPlanColumns.map(({ amount, Icon, label }) => (
           <div className="flex flex-col flex-1 items-center gap-1" key={label}>
@@ -72,7 +82,7 @@ const WorkoutPlanDetails = () => {
         ))}
       </div>
 
-      <div className="flex flex-col gap-1 items-center mt-1 mt-6">
+      <div className="flex flex-col gap-1 mt-6">
         <Typography variant="lg">Exercises</Typography>
         <Typography className="text-muted-foreground" variant="md-24">
           Focus areas: {workoutPlanDetails?.focusArea.join(" / ")}
