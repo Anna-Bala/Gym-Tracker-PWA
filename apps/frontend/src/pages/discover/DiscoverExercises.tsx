@@ -29,7 +29,7 @@ const DiscoverExercises = () => {
   }, []);
 
   return (
-    <section className="flex flex-col h-[80vh] pt-2">
+    <section className="flex flex-col min-h-[80vh] pt-2">
       <Typography className="w-full text-center font-semibold" variant="h2">
         Discover exercises
       </Typography>

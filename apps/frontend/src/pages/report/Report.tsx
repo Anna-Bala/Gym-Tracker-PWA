@@ -29,7 +29,7 @@ const Report = () => {
   }, []);
 
   return (
-    <section className="flex flex-col pb-24">
+    <section className="flex flex-col min-h-[90vh] pb-24">
       <Typography className="w-full text-center font-semibold mb-6" variant="h2">
         Report
       </Typography>
