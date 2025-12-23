@@ -49,7 +49,7 @@ const ProfileSettings = () => {
   }, [state]);
 
   return (
-    <section className="flex flex-col pb-24">
+    <section className="flex flex-col min-h-[90vh] pb-24">
       <Loader className="m-auto" color="primary" variant="inline" size="lg" isLoading={isPending} />
 
       <Typography className="w-full text-center font-semibold" variant="h2">
