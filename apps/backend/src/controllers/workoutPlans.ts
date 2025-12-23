@@ -20,7 +20,7 @@ export const getAllWorkoutPlans = async (req: Request, res: Response) => {
 export const create = async (req: Request, res: Response) => {
   const userId = req.userId;
 
-  const { description, exercises, primaryMuscles, name } = ApiWorkoutPlanSchema.parse(req.body);
+  const { days, description, exercises, name, primaryMuscles } = ApiWorkoutPlanSchema.parse(req.body);
 
   const createdWorkoutPlan = await prismaClient
     .$transaction(async (tx) => {
@@ -31,6 +31,7 @@ export const create = async (req: Request, res: Response) => {
           duration: calculateWorkoutPlanDuration(exercises),
           focusArea: mapMusclesToFocusArea(primaryMuscles),
           name,
+          days,
         },
       });
 

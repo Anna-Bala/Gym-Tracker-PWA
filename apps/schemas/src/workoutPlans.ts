@@ -17,6 +17,7 @@ export const FormWorkoutPlanSchema = z.object({
   description: z.string().optional(),
   exercises: z.array(WorkoutPlanFormExerciseSchema),
   primaryMuscles: z.array(z.string()),
+  days: z.array(z.enum(["1", "2", "3", "4", "5", "6", "7"])),
 });
 
 export const ApiWorkoutPlanSchema = FormWorkoutPlanSchema.extend({
