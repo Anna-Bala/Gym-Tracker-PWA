@@ -65,6 +65,19 @@ function Calendar({
         hidden: cn("invisible", defaultClassNames.hidden),
         ...classNames,
       }}
+      modifiersClassNames={{
+        hasEvent: `
+                      relative 
+                      after:absolute 
+                      after:bottom-1 
+                      after:left-1/2 
+                      after:-translate-x-1/2 
+                      after:h-1
+                      after:w-1
+                      after:rounded-full 
+                      after:bg-card-foreground
+                    `,
+      }}
       components={{
         Root: ({ className, rootRef, ...props }) => {
           return <div data-slot="calendar" ref={rootRef} className={cn(className)} {...props} />;
