@@ -8,8 +8,8 @@ import { authFetch } from "@/lib/fetchClient";
 import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
+import { WorkoutPlanItem } from "@/components/WorkoutPlanItem";
 import Checkmark from "@icons/checkmark.svg?react";
-import WorkoutPlanItem from "../workoutPlans/WorkoutPlanItem";
 import Zzz from "@icons/zzz.svg?react";
 
 interface TodayWorkoutPlanProps {

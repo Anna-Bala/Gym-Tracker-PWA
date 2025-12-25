@@ -4,10 +4,21 @@ export const WorkoutHistoryCreationSchema = z.object({
   workoutPlanId: z.number(),
 });
 
+export const WorkoutPlanHistoryDetailsSchema = z.object({
+  id: z.number(),
+  duration: z.number(),
+  focusArea: z.array(z.enum(["arms", "back", "chest", "fullBody", "legs", "shoulders", "stomach"])),
+  name: z.string(),
+});
+
 export const WorkoutHistorySchema = z.object({
   id: z.number(),
   userId: z.number(),
   workoutPlanId: z.number(),
+  workoutPlan: WorkoutPlanHistoryDetailsSchema,
   createdAt: z.string(),
   updatedAt: z.string(),
 });
+
+export type WorkoutHistory = z.infer<typeof WorkoutHistorySchema>;
+export type WorkoutPlanHistoryDetails = z.infer<typeof WorkoutPlanHistoryDetailsSchema>;

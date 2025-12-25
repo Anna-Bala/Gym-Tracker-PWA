@@ -4,9 +4,9 @@ import { WorkoutPlan } from "@gym-tracker-pwa/schemas";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Typography } from "@/components/base/Typography";
+import { WorkoutPlanItem } from "@/components/WorkoutPlanItem";
 import Paper from "@icons/paper.svg?react";
 import Plus from "@icons/plus.svg?react";
-import WorkoutPlanItem from "../workoutPlans/WorkoutPlanItem";
 
 interface AllUserWorkoutPlansProps {
   userWorkoutPlans: WorkoutPlan[];
