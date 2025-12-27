@@ -59,10 +59,7 @@ const Home = () => {
   }, []);
 
   const todayWorkoutPlans = useMemo(
-    () =>
-      userWorkoutIdsHistory.length === 0
-        ? []
-        : userWorkoutPlans.filter(({ days }) => days.includes(new Date().getDay().toString() as WorkoutPlanDay)).filter(({ id }) => !userWorkoutIdsHistory.includes(id)),
+    () => userWorkoutPlans.filter(({ days }) => days.includes(new Date().getDay().toString() as WorkoutPlanDay)).filter(({ id }) => !userWorkoutIdsHistory.includes(id)),
     [userWorkoutPlans, userWorkoutIdsHistory]
   );
 

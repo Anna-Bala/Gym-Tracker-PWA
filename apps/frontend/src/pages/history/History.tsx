@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import type { WorkoutHistory, WorkoutPlanHistoryDetails } from "@gym-tracker-pwa/schemas";
+import type { WorkoutHistory } from "@gym-tracker-pwa/schemas";
 
 import { authFetch } from "@/lib/fetchClient";
 import { Calendar } from "@/components/ui/calendar";
@@ -14,7 +14,7 @@ import Zzz from "@icons/zzz.svg?react";
 const History = () => {
   const [calendarDate, setCalendarDate] = useState<Date>(new Date());
   const [workoutPlanHistory, setWorkoutPlanHistory] = useState<WorkoutHistory[]>([]);
-  const [selectedDayWorkoutPlans, setSelectedDayWorkoutPlans] = useState<WorkoutPlanHistoryDetails[]>([]);
+  const [selectedDayWorkoutHistoryEntry, setSelectedDayWorkoutHistoryEntry] = useState<WorkoutHistory[]>([]);
 
   const fetchWorkoutPlanHistory = async (monthDate: Date) => {
     const firstDayOfTheMonth = formatDate(new Date(monthDate.getFullYear(), monthDate.getMonth(), 1));
@@ -28,10 +28,8 @@ const History = () => {
       const responseData = await response.json();
       setWorkoutPlanHistory(responseData);
 
-      const todaysWorkoutPlans = responseData
-        ?.filter(({ createdAt }: { createdAt: string }) => formatDate(new Date(createdAt)) === formatDate(new Date()))
-        ?.map(({ workoutPlan }: { workoutPlan: WorkoutPlanHistoryDetails }) => workoutPlan);
-      setSelectedDayWorkoutPlans(todaysWorkoutPlans);
+      const todaysWorkoutPlans = responseData?.filter(({ createdAt }: { createdAt: string }) => formatDate(new Date(createdAt)) === formatDate(new Date()));
+      setSelectedDayWorkoutHistoryEntry(todaysWorkoutPlans);
     });
   };
 
@@ -43,22 +41,19 @@ const History = () => {
   useEffect(() => {
     if (!calendarDate) return;
 
-    const selectedDayWorkoutPlans = workoutPlanHistory
-      ?.filter(({ createdAt }: { createdAt: string }) => formatDate(new Date(createdAt)) === formatDate(calendarDate))
-      ?.map(({ workoutPlan }) => workoutPlan);
-
-    setSelectedDayWorkoutPlans(selectedDayWorkoutPlans);
+    const selectedDayWorkoutPlans = workoutPlanHistory?.filter(({ createdAt }: { createdAt: string }) => formatDate(new Date(createdAt)) === formatDate(calendarDate));
+    setSelectedDayWorkoutHistoryEntry(selectedDayWorkoutPlans);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [calendarDate]);
 
   const dayStatistics = [
     {
-      statistic: selectedDayWorkoutPlans.reduce((totalSeconds, workout) => totalSeconds + (isNaN(workout.duration) ? 0 : workout.duration), 0) / 60,
+      statistic: Math.round(selectedDayWorkoutHistoryEntry.reduce((totalSeconds, workout) => totalSeconds + (isNaN(workout.duration) ? 0 : workout.duration), 0) / 60),
       Icon: Timer,
       suffix: "min",
     },
     {
-      statistic: 0,
+      statistic: selectedDayWorkoutHistoryEntry.reduce((totalCalories, workout) => totalCalories + (isNaN(workout.calories) ? 0 : workout.calories), 0),
       Icon: Fire,
       suffix: "kcal",
     },
@@ -97,7 +92,7 @@ const History = () => {
           </div>
         </div>
         <hr className="my-4 w-full border-border dark:border-accent" />
-        {selectedDayWorkoutPlans.length === 0 ? (
+        {selectedDayWorkoutHistoryEntry.length === 0 ? (
           <>
             <Typography className="font-semibold text-center" variant="lg">
               Empty
@@ -109,8 +104,13 @@ const History = () => {
           </>
         ) : (
           <div className="flex flex-col gap-2">
-            {selectedDayWorkoutPlans.map((workoutPlan) => (
-              <WorkoutPlanItem className="border-border dark:border-accent" workoutPlan={workoutPlan} variant="default" key={workoutPlan.id} />
+            {selectedDayWorkoutHistoryEntry.map((workoutHistoryEntry) => (
+              <WorkoutPlanItem
+                className="border-border dark:border-accent"
+                workoutPlan={{ ...workoutHistoryEntry.workoutPlan, calories: workoutHistoryEntry.calories, duration: workoutHistoryEntry.duration }}
+                variant="default"
+                key={workoutHistoryEntry.id}
+              />
             ))}
           </div>
         )}

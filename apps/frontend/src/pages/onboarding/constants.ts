@@ -131,3 +131,8 @@ export const workoutGoalOptions = [
     Icon: PersonSitting,
   },
 ];
+
+export const restTimeOptions = Array.from({ length: 31 }, (_, i) => ({
+  label: (30 + i * 5).toString(),
+  value: (30 + i * 5).toString(),
+}));

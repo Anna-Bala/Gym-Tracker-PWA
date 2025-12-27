@@ -1,53 +1,62 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { z, OnboardingStepDaysSchema } from "@gym-tracker-pwa/schemas";
+import { z, OnboardingStepRestTimeSchema } from "@gym-tracker-pwa/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { daysOptions } from "./constants";
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { OnboardingStepWrapper } from ".";
+import { restTimeOptions } from "./constants";
 import { ScrollPicker } from "@/components/ScrollPicker";
 import { useOnboardingForm } from "@/contexts/onboarding/useOnboardingForm";
 
-type OnboardingStepDaysFormData = z.infer<typeof OnboardingStepDaysSchema>;
+type OnboardingStepRestTimeFormData = z.infer<typeof OnboardingStepRestTimeSchema>;
 
-const OnboardingStepDays = () => {
+const OnboardingStepRestTime = () => {
   const { addNewValue, formData } = useOnboardingForm();
 
-  const form = useForm<OnboardingStepDaysFormData>({
+  const form = useForm<OnboardingStepRestTimeFormData>({
     defaultValues: {
-      days: 1,
+      restTime: 60,
       ...formData,
     },
-    resolver: zodResolver(OnboardingStepDaysSchema),
+    resolver: zodResolver(OnboardingStepRestTimeSchema),
   });
 
   const { handleSubmit } = form;
 
   const navigate = useNavigate();
 
-  const onSubmit = (data: OnboardingStepDaysFormData) => {
+  const onSubmit = (data: OnboardingStepRestTimeFormData) => {
     Object.entries(data).forEach(([key, value]) => {
       addNewValue(key, value);
     });
 
-    navigate("/onboarding/10");
+    navigate("/onboarding/loading");
   };
 
   return (
     <OnboardingStepWrapper
-      title="Select Your Weekly Workout Plan"
-      description="How often do you plan to work out each week? We'll create a schedule for you."
+      title="Rest Between Sets"
+      description="How much recovery time do you need between each set? Most people rest for 60-90 seconds."
       form={form}
       handleFormSubmit={handleSubmit(onSubmit)}
     >
       <FormField
         control={form.control}
-        name="days"
+        name="restTime"
         render={({ field }) => (
           <FormItem>
             <FormControl>
-              <ScrollPicker className="!w-3/4" infinite initialValue={field.value.toString()} onChange={field.onChange} optionItemHeight={60} options={daysOptions} suffix="days" visibleCount={25} />
+              <ScrollPicker
+                className="!w-3/4"
+                infinite
+                initialValue={field.value.toString()}
+                onChange={field.onChange}
+                optionItemHeight={60}
+                options={restTimeOptions}
+                suffix="sec"
+                visibleCount={25}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -57,4 +66,4 @@ const OnboardingStepDays = () => {
   );
 };
 
-export default OnboardingStepDays;
+export default OnboardingStepRestTime;
