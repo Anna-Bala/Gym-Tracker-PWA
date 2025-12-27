@@ -6,7 +6,6 @@ export const WorkoutHistoryCreationSchema = z.object({
 
 export const WorkoutPlanHistoryDetailsSchema = z.object({
   id: z.number(),
-  duration: z.number(),
   focusArea: z.array(z.enum(["arms", "back", "chest", "fullBody", "legs", "shoulders", "stomach"])),
   name: z.string(),
 });
@@ -14,6 +13,8 @@ export const WorkoutPlanHistoryDetailsSchema = z.object({
 export const WorkoutHistorySchema = z.object({
   id: z.number(),
   userId: z.number(),
+  calories: z.number(),
+  duration: z.number(),
   workoutPlanId: z.number(),
   workoutPlan: WorkoutPlanHistoryDetailsSchema,
   createdAt: z.string(),

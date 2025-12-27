@@ -11,7 +11,7 @@ interface ScrollPicker {
   onChange?: (value: number) => void;
   optionItemHeight?: number;
   options: WheelPickerOption[];
-  suffix?: "years" | "cm" | "kg" | "days";
+  suffix?: "years" | "cm" | "kg" | "days" | "sec";
   visibleCount?: number;
 }
 
@@ -28,6 +28,7 @@ export const ScrollPicker: React.FC<ScrollPicker> = ({ className, infinite, init
             "after:content-['cm']": suffix === "cm",
             "after:content-['kg']": suffix === "kg",
             "after:content-['days']": suffix === "days",
+            "after:content-['sec']": suffix === "sec",
           }),
         }}
         infinite={infinite}

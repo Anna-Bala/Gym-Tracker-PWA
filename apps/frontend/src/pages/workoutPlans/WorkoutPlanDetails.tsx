@@ -8,6 +8,7 @@ import { Loader } from "@/components/Loader";
 import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
 import { Typography } from "@/components/base/Typography";
 import ExercisesList from "@/components/exercises/ExercisesList";
+import Fire from "@icons/fire.svg?react";
 import PersonRunning from "@icons/person-running.svg?react";
 import Timer from "@icons/timer.svg?react";
 
@@ -45,8 +46,13 @@ const WorkoutPlanDetails = () => {
     },
     {
       Icon: Timer,
-      amount: (workoutPlanDetails?.duration || 0) / 60,
+      amount: Math.round((workoutPlanDetails?.duration || 0) / 60),
       label: "minutes",
+    },
+    {
+      Icon: Fire,
+      amount: workoutPlanDetails?.calories || 0,
+      label: "kcal",
     },
   ];
 

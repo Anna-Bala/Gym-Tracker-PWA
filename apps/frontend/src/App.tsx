@@ -14,6 +14,7 @@ import {
   OnboardingStepGender,
   OnboardingStepHeight,
   OnboardingStepLoading,
+  OnboardingStepRestTime,
   OnboardingStepWeight,
   OnboardingStepWorkoutGoal,
 } from "./pages/onboarding";
@@ -69,6 +70,7 @@ function App() {
               <Route path="/onboarding/7" element={<OnboardingStepWorkoutGoal />} />
               <Route path="/onboarding/8" element={<OnboardingStepFitnessLevel />} />
               <Route path="/onboarding/9" element={<OnboardingStepDays />} />
+              <Route path="/onboarding/10" element={<OnboardingStepRestTime />} />
               <Route path="/onboarding/loading" element={<OnboardingStepLoading />} />
               <Route path="/home/create-workout-plan" element={<WorkoutPlanForm />} />
               <Route path="/home/workout-plan/:id" element={<WorkoutPlanDetails />} />

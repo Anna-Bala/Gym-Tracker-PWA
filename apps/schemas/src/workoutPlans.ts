@@ -26,6 +26,7 @@ export const ApiWorkoutPlanSchema = FormWorkoutPlanSchema.extend({
 
 export const WorkoutPlan = z.object({
   id: z.number(),
+  calories: z.number(),
   description: z.string().optional(),
   duration: z.number(),
   days: z.array(z.enum(["1", "2", "3", "4", "5", "6", "7"])),

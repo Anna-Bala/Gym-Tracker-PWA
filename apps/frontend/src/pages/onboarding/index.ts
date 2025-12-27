@@ -6,6 +6,7 @@ export { default as OnboardingStepFocusArea } from "./OnboardingStepFocusArea";
 export { default as OnboardingStepGender } from "./OnboardingStepGender";
 export { default as OnboardingStepHeight } from "./OnboardingStepHeight";
 export { default as OnboardingStepLoading } from "./OnboardingStepLoading";
+export { default as OnboardingStepRestTime } from "./OnboardingStepRestTime";
 export { default as OnboardingStepWeight } from "./OnboardingStepWeight";
 export { default as OnboardingStepWorkoutGoal } from "./OnboardingStepWorkoutGoal";
 export { default as OnboardingStepWrapper } from "./OnboardingStepWrapper";
