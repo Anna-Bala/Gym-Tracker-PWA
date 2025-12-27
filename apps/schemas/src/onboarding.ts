@@ -35,6 +35,10 @@ export const OnboardingStepWeightSchema = z.object({
   weight: z.number().positive(),
 });
 
+export const OnboardingStepRestTimeSchema = z.object({
+  restTime: z.number().positive(),
+});
+
 export const OnboardingStepWorkoutGoalSchema = z.object({
   workoutGoal: z.enum(["loseWeight", "buildMuscle", "stayFit"]),
 });
@@ -48,6 +52,7 @@ export const FullOnboardingSchema = z.object({
   ...OnboardingStepDaysSchema.shape,
   ...OnboardingStepHeightSchema.shape,
   ...OnboardingStepWeightSchema.shape,
+  ...OnboardingStepRestTimeSchema.shape,
   ...OnboardingStepWorkoutGoalSchema.shape,
 });
 
