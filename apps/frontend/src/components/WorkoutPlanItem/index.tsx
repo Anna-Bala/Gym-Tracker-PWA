@@ -61,7 +61,7 @@ export const WorkoutPlanItem = ({ children, className, variant = "default", work
       </div>
     </div>
 
-    <Chevron className={cn("!w-6 !h-6 rotate-180 mr-2", { "text-card-foreground": variant === "default", "text-primary-foreground": variant === "primary" })} />
+    <Chevron className={cn("!w-6 !h-6 rotate-180 mr-2 stroke-[3]", { "text-card-foreground": variant === "default", "text-primary-foreground": variant === "primary" })} />
 
     {children}
   </Link>

@@ -6,7 +6,7 @@ import { Alert } from "@/components/Alert";
 import { AllUserWorkoutPlans, TodayWorkoutPlans } from "./";
 import { authFetch } from "@/lib/fetchClient";
 import { Loader } from "@/components/Loader";
-import { Typography } from "@/components/base/Typography";
+import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -68,9 +68,7 @@ const Home = () => {
 
   return (
     <section className="flex flex-col min-h-[90vh] pb-24">
-      <Typography className="w-full text-center font-semibold" variant="h2">
-        Gym Tracker
-      </Typography>
+      <MobileHeaderNavigation centerText hideGoBackButton headerText="Gym Tracker" />
 
       {errorMessage && <Alert className="mt-4" title="Workout plans failed to load" description={errorMessage} icon={<CircleAlert />} variant="destructive" />}
 

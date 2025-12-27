@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui";
 import { changeUserTheme } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
 import { Switch } from "@/components/ui/switch";
 import { Typography } from "@/components/base/Typography";
 import { useTheme } from "@/contexts/theme/useTheme";
@@ -38,13 +39,11 @@ const Settings = () => {
 
   const buttonClasses = "text-base flex items-center !px-0 justify-start text-foreground py-2 gap-4 font-medium";
   const iconClasses = "!w-10 !h-10 text-foreground";
-  const chevronClasses = "!w-6 !h-6 rotate-180 ml-auto mr-2";
+  const chevronClasses = "!w-6 !h-6 rotate-180 ml-auto mr-2 stroke-[3]";
 
   return (
     <section>
-      <Typography className="w-full text-center font-semibold" variant="h2">
-        Settings
-      </Typography>
+      <MobileHeaderNavigation centerText hideGoBackButton headerText="Settings" />
       <div className="flex flex-col w-full mt-6 gap-4 h-[calc(100vh-230px)]">
         {settingsOptions.map(({ Icon, label, to }) => {
           return (

@@ -6,7 +6,7 @@ import { AgeDrawer, GenderDrawer, HeightDrawer, WeightDrawer } from "./drawers";
 import { authFetch } from "@/lib/fetchClient";
 import { Button } from "@/components/ui";
 import { Loader } from "@/components/Loader";
-import { Typography } from "@/components/base/Typography";
+import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
 import Chevron from "@icons/chevron.svg?react";
 
 const bodyMetricMissingText = "missing information";
@@ -78,9 +78,7 @@ const BodyMetricsSettings = () => {
   return (
     <>
       <section className="flex flex-col h-[90vh]">
-        <Typography className="w-full text-center font-semibold" variant="h2">
-          Body Metrics
-        </Typography>
+        <MobileHeaderNavigation centerText headerText="Body Metrics" />
 
         {isLoading ? (
           <Loader className="m-auto" color="primary" variant="inline" size="lg" isLoading={isLoading} />
@@ -92,7 +90,7 @@ const BodyMetricsSettings = () => {
                   <>
                     {label}
                     <span className="text-sm ml-auto font-normal">{currentValue}</span>
-                    <Chevron className="!w-6 !h-6 rotate-180 mr-2" />
+                    <Chevron className="!w-6 !h-6 rotate-180 mr-2 stroke-[3]" />
                   </>
                 </Button>
               );

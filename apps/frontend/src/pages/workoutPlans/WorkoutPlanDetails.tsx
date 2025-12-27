@@ -5,6 +5,7 @@ import { type WorkoutPlanDetails as WorkouPlan } from "@gym-tracker-pwa/schemas"
 import { authFetch } from "@/lib/fetchClient";
 import { daysOptions } from "./constants";
 import { Loader } from "@/components/Loader";
+import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
 import { Typography } from "@/components/base/Typography";
 import ExercisesList from "@/components/exercises/ExercisesList";
 import PersonRunning from "@icons/person-running.svg?react";
@@ -52,9 +53,7 @@ const WorkoutPlanDetails = () => {
   return (
     <section className="flex flex-col pb-24">
       <Loader variant="full-screen" isLoading={isLoading} color="white" />
-      <Typography className="w-full text-center font-semibold" variant="h2">
-        {workoutPlanDetails?.name}
-      </Typography>
+      {workoutPlanDetails?.name ? <MobileHeaderNavigation centerText headerText={workoutPlanDetails.name} /> : null}
       {workoutPlanDetails?.description && (
         <Typography className="w-full text-center mt-2" variant="sm-20">
           {workoutPlanDetails?.description}

@@ -10,6 +10,7 @@ import { Button, Input } from "@/components/ui";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { handleChangePasswordAction } from "./actions";
 import { Loader } from "@/components/Loader";
+import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
 import { Typography } from "@/components/base/Typography";
 
 type ChangePasswordFormData = z.infer<typeof ChangePasswordWithConfirmationSchema>;
@@ -43,10 +44,9 @@ const ChangePassword = () => {
     <section className="flex flex-col h-[90vh]">
       <Loader variant="full-screen" isLoading={isPending} color="white" />
 
-      <Typography className="w-full font-semibold" variant="h2">
-        Change Password
-      </Typography>
-      <Typography className="mt-2 font-light my-2" variant="md-24">
+      <MobileHeaderNavigation centerText headerText="Change Password" />
+
+      <Typography className="mt-4 mb-2 font-light" variant="md-24">
         To change your password, please fill in the fields below. Your password must contain at least 8 characters, it must also include at least one upper case letter, one lower case letter, one
         number and one special character.
       </Typography>

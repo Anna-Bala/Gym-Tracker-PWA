@@ -3,7 +3,7 @@ import type { Exercise } from "@gym-tracker-pwa/schemas";
 
 import { authFetch } from "@/lib/fetchClient";
 import { Loader } from "@/components/Loader";
-import { Typography } from "@/components/base/Typography";
+import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
 import ExercisesFilter from "@/components/exercises/ExercisesFilter";
 import ExercisesList from "@/components/exercises/ExercisesList";
 
@@ -30,9 +30,8 @@ const DiscoverExercises = () => {
 
   return (
     <section className="flex flex-col min-h-[80vh] pt-2">
-      <Typography className="w-full text-center font-semibold" variant="h2">
-        Discover exercises
-      </Typography>
+      <MobileHeaderNavigation centerText hideGoBackButton headerText="Discover exercises" />
+
       <ExercisesFilter setExercisesList={setExercisesList} setIsLoading={setIsLoading} />
       {isLoading ? <Loader className="m-auto" color="primary" variant="inline" isLoading={isLoading} size="lg" /> : <ExercisesList exercisesList={exercisesList} />}
     </section>
