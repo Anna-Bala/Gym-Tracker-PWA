@@ -19,7 +19,7 @@ export const get = async (req: Request, res: Response) => {
 export const create = async (req: Request, res: Response) => {
   const userId = req.userId;
 
-  const { activityLevel, age, days, fitnessLevel, focusArea, gender, height, weight, workoutGoal } = FullOnboardingSchema.parse(req.body);
+  const { activityLevel, age, days, fitnessLevel, focusArea, gender, height, weight, workoutGoal, restTime } = FullOnboardingSchema.parse(req.body);
 
   let onboarding = await prismaClient.onboarding.findFirst({ where: { userId } });
   if (onboarding) {
@@ -38,6 +38,7 @@ export const create = async (req: Request, res: Response) => {
       userId,
       weight,
       workoutGoal,
+      restTime,
     },
   });
 

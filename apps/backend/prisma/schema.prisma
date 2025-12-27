@@ -53,6 +53,7 @@ model Onboarding {
   height Int
   weight Int
   workoutGoal String
+  restTime Int
 
   @@map("onboarding")
 }
@@ -64,6 +65,7 @@ model WorkoutPlan {
   name String
   description String?
   days Json
+  calories Int
   duration Int
   focusArea Json
   exercises WorkoutPlanExercise[]
@@ -90,6 +92,8 @@ model WorkoutHistory {
   id Int @id @default(autoincrement())
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
+  calories Int
+  duration Int
   workoutPlan WorkoutPlan @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
   workoutPlanId Int
   createdAt DateTime @default(now())
