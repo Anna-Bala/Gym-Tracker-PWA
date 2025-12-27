@@ -4,6 +4,7 @@ import type { WorkoutHistory, WorkoutPlanHistoryDetails } from "@gym-tracker-pwa
 import { authFetch } from "@/lib/fetchClient";
 import { Calendar } from "@/components/ui/calendar";
 import { formatDate } from "@/lib/utils";
+import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
 import { Typography } from "@/components/base/Typography";
 import { WorkoutPlanItem } from "@/components/WorkoutPlanItem";
 import Fire from "@icons/fire.svg?react";
@@ -67,9 +68,8 @@ const History = () => {
 
   return (
     <section className="flex flex-col pb-24">
-      <Typography className="w-full text-center font-semibold" variant="h2">
-        History
-      </Typography>
+      <MobileHeaderNavigation centerText hideGoBackButton headerText="History" />
+
       <Calendar
         className="mt-6 w-full rounded-md border"
         mode="single"

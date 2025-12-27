@@ -3,7 +3,7 @@ import type { UserStatistics } from "@gym-tracker-pwa/schemas";
 
 import { authFetch } from "@/lib/fetchClient";
 import { Loader } from "@/components/Loader";
-import { Typography } from "@/components/base/Typography";
+import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
 import ReportBmi from "./ReportBmi";
 import ReportSummary from "./ReportSummary";
 
@@ -30,13 +30,12 @@ const Report = () => {
 
   return (
     <section className="flex flex-col min-h-[90vh] pb-24">
-      <Typography className="w-full text-center font-semibold mb-6" variant="h2">
-        Report
-      </Typography>
+      <MobileHeaderNavigation centerText hideGoBackButton headerText="Report" />
+
       {isLoading ? (
         <Loader className="m-auto" color="primary" variant="inline" size="lg" isLoading={isLoading} />
       ) : (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 mt-6">
           <ReportSummary />
           <ReportBmi height={userStatisticsReport!.height} weight={userStatisticsReport!.weight} />
         </div>

@@ -11,6 +11,7 @@ import { Button, Input } from "@/components/ui";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { handleProfileSettingSave } from "./actions";
 import { Loader } from "@/components/Loader";
+import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
 import { Typography } from "@/components/base/Typography";
 import { useAuth } from "@/contexts/auth/useAuth";
 import Bin from "@icons/bin.svg?react";
@@ -52,9 +53,7 @@ const ProfileSettings = () => {
     <section className="flex flex-col min-h-[90vh] pb-24">
       <Loader className="m-auto" color="primary" variant="inline" size="lg" isLoading={isPending} />
 
-      <Typography className="w-full text-center font-semibold" variant="h2">
-        Profile & Security
-      </Typography>
+      <MobileHeaderNavigation centerText headerText="Profile & Security" />
 
       {state.success === false && (
         <Alert
@@ -127,7 +126,7 @@ const ProfileSettings = () => {
         <>
           <Locked className="!w-10 !h-10 text-foreground" />
           <Typography variant="md-24">Change password</Typography>
-          <Chevron className="!w-6 !h-6 rotate-180 ml-auto mr-2" />
+          <Chevron className="!w-6 !h-6 rotate-180 ml-auto mr-2 stroke-[3]" />
         </>
       </Link>
 
@@ -135,7 +134,7 @@ const ProfileSettings = () => {
         <>
           <Bin className="!w-10 !h-10 text-destructive" />
           Delete account
-          <Chevron className="!w-6 !h-6 rotate-180 ml-auto mr-2" />
+          <Chevron className="!w-6 !h-6 rotate-180 ml-auto mr-2 stroke-[3]" />
         </>
       </Button>
       <Typography className="px-2 text-muted-foreground" variant="sm-20">

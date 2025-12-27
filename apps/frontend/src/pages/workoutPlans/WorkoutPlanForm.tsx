@@ -11,6 +11,7 @@ import { CheckboxCardItem } from "@/components/CheckboxCardItem";
 import { daysOptions } from "./constants";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Loader } from "@/components/Loader";
+import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
 import { Textarea } from "@/components/ui/textarea";
 import { Typography } from "@/components/base/Typography";
 import { useWorkoutPlanForm } from "@/contexts/workoutPlan/useWorkoutPlanForm";
@@ -62,10 +63,8 @@ const WorkoutPlanForm = () => {
   return (
     <section className="flex flex-col pb-24">
       <Loader variant="full-screen" isLoading={isSubmitting} color="white" />
-      <Typography className="font-bold flex flex-row items-center w-full gap-4" variant="h2">
-        Create Workout Plan
-      </Typography>
-      <Typography className="mt-2 font-light" variant="md-24">
+      <MobileHeaderNavigation centerText headerText="Create Workout Plan" />
+      <Typography className="mt-4 font-light" variant="md-24">
         Create a personalized workout plan by choosing exercises, sets, and schedule.
       </Typography>
       {isError && (
