@@ -64,7 +64,7 @@ export const login = async (req: Request, res: Response) => {
     httpOnly: true,
     secure: ENVIRONMENT === "production",
     sameSite: "strict",
-    path: "/api/auth/refresh",
+    path: "/api/auth",
     maxAge: refreshTokenLifetime,
   });
 
@@ -112,7 +112,7 @@ export const refresh = async (req: Request, res: Response) => {
       httpOnly: true,
       secure: ENVIRONMENT === "production",
       sameSite: "strict",
-      path: "/api/auth/refresh",
+      path: "/api/auth",
       maxAge: refreshTokenLifetime,
     });
 
@@ -130,7 +130,7 @@ export const logout = async (req: Request, res: Response) => {
       where: { token: refreshToken },
     });
     res.clearCookie("access_token");
-    res.clearCookie("refresh_token", { path: "/api/auth/refresh" });
+    res.clearCookie("refresh_token", { path: "/api/auth" });
     res.json({ ok: true });
   } else {
     res.json({ ok: false });
