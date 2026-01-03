@@ -37,7 +37,7 @@ const TodayWorkoutPlans = ({ fetchUserWorkoutHistory, todayWorkoutPlans }: Today
         toast.success("Today's workout has been logged successfully.");
       })
       .catch(() => setIsError(true))
-      .finally(() => setIsLoading(true));
+      .finally(() => setIsLoading(false));
   };
 
   return (

@@ -22,7 +22,9 @@ const Home = () => {
     })
       .then(async (response) => {
         const responseData = await response.json();
-        const workoutPlanIds = responseData.map(({ workoutPlanId }: { workoutPlanId: string }) => workoutPlanId);
+        const workoutPlanIds = responseData
+          .filter(({ createdAt }: { createdAt: string }) => new Date(createdAt).setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0))
+          .map(({ workoutPlanId }: { workoutPlanId: string }) => workoutPlanId);
         setUserWorkoutIdsHistory(workoutPlanIds);
       })
       .catch(() => {
