@@ -1,8 +1,13 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { CircleAlert } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
+import { Alert } from "@/components/Alert";
+import { authFetch } from "@/lib/fetchClient";
 import { Button } from "@/components/ui";
 import { changeUserTheme } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { Loader } from "@/components/Loader";
 import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
 import { Switch } from "@/components/ui/switch";
 import { Typography } from "@/components/base/Typography";
@@ -28,6 +33,9 @@ const settingsOptions = [
 ];
 
 const Settings = () => {
+  const [isLogoutError, setIsLogoutError] = useState(false);
+  const [isLogoutLoading, setIsLogoutLoading] = useState(false);
+
   const { theme, setTheme } = useTheme();
 
   const handleDarkModeChange = (value: boolean) => {
@@ -35,6 +43,21 @@ const Settings = () => {
     setTheme(newTheme);
     changeUserTheme(newTheme);
     document.body.classList.toggle("dark");
+  };
+
+  const navigate = useNavigate();
+
+  const handleLogoutAction = async () => {
+    setIsLogoutLoading(true);
+    setIsLogoutError(false);
+
+    await authFetch("/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    })
+      .then(() => navigate("/login"))
+      .catch(() => setIsLogoutError(true))
+      .finally(() => setIsLogoutLoading(false));
   };
 
   const buttonClasses = "text-base flex items-center !px-0 justify-start text-foreground py-2 gap-4 font-medium";
@@ -65,12 +88,23 @@ const Settings = () => {
           <Switch className="ml-auto" checked={theme === "dark"} onCheckedChange={handleDarkModeChange} id="dark-mode" />
         </div>
 
-        <Button className={cn(buttonClasses, "mt-auto text-destructive border border-destructive justify-center gap-1")} variant="outline" size="lg">
-          <>
-            <PersonExit className={cn(iconClasses, "text-destructive")} />
-            Logout
-          </>
-        </Button>
+        <div className="flex flex-col gap-4 mt-auto">
+          {isLogoutError && (
+            <Alert
+              variant="destructive"
+              title="We couldn't sign you out"
+              icon={<CircleAlert />}
+              description="Something went wrong on our end. Please try clicking 'Logout' again, or simply close your browser window to finish."
+            />
+          )}
+          <Button className={cn(buttonClasses, "text-destructive border border-destructive justify-center gap-1")} variant="outline" size="lg" onClick={handleLogoutAction} disabled={isLogoutLoading}>
+            <>
+              <PersonExit className={cn(iconClasses, "text-destructive")} />
+              Logout
+              <Loader color="destructive" variant="inline" isLoading={isLogoutLoading} />
+            </>
+          </Button>
+        </div>
       </div>
     </section>
   );

@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 interface LoaderProps {
   className?: string;
-  color: "white" | "primary";
+  color: "white" | "primary" | "destructive";
   isLoading: boolean;
   variant: "inline" | "full-screen";
   size?: "sm" | "md" | "lg";
