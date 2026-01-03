@@ -17,7 +17,10 @@ function WheelPicker({ classNames, ...props }: React.ComponentProps<typeof Wheel
       classNames={{
         optionItem: cn("typography-xs text-muted-foreground", classNames?.optionItem),
         highlightWrapper: cn("text-primary border-t border-b border-primary", classNames?.highlightWrapper),
-        highlightItem: cn("typography-xs relative after:absolute after:right-[25px] after:bottom-[20px] after:text-foreground after:text-xl after:font-normal", classNames?.highlightItem),
+        highlightItem: cn(
+          "bg-background typography-xs relative after:absolute after:right-[25px] after:bottom-[20px] after:text-foreground after:text-xl after:font-normal",
+          classNames?.highlightItem
+        ),
       }}
       {...props}
     />
