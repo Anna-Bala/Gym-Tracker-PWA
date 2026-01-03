@@ -142,5 +142,15 @@ export const getUserStatistics = async (req: Request, res: Response) => {
     throw new NotFoundException("Onboarding data is missing", ErrorCode.USER_ONBOARDING_MISSING);
   }
 
-  res.json({ height: onboarding?.height || 0, weight: onboarding?.weight || 0 });
+  const workoutHistoryStatistics = await prismaClient.workoutHistory.aggregate({
+    where: { userId },
+    _count: { id: true },
+    _sum: { calories: true, duration: true },
+  });
+
+  const totalWorkouts = workoutHistoryStatistics._count.id;
+  const totalCalories = workoutHistoryStatistics._sum.calories;
+  const totalDuration = workoutHistoryStatistics._sum.duration;
+
+  res.json({ totalCalories, totalDuration, totalWorkouts, height: onboarding?.height || 0, weight: onboarding?.weight || 0 });
 };
