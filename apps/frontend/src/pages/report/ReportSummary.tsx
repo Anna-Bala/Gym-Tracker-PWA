@@ -3,21 +3,27 @@ import Fire from "@icons/fire.svg?react";
 import PersonRunning from "@icons/person-running.svg?react";
 import Timer from "@icons/timer.svg?react";
 
-const ReportSummary = () => {
+interface ReportSummaryProps {
+  totalCalories: number;
+  totalDuration: number;
+  totalWorkouts: number;
+}
+
+const ReportSummary = ({ totalCalories, totalDuration, totalWorkouts }: ReportSummaryProps) => {
   const reportSummaryColumns = [
     {
       Icon: PersonRunning,
-      amount: 0,
+      amount: totalWorkouts,
       label: "workouts",
     },
     {
       Icon: Timer,
-      amount: 0,
+      amount: Math.round(totalDuration / 60),
       label: "minutes",
     },
     {
       Icon: Fire,
-      amount: 0,
+      amount: totalCalories,
       label: "kcal",
     },
   ];

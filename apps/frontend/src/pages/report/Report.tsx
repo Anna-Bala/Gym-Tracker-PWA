@@ -6,6 +6,7 @@ import { Loader } from "@/components/Loader";
 import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
 import ReportBmi from "./ReportBmi";
 import ReportSummary from "./ReportSummary";
+import ReportWorkouts from "./ReportWorkouts";
 
 const Report = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,7 +37,8 @@ const Report = () => {
         <Loader className="m-auto" color="primary" variant="inline" size="lg" isLoading={isLoading} />
       ) : (
         <div className="flex flex-col gap-6 mt-6">
-          <ReportSummary />
+          <ReportSummary totalWorkouts={userStatisticsReport!.totalWorkouts} totalCalories={userStatisticsReport!.totalCalories} totalDuration={userStatisticsReport!.totalDuration} />
+          <ReportWorkouts />
           <ReportBmi height={userStatisticsReport!.height} weight={userStatisticsReport!.weight} />
         </div>
       )}
