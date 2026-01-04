@@ -28,4 +28,5 @@ export enum ErrorCode {
   MISSING_ID = 4001,
   INVALID_DATE = 4002,
   WORKOUT_PLAN_MISSING = 5001,
+  OPEN_AI_ERROR = 6001,
 }

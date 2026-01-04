@@ -24,6 +24,14 @@ export const ApiWorkoutPlanSchema = FormWorkoutPlanSchema.extend({
   exercises: z.array(WorkoutPlanApiExerciseSchema),
 });
 
+export const AIWorkoutPlan = z.object({
+  name: z.string(),
+  days: z.array(z.enum(["1", "2", "3", "4", "5", "6", "7"])),
+  description: z.string().optional(),
+  focusArea: z.array(z.enum(["arms", "back", "chest", "fullBody", "legs", "shoulders", "stomach"])),
+  exercises: z.array(WorkoutPlanApiExerciseSchema),
+});
+
 export const WorkoutPlan = z.object({
   id: z.number(),
   calories: z.number(),
@@ -40,6 +48,7 @@ export const WorkoutPlanDetails = WorkoutPlan.extend({
   exercises: z.array(ExerciseDetailsSchema),
 });
 
+export type AIWorkoutPlan = z.infer<typeof AIWorkoutPlan>;
 export type WorkoutPlan = z.infer<typeof WorkoutPlan>;
 export type WorkoutPlanDetails = z.infer<typeof WorkoutPlanDetails>;
 export type WorkoutPlanExercise = z.infer<typeof WorkoutPlanApiExerciseSchema>;
