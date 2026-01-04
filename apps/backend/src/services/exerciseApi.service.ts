@@ -23,7 +23,7 @@ export class ExerciseApiService {
     return searchResultWithImages;
   }
 
-  async getAllExercises() {
+  async getAllExercises(skipImages?: boolean) {
     const allExercisesResponse = await fetch(`${WORKOUT_API_BASE_URL}/exercises`, {
       method: "GET",
       headers: { Accept: "application/json", "x-api-key": WORKOUT_API_KEY },
@@ -32,7 +32,7 @@ export class ExerciseApiService {
     const allExercisesResponseResult = ((await allExercisesResponse.json()) || []) as Exercise[];
     const allExercisesResultWithImages = await this.appendImagesToExerciseResults(allExercisesResponseResult);
 
-    return allExercisesResultWithImages;
+    return skipImages ? allExercisesResponseResult : allExercisesResultWithImages;
   }
 
   async getExercisesByIds(ids: string[]) {
@@ -92,3 +92,5 @@ export class ExerciseApiService {
     return filterResultWithImages;
   }
 }
+
+export default new ExerciseApiService();
