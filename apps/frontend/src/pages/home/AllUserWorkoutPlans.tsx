@@ -10,9 +10,10 @@ import Plus from "@icons/plus.svg?react";
 
 interface AllUserWorkoutPlansProps {
   userWorkoutPlans: WorkoutPlan[];
+  handleAIWorkoutPlanCreation: () => void;
 }
 
-const AllUserWorkoutPlans = ({ userWorkoutPlans }: AllUserWorkoutPlansProps) => {
+const AllUserWorkoutPlans = ({ userWorkoutPlans, handleAIWorkoutPlanCreation }: AllUserWorkoutPlansProps) => {
   const emptyUserWorkoutPlans = userWorkoutPlans.length === 0;
 
   return (
@@ -32,10 +33,13 @@ const AllUserWorkoutPlans = ({ userWorkoutPlans }: AllUserWorkoutPlansProps) => 
             You haven't created any workout plans yet
           </Typography>
           <Typography className="w-full text-center font-normal text-muted-foreground mt-1" variant="sm-20">
-            Create your own workout plans for routines you already love or want full control over.
+            Create your own workout plans for routines you already love or generate one with AI.
           </Typography>
           <Button className="mt-3" variant="default" asChild>
             <Link to="/home/create-workout-plan">Create your workout plan</Link>
+          </Button>
+          <Button className="mt-3" variant="secondary" onClick={handleAIWorkoutPlanCreation}>
+            Generate workout plan with AI
           </Button>
         </>
       ) : (

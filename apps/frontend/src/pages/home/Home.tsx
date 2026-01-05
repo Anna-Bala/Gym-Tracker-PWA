@@ -3,13 +3,15 @@ import { CircleAlert } from "lucide-react";
 import { WorkoutPlan, type WorkoutPlanDay } from "@gym-tracker-pwa/schemas";
 
 import { Alert } from "@/components/Alert";
-import { AllUserWorkoutPlans, TodayWorkoutPlans } from "./";
+import { AllUserWorkoutPlans, GeneratingAiWorkoutPlan, TodayWorkoutPlans } from "./";
 import { authFetch } from "@/lib/fetchClient";
+import { getCurrentDayIso } from "@/lib/utils";
 import { Loader } from "@/components/Loader";
 import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isGeneratingAIWorkoutPlan, setIsGeneratingAIWorkoutPlan] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [userWorkoutPlans, setUserWorkoutPlans] = useState<WorkoutPlan[]>([]);
   const [userWorkoutIdsHistory, setUserWorkoutIdsHistory] = useState<number[]>([]);
@@ -47,6 +49,23 @@ const Home = () => {
       });
   };
 
+  const handleAIWorkoutPlanCreation = async () => {
+    try {
+      setIsGeneratingAIWorkoutPlan(true);
+      setErrorMessage("");
+
+      await authFetch("/workout-plans/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      await fetchUserWorkoutPlans().finally(() => setIsGeneratingAIWorkoutPlan(false));
+    } catch {
+      setErrorMessage("Even AI needs a rest day sometimes. We couldn't generate your plan. You can still create a plan manually, or try again in a few minutes.");
+    }
+  };
+
   useEffect(() => {
     const fetchWorkoutPlansData = async () => {
       try {
@@ -61,7 +80,7 @@ const Home = () => {
   }, []);
 
   const todayWorkoutPlans = useMemo(
-    () => userWorkoutPlans.filter(({ days }) => days.includes(new Date().getDay().toString() as WorkoutPlanDay)).filter(({ id }) => !userWorkoutIdsHistory.includes(id)),
+    () => userWorkoutPlans.filter(({ days }) => days.includes(getCurrentDayIso().toString() as WorkoutPlanDay)).filter(({ id }) => !userWorkoutIdsHistory.includes(id)),
     [userWorkoutPlans, userWorkoutIdsHistory]
   );
 
@@ -69,14 +88,20 @@ const Home = () => {
     <section className="flex flex-col min-h-[90vh] pb-24">
       <MobileHeaderNavigation centerText hideGoBackButton headerText="Gym Tracker" />
 
-      {errorMessage && <Alert className="mt-4" title="Workout plans failed to load" description={errorMessage} icon={<CircleAlert />} variant="destructive" />}
+      {errorMessage && <Alert className="mt-4" title="Something went wrong" description={errorMessage} icon={<CircleAlert />} variant="destructive" />}
 
       {isLoading ? (
         <Loader className="m-auto" color="primary" variant="inline" size="lg" isLoading={isLoading} />
       ) : (
         <>
-          <TodayWorkoutPlans todayWorkoutPlans={todayWorkoutPlans} fetchUserWorkoutHistory={fetchUserWorkoutHistory} />
-          <AllUserWorkoutPlans userWorkoutPlans={userWorkoutPlans} />
+          {isGeneratingAIWorkoutPlan ? (
+            <GeneratingAiWorkoutPlan isGeneratingAIWorkoutPlan={isGeneratingAIWorkoutPlan} />
+          ) : (
+            <>
+              {userWorkoutPlans.length > 0 && <TodayWorkoutPlans todayWorkoutPlans={todayWorkoutPlans} fetchUserWorkoutHistory={fetchUserWorkoutHistory} />}
+              <AllUserWorkoutPlans userWorkoutPlans={userWorkoutPlans} handleAIWorkoutPlanCreation={handleAIWorkoutPlanCreation} />
+            </>
+          )}
         </>
       )}
     </section>

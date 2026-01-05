@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
+import { Badge } from "../ui";
 import { cn } from "@/lib/utils";
 import { Typography } from "@/components/base/Typography";
-import Chevron from "@icons/chevron.svg?react";
 import Fire from "@icons/fire.svg?react";
 import Timer from "@icons/timer.svg?react";
 
@@ -11,7 +11,7 @@ interface WorkoutPlanItemProps {
   children?: ReactNode;
   className?: string;
   variant?: "default" | "primary";
-  workoutPlan: { id: number; calories: number; name: string; duration: number; focusArea: string[] };
+  workoutPlan: { id: number; calories: number; name: string; ai: boolean; duration: number; focusArea: string[] };
 }
 
 export const WorkoutPlanItem = ({ children, className, variant = "default", workoutPlan }: WorkoutPlanItemProps) => {
@@ -24,10 +24,10 @@ export const WorkoutPlanItem = ({ children, className, variant = "default", work
   return (
     <Link
       className={cn(
-        "flex flex-wrap items-center p-3 rounded-md",
+        "flex items-center p-3 rounded-md",
         {
-          "bg-card border border-border": variant === "default",
-          "bg-card border-2 border-primary": variant === "primary",
+          "gap-4 bg-card border border-border": variant === "default",
+          "flex-wrap bg-card border-2 border-primary": variant === "primary",
         },
         className
       )}
@@ -35,15 +35,20 @@ export const WorkoutPlanItem = ({ children, className, variant = "default", work
     >
       <div className="flex flex-grow flex-col">
         <Typography
-          className={cn("font-normal text-left", {
+          className={cn("flex items-center font-normal text-left", {
             "text-card-foreground": variant === "default",
             "text-primary-foreground": variant === "primary",
           })}
           variant="lg"
         >
+          {workoutPlan.ai && (
+            <Badge className="mr-4" variant="secondary">
+              AI
+            </Badge>
+          )}
           {workoutPlan.name}
         </Typography>
-        <div className="flex gap-1 items-center mt-1">
+        <div className="flex flex-wrap gap-1 items-center mt-1">
           {workoutPlanRowInfo.map(({ Icon, text }, index) => (
             <>
               <Typography
@@ -65,8 +70,6 @@ export const WorkoutPlanItem = ({ children, className, variant = "default", work
           ))}
         </div>
       </div>
-
-      <Chevron className={cn("!w-6 !h-6 rotate-180 stroke-[3]", { "text-card-foreground": variant === "default", "text-primary-foreground": variant === "primary" })} />
 
       {children}
     </Link>
