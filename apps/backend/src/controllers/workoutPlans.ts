@@ -112,6 +112,55 @@ export const createWithAI = async (req: Request, res: Response) => {
   res.json(createdWorkoutPlan);
 };
 
+export const patch = async (req: Request, res: Response) => {
+  const { id: workoutPlanId } = req.params;
+  const userId = req.userId;
+  const workoutPlanIdNumber = Number(workoutPlanId);
+
+  const { days, description, exercises, name, primaryMuscles } = ApiWorkoutPlanSchema.partial({ name: true, description: true, days: true }).parse(req.body);
+
+  const [workoutPlan, onboarding] = await Promise.all([
+    prismaClient.workoutPlan.findFirst({
+      where: { id: workoutPlanIdNumber, userId },
+      include: { exercises: true },
+    }),
+    prismaClient.onboarding.findUnique({ where: { userId } }),
+  ]);
+
+  if (!workoutPlan) throw new NotFoundException("Workout plan data is missing", ErrorCode.WORKOUT_PLAN_MISSING);
+  if (!onboarding) throw new NotFoundException("Onboarding data is missing", ErrorCode.USER_ONBOARDING_MISSING);
+
+  const { activityLevel, age, gender, height, restTime, weight } = onboarding;
+
+  const updatedDuration = calculateWorkoutPlanDuration(exercises, restTime);
+  const updatedCalories = calculateWorkoutPlanCalories(activityLevel as FullOnboarding["activityLevel"], age, gender as FullOnboarding["gender"], height, weight, updatedDuration);
+
+  const updatedWorkoutPlan = await prismaClient
+    .$transaction(async (tx) => {
+      await tx.workoutPlanExercise.deleteMany({ where: { workoutPlanId: workoutPlanIdNumber } });
+
+      await tx.workoutPlanExercise.createMany({
+        data: exercises.map((exercise) => ({
+          workoutPlanId: workoutPlan.id,
+          ...exercise,
+        })),
+      });
+
+      const updatedWorkoutPlanResult = await tx.workoutPlan.update({
+        where: { id: workoutPlanIdNumber },
+        data: { calories: updatedCalories, days, description, duration: updatedDuration, focusArea: mapMusclesToFocusArea(primaryMuscles), name },
+        include: { exercises: true },
+      });
+
+      return updatedWorkoutPlanResult;
+    })
+    .catch((error) => {
+      throw new InternalException("Something went wrong while updating workout plan", error, ErrorCode.INTERNAL_EXCEPTION);
+    });
+
+  return res.status(200).json(updatedWorkoutPlan);
+};
+
 export const getWorkoutPlan = async (req: Request, res: Response) => {
   const { id: workoutPlanId } = req.params;
 
