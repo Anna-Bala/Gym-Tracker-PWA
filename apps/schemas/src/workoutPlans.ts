@@ -39,6 +39,7 @@ export const WorkoutPlan = z.object({
   duration: z.number(),
   days: z.array(z.enum(["1", "2", "3", "4", "5", "6", "7"])),
   focusArea: z.array(z.enum(["arms", "back", "chest", "fullBody", "legs", "shoulders", "stomach"])),
+  ai: z.boolean(),
   name: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
