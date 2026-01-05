@@ -149,8 +149,8 @@ export const getUserStatistics = async (req: Request, res: Response) => {
   });
 
   const totalWorkouts = workoutHistoryStatistics._count.id;
-  const totalCalories = workoutHistoryStatistics._sum.calories;
-  const totalDuration = workoutHistoryStatistics._sum.duration;
+  const totalCalories = workoutHistoryStatistics._sum.calories || 0;
+  const totalDuration = workoutHistoryStatistics._sum.duration || 0;
 
   res.json({ totalCalories, totalDuration, totalWorkouts, height: onboarding?.height || 0, weight: onboarding?.weight || 0 });
 };
