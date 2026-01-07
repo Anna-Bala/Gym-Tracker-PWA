@@ -11,6 +11,7 @@ import ExercisesList from "@/components/exercises/ExercisesList";
 import Fire from "@icons/fire.svg?react";
 import PersonRunning from "@icons/person-running.svg?react";
 import Timer from "@icons/timer.svg?react";
+import WorkoutPlanContextMenu from "./WorkoutPlanContextMenu";
 
 const daysMapped = Object.fromEntries(daysOptions.map((day) => [day.value, day.label]));
 
@@ -59,7 +60,11 @@ const WorkoutPlanDetails = () => {
   return (
     <section className="flex flex-col pb-24">
       <Loader variant="full-screen" isLoading={isLoading} color="white" />
-      {workoutPlanDetails?.name ? <MobileHeaderNavigation centerText headerText={workoutPlanDetails.name} /> : null}
+      {workoutPlanDetails?.name ? (
+        <MobileHeaderNavigation centerText headerText={workoutPlanDetails.name}>
+          <WorkoutPlanContextMenu workoutPlanDetails={workoutPlanDetails} />
+        </MobileHeaderNavigation>
+      ) : null}
       {workoutPlanDetails?.description && (
         <Typography className="w-full text-center mt-2" variant="sm-20">
           {workoutPlanDetails?.description}

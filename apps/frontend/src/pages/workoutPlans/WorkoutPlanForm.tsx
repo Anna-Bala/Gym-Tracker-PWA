@@ -20,13 +20,13 @@ import WorkoutPlanExercisesDrawer from "./WorkoutPlanExercisesDrawer";
 
 const WorkoutPlanForm = () => {
   const [isExercisesDrawerOpen, setIsExercisesDrawerOpen] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
   const toggleIsExercisesDrawerOpen = () => setIsExercisesDrawerOpen((prevState) => !prevState);
 
-  const { exercisesFields, form, removeExercise } = useWorkoutPlanForm();
+  const { exercisesFields, form, isEdit, removeExercise } = useWorkoutPlanForm();
 
   const {
     formState: { errors, isSubmitting },
@@ -40,8 +40,8 @@ const WorkoutPlanForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
-  const handleFormSubmit = form.handleSubmit((data) => {
-    setIsError(false);
+  const handleWorkoutPlanCreation = form.handleSubmit((data) => {
+    setErrorMessage(null);
     authFetch("/workout-plans", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -50,28 +50,46 @@ const WorkoutPlanForm = () => {
     })
       .then((response) => {
         if (!response.ok) {
-          setIsError(true);
+          setErrorMessage("Workout plan creation failed. Please try again or check your inputs.");
           return;
         }
 
         navigate("/home");
         toast.success("Your workout plan have been created successfully.");
       })
-      .catch(() => setIsError(true));
+      .catch(() => setErrorMessage(null));
+  });
+
+  const handleWorkoutPlanUpdate = form.handleSubmit((data) => {
+    setErrorMessage(null);
+    authFetch(`/workout-plans/${location.state.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          setErrorMessage("Updating your workout plan failed. Please try again or check your inputs.");
+          return;
+        }
+
+        navigate("/home");
+        toast.success("Your workout plan have been updated successfully.");
+      })
+      .catch(() => setErrorMessage(null));
   });
 
   return (
     <section className="flex flex-col pb-24">
       <Loader variant="full-screen" isLoading={isSubmitting} color="white" />
-      <MobileHeaderNavigation centerText headerText="Create Workout Plan" />
+      <MobileHeaderNavigation centerText headerText={`${isEdit ? "Edit" : "Create"} Workout Plan`} />
       <Typography className="mt-4 font-light" variant="md-24">
-        Create a personalized workout plan by choosing exercises, sets, and schedule.
+        {isEdit ? "Edit your workout plan by changing it's name, description, schedule or replacing exercises." : "Create a personalized workout plan by choosing exercises, sets, and schedule."}
       </Typography>
-      {isError && (
-        <Alert className="mt-4" description="Workout plan creation failed. Please try again or check your inputs." icon={<CircleAlert />} title="Unable to Create Workout Plan" variant="destructive" />
-      )}
+      {errorMessage && <Alert className="mt-4" description={errorMessage} icon={<CircleAlert />} title="Unable to save Workout Plan" variant="destructive" />}
       <Form {...form}>
-        <form className="w-full flex flex-col gap-4 mt-6" onSubmit={handleFormSubmit} noValidate>
+        <form className="w-full flex flex-col gap-4 mt-6" onSubmit={isEdit ? handleWorkoutPlanUpdate : handleWorkoutPlanCreation} noValidate>
           <FormField
             control={form.control}
             name="name"
@@ -167,7 +185,7 @@ const WorkoutPlanForm = () => {
                     Add more exercises
                   </Button>
                   <Button className="!flex-1" type="submit">
-                    Create workout plan
+                    {isEdit ? "Save" : "Create"} workout plan
                   </Button>
                 </div>
               </div>

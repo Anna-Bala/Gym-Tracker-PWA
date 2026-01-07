@@ -74,6 +74,7 @@ function App() {
               <Route path="/onboarding/loading" element={<OnboardingStepLoading />} />
               <Route path="/home/create-workout-plan" element={<WorkoutPlanForm />} />
               <Route path="/home/workout-plan/:id" element={<WorkoutPlanDetails />} />
+              <Route path="/home/workout-plan/:id/edit" element={<WorkoutPlanForm />} />
             </Route>
 
             <Route path="*" element={<p>Page not found!</p>} />
