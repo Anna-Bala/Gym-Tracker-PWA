@@ -5,16 +5,17 @@ import type { CategoricalChartProps } from "recharts/types/chart/generateCategor
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
 
 type BarChartProps = {
+  className?: string;
   chartConfig: ChartConfig;
   data: CategoricalChartProps["data"];
   xAxisProps: XAxisProps;
 } & Omit<ComponentProps<typeof BarChartBase>, "data">;
 
-export const BarChart: React.FC<BarChartProps> = ({ chartConfig, data, xAxisProps, ...barChartProps }) => {
+export const BarChart: React.FC<BarChartProps> = ({ className, chartConfig, data, xAxisProps, ...barChartProps }) => {
   const chartBars = Object.keys(chartConfig).map((chartDataKey) => ({ dataKey: chartDataKey, fill: chartConfig[chartDataKey].color }));
 
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer className={className} config={chartConfig}>
       <BarChartBase {...barChartProps} data={data}>
         <CartesianGrid vertical={false} />
         <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />

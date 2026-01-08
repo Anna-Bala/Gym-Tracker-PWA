@@ -110,6 +110,7 @@ const ReportWorkouts = () => {
       <hr className="my-4 w-full border-border dark:border-accent" />
       {workoutPlanHistory.length > 0 ? (
         <BarChart
+          className="lg:max-h-[300px]"
           chartConfig={chartConfig}
           data={chartData}
           xAxisProps={{

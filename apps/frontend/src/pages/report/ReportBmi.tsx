@@ -47,7 +47,7 @@ const ReportBmi = ({ height, weight }: ReportBmiProps) => {
   const needlePosition = calculateBmiNeedlePosition(bmi || 0);
 
   return (
-    <section className="flex flex-col py-2 px-2 border border-border rounded-md">
+    <section className="flex flex-col py-2 px-2 border border-border rounded-md lg:w-1/2 lg:mx-auto">
       <div className="flex justify-between p-3">
         <Typography className="font-semibold" variant="h4">
           BMI (kg/m<sup>2</sup>): {bmi || "none"}
