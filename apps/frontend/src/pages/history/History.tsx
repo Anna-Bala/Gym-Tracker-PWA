@@ -62,58 +62,60 @@ const History = () => {
   const calendarWorkoutPlanDates = workoutPlanHistory?.map((workoutPlan) => new Date(workoutPlan.createdAt));
 
   return (
-    <section className="flex flex-col pb-24">
+    <section className="flex flex-col pb-24 lg:min-h-[90vh]">
       <MobileHeaderNavigation centerText hideGoBackButton headerText="History" />
 
-      <Calendar
-        className="mt-6 w-full rounded-md border"
-        mode="single"
-        modifiers={{ hasEvent: calendarWorkoutPlanDates }}
-        onMonthChange={fetchWorkoutPlanHistory}
-        onSelect={setCalendarDate}
-        required
-        selected={calendarDate}
-        showOutsideDays={false}
-      />
-      <div className="w-full border rounded-md mt-4 p-3 bg-card">
-        <div className="flex w-full items-center justify-between">
-          <Typography className="font-semibold" variant="md-20">
-            {calendarDate?.toLocaleDateString("en-US", { month: "short", day: "2-digit", weekday: "short" })}
-          </Typography>
-          <div className="flex items-center gap-1">
-            {dayStatistics.map(({ Icon, statistic, suffix }) => (
-              <Fragment key={suffix}>
-                <Icon className="w-6 h-6 text-chart-2 stroke-2" />
-                <Typography variant="sm-20">
-                  {statistic} {suffix}
-                </Typography>
-              </Fragment>
-            ))}
+      <div className="flex flex-col lg:flex-row lg:mt-6 lg:gap-4">
+        <Calendar
+          className="mt-6 w-full rounded-md border lg:mt-0 lg:h-fit"
+          mode="single"
+          modifiers={{ hasEvent: calendarWorkoutPlanDates }}
+          onMonthChange={fetchWorkoutPlanHistory}
+          onSelect={setCalendarDate}
+          required
+          selected={calendarDate}
+          showOutsideDays={false}
+        />
+        <div className="w-full border rounded-md mt-4 p-3 bg-card lg:mt-0 lg:h-fit">
+          <div className="flex w-full items-center justify-between">
+            <Typography className="font-semibold" variant="md-20">
+              {calendarDate?.toLocaleDateString("en-US", { month: "short", day: "2-digit", weekday: "short" })}
+            </Typography>
+            <div className="flex items-center gap-1">
+              {dayStatistics.map(({ Icon, statistic, suffix }) => (
+                <Fragment key={suffix}>
+                  <Icon className="w-6 h-6 text-chart-2 stroke-2" />
+                  <Typography variant="sm-20">
+                    {statistic} {suffix}
+                  </Typography>
+                </Fragment>
+              ))}
+            </div>
           </div>
+          <hr className="my-4 w-full border-border dark:border-accent" />
+          {selectedDayWorkoutHistoryEntry.length === 0 ? (
+            <>
+              <Typography className="font-semibold text-center" variant="lg">
+                Empty
+              </Typography>
+              <Typography className="text-center mt-2 text-muted-foreground" variant="md-20">
+                You did not exercise on this date
+              </Typography>
+              <Zzz className="!w-12 !h-12  mt-4 text-primary mx-auto" />
+            </>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {selectedDayWorkoutHistoryEntry.map((workoutHistoryEntry) => (
+                <WorkoutPlanItem
+                  className="border-border dark:border-accent"
+                  workoutPlan={{ ...workoutHistoryEntry.workoutPlan, calories: workoutHistoryEntry.calories, duration: workoutHistoryEntry.duration }}
+                  variant="default"
+                  key={workoutHistoryEntry.id}
+                />
+              ))}
+            </div>
+          )}
         </div>
-        <hr className="my-4 w-full border-border dark:border-accent" />
-        {selectedDayWorkoutHistoryEntry.length === 0 ? (
-          <>
-            <Typography className="font-semibold text-center" variant="lg">
-              Empty
-            </Typography>
-            <Typography className="text-center mt-2 text-muted-foreground" variant="md-20">
-              You did not exercise on this date
-            </Typography>
-            <Zzz className="!w-12 !h-12  mt-4 text-primary mx-auto" />
-          </>
-        ) : (
-          <div className="flex flex-col gap-2">
-            {selectedDayWorkoutHistoryEntry.map((workoutHistoryEntry) => (
-              <WorkoutPlanItem
-                className="border-border dark:border-accent"
-                workoutPlan={{ ...workoutHistoryEntry.workoutPlan, calories: workoutHistoryEntry.calories, duration: workoutHistoryEntry.duration }}
-                variant="default"
-                key={workoutHistoryEntry.id}
-              />
-            ))}
-          </div>
-        )}
       </div>
     </section>
   );
