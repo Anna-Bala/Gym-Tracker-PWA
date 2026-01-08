@@ -122,7 +122,7 @@ const Registration = () => {
               )}
             />
           </div>
-          <div className="flex w-full fixed bottom-0 left-0 px-6 py-4 bg-background border-t border-muted shadow-wide-xl">
+          <div className="flex w-full fixed bottom-0 left-0 px-6 py-4 bg-background border-t border-muted shadow-wide-xl lg:static lg:shadow-none lg:mt-4 lg:border-none">
             <Button className="w-full" type="submit">
               Sign up
             </Button>

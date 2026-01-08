@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-import { BottomNavigation } from "@/components/BottomNavigation";
+import { Navigation } from "@/components/Navigation";
 import { useAuth } from "@/contexts/auth/useAuth";
 
 const PrivateRoute = () => {
@@ -10,9 +10,9 @@ const PrivateRoute = () => {
   const isOnboarding = pathname.includes("onboarding");
 
   return user || isLoading ? (
-    <BottomNavigation isHidden={isOnboarding}>
+    <Navigation isHidden={isOnboarding}>
       <Outlet />
-    </BottomNavigation>
+    </Navigation>
   ) : (
     <Navigate to="/login" replace />
   );
