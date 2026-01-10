@@ -1,0 +1,6 @@
+[build]
+builder = "NIXPACKS"
+buildCommand = "pnpm install && pnpm --filter frontend... build"
+
+[deploy]
+startCommand = "cd apps/frontend && pnpm preview --host 0.0.0.0 --port $PORT"
