@@ -1,0 +1,6 @@
+[build]
+builder = "NIXPACKS"
+buildCommand = "pnpm install && pnpm --filter backend... build && pnpm --filter backend prisma:generate"
+
+[deploy]
+startCommand = "cd apps/backend && pnpm prisma:migrate && pnpm start"
