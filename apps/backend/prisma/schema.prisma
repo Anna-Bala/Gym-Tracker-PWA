@@ -38,6 +38,8 @@ model RefreshToken {
   createdAt DateTime @default(now())
   revoked Boolean @default(false)
   expiresAt DateTime
+
+  @@map("refreshTokens")
 }
 
 model Onboarding {
