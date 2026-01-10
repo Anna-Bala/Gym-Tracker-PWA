@@ -33,6 +33,7 @@ export const get = async (req: Request, res: Response) => {
         workoutPlan: {
           select: {
             id: true,
+            ai: true,
             focusArea: true,
             name: true,
           },
