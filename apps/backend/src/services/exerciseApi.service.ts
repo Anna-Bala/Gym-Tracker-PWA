@@ -1,13 +1,16 @@
 import { Exercise, FilterExercises } from "@gym-tracker-pwa/schemas";
 import { WORKOUT_API_BASE_URL, WORKOUT_API_KEY } from "../secrets";
+import { redisClient } from "..";
 
 export class ExerciseApiService {
+  private workoutApiDataCasheLifetime = 7 * 24 * 3600;
+
   async appendImagesToExerciseResults(exercises: Exercise[]) {
     const searchResultWithImages = await Promise.all(
       exercises.map(async (result) => {
         const imageResponse = await fetch(`${WORKOUT_API_BASE_URL}/exercises/${result.id}/image`, {
           method: "GET",
-          headers: { Accept: "image/png", "x-api-key": WORKOUT_API_KEY },
+          headers: { Accept: "image/png", "x-api-key": WORKOUT_API_KEY }
         });
 
         const imageBuffer = await imageResponse.arrayBuffer();
@@ -15,7 +18,7 @@ export class ExerciseApiService {
 
         return {
           ...result,
-          image: `data:${imageResponse.headers.get("content-type")};base64,${imageAsBase64}`,
+          image: `data:${imageResponse.headers.get("content-type")};base64,${imageAsBase64}`
         };
       })
     );
@@ -24,15 +27,30 @@ export class ExerciseApiService {
   }
 
   async getAllExercises(skipImages?: boolean) {
+    const exercisesCacheKey = `exercises:all:${skipImages ? "no-img" : "img"}`;
+
+    const cachedData = await redisClient.get(exercisesCacheKey);
+    if (cachedData) {
+      return JSON.parse(cachedData) as Exercise[];
+    }
+
     const allExercisesResponse = await fetch(`${WORKOUT_API_BASE_URL}/exercises`, {
       method: "GET",
-      headers: { Accept: "application/json", "x-api-key": WORKOUT_API_KEY },
+      headers: { Accept: "application/json", "x-api-key": WORKOUT_API_KEY }
     });
 
     const allExercisesResponseResult = ((await allExercisesResponse.json()) || []) as Exercise[];
-    const allExercisesResultWithImages = await this.appendImagesToExerciseResults(allExercisesResponseResult);
 
-    return skipImages ? allExercisesResponseResult : allExercisesResultWithImages;
+    let result = [];
+    if (skipImages) {
+      result = allExercisesResponseResult;
+    } else {
+      result = await this.appendImagesToExerciseResults(allExercisesResponseResult);
+    }
+
+    await redisClient.set(exercisesCacheKey, JSON.stringify(result), { expiration: { type: "EX", value: this.workoutApiDataCasheLifetime } });
+
+    return result;
   }
 
   async getExercisesByIds(ids: string[]) {
@@ -44,7 +62,7 @@ export class ExerciseApiService {
       uniqueIds.map((id) =>
         fetch(`${WORKOUT_API_BASE_URL}/exercises/${id}`, {
           method: "GET",
-          headers: { Accept: "application/json", "x-api-key": WORKOUT_API_KEY },
+          headers: { Accept: "application/json", "x-api-key": WORKOUT_API_KEY }
         })
       )
     );
@@ -66,7 +84,7 @@ export class ExerciseApiService {
   async searchExercises(search: string) {
     const searchResponse = await fetch(`${WORKOUT_API_BASE_URL}/exercises/search?q=${search}`, {
       method: "GET",
-      headers: { Accept: "application/json", "x-api-key": WORKOUT_API_KEY },
+      headers: { Accept: "application/json", "x-api-key": WORKOUT_API_KEY }
     });
 
     const searchResponseResult = ((await searchResponse.json()) || []) as Exercise[];
@@ -82,8 +100,8 @@ export class ExerciseApiService {
       body: JSON.stringify({
         muscles,
         categories,
-        types,
-      }),
+        types
+      })
     });
 
     const filterResponseResult = ((await filterResponse.json()) || []) as Exercise[];
