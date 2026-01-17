@@ -14,4 +14,9 @@ export default defineConfig({
       "@icons": path.resolve(__dirname, "./src/assets/icons"),
     },
   },
+  preview: {
+    host: "0.0.0.0",
+    strictPort: false,
+    allowedHosts: ["gym-tracker-pwa.up.railway.app"],
+  },
 });

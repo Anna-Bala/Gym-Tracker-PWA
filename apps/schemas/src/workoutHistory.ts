@@ -6,6 +6,7 @@ export const WorkoutHistoryCreationSchema = z.object({
 
 export const WorkoutPlanHistoryDetailsSchema = z.object({
   id: z.number(),
+  ai: z.boolean(),
   focusArea: z.array(z.enum(["arms", "back", "chest", "fullBody", "legs", "shoulders", "stomach"])),
   name: z.string(),
 });

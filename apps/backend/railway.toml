@@ -1,6 +1,6 @@
 [build]
-builder = "NIXPACKS"
-buildCommand = "pnpm install && pnpm --filter backend... build && pnpm --filter backend prisma:generate"
+builder = "RAILPACK"
+buildCommand = "pnpm install && pnpm --filter backend prisma:generate && pnpm --filter backend... build"
 
 [deploy]
-startCommand = "cd apps/backend && pnpm prisma:migrate && pnpm start"
+startCommand = "cd apps/backend && pnpm run prisma:migrate && pnpm run start"
