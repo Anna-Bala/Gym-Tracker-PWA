@@ -25,7 +25,7 @@ export const ExerciseSchema = z.object({
 });
 
 export const ExerciseDetailsSchema = ExerciseSchema.extend({
-  exerciseApiId: z.string(),
+  exerciseApiCode: z.string(),
   reps: z.number(),
   sets: z.number(),
   workoutPlanId: z.number(),

@@ -83,7 +83,7 @@ model WorkoutPlanExercise {
   id Int @id @default(autoincrement())
   workoutPlan WorkoutPlan @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
   workoutPlanId Int
-  exerciseApiId String
+  exerciseApiCode String
   sets Int
   reps Int
   createdAt DateTime @default(now())

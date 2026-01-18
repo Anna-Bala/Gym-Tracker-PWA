@@ -53,8 +53,8 @@ export class OpenAIApiService {
             items: {
               type: "object",
               properties: {
-                exerciseApiId: {
-                  description: "Use id strictly from exercises list, do not invent new ids.",
+                exerciseApiCode: {
+                  description: "Use code strictly from exercises list appended to the prompt, do not invent new codes.",
                   type: "string",
                 },
                 sets: {
@@ -65,7 +65,7 @@ export class OpenAIApiService {
                 },
               },
               additionalProperties: false,
-              required: ["exerciseApiId", "sets", "reps"],
+              required: ["exerciseApiCode", "sets", "reps"],
             },
           },
         },
