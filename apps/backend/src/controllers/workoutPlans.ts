@@ -175,11 +175,11 @@ export const getWorkoutPlan = async (req: Request, res: Response) => {
     },
   });
 
-  const exerciseApiIds = workoutPlan?.exercises.map(({ exerciseApiId }) => exerciseApiId) || [];
-  const exercisesMap = await exerciseApiService.getExercisesByIds(exerciseApiIds);
+  const exerciseApiCodes = workoutPlan?.exercises.map(({ exerciseApiCode }) => exerciseApiCode) || [];
+  const exercisesMap = await exerciseApiService.getExercisesByCodes(exerciseApiCodes);
 
   const exercisesWithDetails = workoutPlan?.exercises.map((exercise) => ({
-    ...exercisesMap.get(exercise.exerciseApiId),
+    ...exercisesMap.get(exercise.exerciseApiCode),
     ...exercise,
   }));
 

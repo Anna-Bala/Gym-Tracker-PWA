@@ -2,7 +2,7 @@ import { z } from "zod";
 import { ExerciseDetailsSchema } from "./exercises";
 
 export const WorkoutPlanFormExerciseSchema = z.object({
-  exerciseApiId: z.string(),
+  exerciseApiCode: z.string(),
   name: z.string(),
   sets: z.number(),
   reps: z.number(),

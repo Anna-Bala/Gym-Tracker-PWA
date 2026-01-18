@@ -35,7 +35,7 @@ const ExercisesDetailsFooter = ({ closeExerciseDetailsPanel, exerciseDetails }: 
 
   const addExercise = () => {
     appendExercise({
-      exerciseApiId: exerciseDetails.id,
+      exerciseApiCode: exerciseDetails.code,
       sets: Number(sets),
       reps: Number(reps),
       name: exerciseDetails.name,

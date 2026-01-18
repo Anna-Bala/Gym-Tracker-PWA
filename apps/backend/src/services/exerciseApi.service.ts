@@ -63,14 +63,14 @@ export class ExerciseApiService {
     return result;
   }
 
-  async getExercisesByIds(ids: string[]) {
-    if (!ids.length) return new Map();
+  async getExercisesByCodes(codes: string[]) {
+    if (!codes.length) return new Map();
 
-    const uniqueIds = [...new Set(ids)];
+    const uniqueCodes = [...new Set(codes)];
 
     const responseResults = await Promise.allSettled(
-      uniqueIds.map((id) =>
-        fetch(`${WORKOUT_API_BASE_URL}/exercises/${id}`, {
+      uniqueCodes.map((code) =>
+        fetch(`${WORKOUT_API_BASE_URL}/exercises/code/${code}`, {
           method: "GET",
           headers: { Accept: "application/json", "x-api-key": WORKOUT_API_KEY },
         })
@@ -88,7 +88,7 @@ export class ExerciseApiService {
 
     const exercisesWithImages = await this.appendImagesToExerciseResults(exercises);
 
-    return new Map(exercisesWithImages.map((exercise) => [exercise.id, exercise]));
+    return new Map(exercisesWithImages.map((exercise) => [exercise.code, exercise]));
   }
 
   async searchExercises(search: string) {
