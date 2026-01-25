@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
     "dev": "concurrently \"pnpm --filter frontend dev\" \"pnpm --filter backend dev\"",
     "build": "pnpm -r build",
     "build:backend": "pnpm --filter backend build",
@@ -19,6 +19,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.14.0",
   "devDependencies": {
-    "concurrently": "9.2.0"
+    "concurrently": "9.2.0",
+    "vitest": "4.0.18"
   }
 }
