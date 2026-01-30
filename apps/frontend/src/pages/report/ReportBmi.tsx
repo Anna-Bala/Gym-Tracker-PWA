@@ -43,7 +43,7 @@ interface ReportBmiProps {
 }
 
 const ReportBmi = ({ height, weight }: ReportBmiProps) => {
-  const bmi = calculateBMI(weight, height / 100);
+  const bmi = calculateBMI(weight, height);
   const needlePosition = calculateBmiNeedlePosition(bmi || 0);
 
   return (
