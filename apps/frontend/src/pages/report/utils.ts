@@ -5,9 +5,9 @@ export const calculateBMI = (weight: number, height: number) => {
     return null;
   }
 
-  const bmi = weight / (height * height);
+  const bmi = weight / ((height / 100) * (height / 100));
 
-  return parseFloat(bmi.toFixed(2));
+  return parseFloat(bmi.toFixed(1));
 };
 
 export const calculateBmiNeedlePosition = (bmi: number) => {
