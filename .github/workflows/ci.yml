@@ -28,6 +28,9 @@ jobs:
       - name: Prisma Generate
         run: pnpm --filter backend prisma:generate
 
+      - name: Run unit tests
+        run: pnpm run test
+
       - name: Build All
         run: pnpm -r build
 
