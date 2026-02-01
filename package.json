@@ -9,6 +9,8 @@
   ],
   "scripts": {
     "test": "TZ=UTC vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "dev": "concurrently \"pnpm --filter frontend dev\" \"pnpm --filter backend dev\"",
     "build": "pnpm -r build",
     "build:backend": "pnpm --filter backend build",
@@ -19,6 +21,8 @@
   "license": "ISC",
   "packageManager": "pnpm@10.14.0",
   "devDependencies": {
+    "@playwright/test": "1.58.1",
+    "@types/node": "24.1.0",
     "concurrently": "9.2.0",
     "vitest": "4.0.18"
   }
