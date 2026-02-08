@@ -100,7 +100,7 @@ const ReportWorkouts = () => {
   }, [periodOfTime, workoutPlanHistory]);
 
   return (
-    <section className="flex flex-col py-2 px-2 border border-border rounded-md">
+    <section className="flex flex-col py-2 px-2 border border-border rounded-md" data-testid="workout-chart">
       <div className="flex items-center justify-between p-3">
         <Typography className="font-semibold" variant="h4">
           Statistics
