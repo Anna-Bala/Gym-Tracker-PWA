@@ -40,6 +40,8 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      VITE_API_ENDPOINT_PREFIX: http://127.0.0.1:5173/api
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
