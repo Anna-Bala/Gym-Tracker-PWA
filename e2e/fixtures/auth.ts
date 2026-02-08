@@ -56,3 +56,15 @@ export const mockRegistrationErrorPasswordDoNotMatch = async (page: Page) => {
     });
   });
 };
+
+export const mockLoginIncorrectPassword = async (page: Page) => {
+  await page.route("**/api/auth/login", async (route) => {
+    await route.fulfill({
+      status: 400,
+      headers: {
+        "Set-Cookie": authCookies.join("\n"),
+      },
+      contentType: "application/json",
+    });
+  });
+};

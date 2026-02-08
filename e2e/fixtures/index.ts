@@ -8,6 +8,7 @@ import { mockWorkoutPlans } from "./workoutPlan";
 
 interface Fixtures {
   mockedAuth: () => void;
+  mockDate: () => void;
   mockedUser: typeof mockedUser;
   mockedWorkoutPlans: (typeof mockedWorkoutPlanUser)[];
   mockedWorkoutHistory: (typeof mockedWorkoutHistoryUser)[];
@@ -39,6 +40,29 @@ export const test = baseTest.extend<Fixtures>({
     async ({ page }, use) => {
       await mockWorkoutHistory(page);
       await use([mockedWorkoutHistoryAI, mockedWorkoutHistoryUser]);
+    },
+    { auto: true },
+  ],
+  mockDate: [
+    async ({ page }, use) => {
+      const fakeNow = new Date("2026-01-01T10:00:00Z").getTime();
+
+      await page.addInitScript((time) => {
+        const OriginalDate = window.Date;
+        // @ts-ignore
+        window.Date = class extends OriginalDate {
+          constructor(...args: any[]) {
+            if (args.length === 0) super(time);
+            // @ts-ignore
+            else super(...args);
+          }
+          static now() {
+            return time;
+          }
+        };
+      }, fakeNow);
+
+      await use(undefined);
     },
     { auto: true },
   ],
