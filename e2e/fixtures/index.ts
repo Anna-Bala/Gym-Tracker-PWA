@@ -1,8 +1,9 @@
 import { test as baseTest } from "@playwright/test";
 
-import { mockedUser, mockedWorkoutHistoryAI, mockedWorkoutHistoryUser, mockedWorkoutPlanAI, mockedWorkoutPlanUser } from "./mocks";
+import { mockedUser, mockedUserStatistics, mockedWorkoutHistoryAI, mockedWorkoutHistoryUser, mockedWorkoutPlanAI, mockedWorkoutPlanUser } from "./mocks";
 import { mockRefreshSuccess } from "./auth";
 import { mockUser } from "./user";
+import { mockUserStatistics } from "./userStatistics";
 import { mockWorkoutHistory } from "./workoutHistory";
 import { mockWorkoutPlans } from "./workoutPlan";
 
@@ -12,6 +13,7 @@ interface Fixtures {
   mockedUser: typeof mockedUser;
   mockedWorkoutPlans: (typeof mockedWorkoutPlanUser)[];
   mockedWorkoutHistory: (typeof mockedWorkoutHistoryUser)[];
+  mockedUserStatistics: typeof mockedUserStatistics;
 }
 
 export const test = baseTest.extend<Fixtures>({
@@ -40,6 +42,13 @@ export const test = baseTest.extend<Fixtures>({
     async ({ page }, use) => {
       await mockWorkoutHistory(page);
       await use([mockedWorkoutHistoryAI, mockedWorkoutHistoryUser]);
+    },
+    { auto: true },
+  ],
+  mockedUserStatistics: [
+    async ({ page }, use) => {
+      await mockUserStatistics(page);
+      await use(mockedUserStatistics);
     },
     { auto: true },
   ],
