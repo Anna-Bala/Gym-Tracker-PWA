@@ -22,7 +22,7 @@ test.describe("User login flow", () => {
     await expect(page.getByText(/today's workout plan/i)).toBeVisible();
   });
 
-  test("should show an error when password in incorrect", async ({ page, mockedUser }) => {
+  test("should show an error when password is incorrect", async ({ page, mockedUser }) => {
     await mockLoginIncorrectPassword(page);
 
     await fillOutForm(page, mockedUser, "incorrectPassword");
