@@ -1,6 +1,7 @@
 import { test as baseTest } from "@playwright/test";
 
-import { mockedUser, mockedUserStatistics, mockedWorkoutHistoryAI, mockedWorkoutHistoryUser, mockedWorkoutPlanAI, mockedWorkoutPlanUser } from "./mocks";
+import { mockedOnbaording, mockedUser, mockedUserStatistics, mockedWorkoutHistoryAI, mockedWorkoutHistoryUser, mockedWorkoutPlanAI, mockedWorkoutPlanUser } from "./mocks";
+import { mockOnboardingCreationSuccess } from "./onboarding";
 import { mockRefreshSuccess } from "./auth";
 import { mockUser } from "./user";
 import { mockUserStatistics } from "./userStatistics";
@@ -10,10 +11,11 @@ import { mockWorkoutPlans } from "./workoutPlan";
 interface Fixtures {
   mockedAuth: () => void;
   mockDate: () => void;
+  mockedOnboarding: typeof mockedOnbaording;
   mockedUser: typeof mockedUser;
-  mockedWorkoutPlans: (typeof mockedWorkoutPlanUser)[];
-  mockedWorkoutHistory: (typeof mockedWorkoutHistoryUser)[];
   mockedUserStatistics: typeof mockedUserStatistics;
+  mockedWorkoutHistory: (typeof mockedWorkoutHistoryUser)[];
+  mockedWorkoutPlans: (typeof mockedWorkoutPlanUser)[];
 }
 
 export const test = baseTest.extend<Fixtures>({
@@ -49,6 +51,13 @@ export const test = baseTest.extend<Fixtures>({
     async ({ page }, use) => {
       await mockUserStatistics(page);
       await use(mockedUserStatistics);
+    },
+    { auto: true },
+  ],
+  mockedOnboarding: [
+    async ({ page }, use) => {
+      await mockOnboardingCreationSuccess(page);
+      await use(mockedOnbaording);
     },
     { auto: true },
   ],
