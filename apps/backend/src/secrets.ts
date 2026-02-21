@@ -11,3 +11,5 @@ export const FRONT_END_ORIGIN = process.env.FRONT_END_ORIGIN!;
 export const WORKOUT_API_BASE_URL = process.env.WORKOUT_API_BASE_URL!;
 export const WORKOUT_API_KEY = process.env.WORKOUT_API_KEY!;
 export const OPENAI_API_KEY = process.env.OPENAI_API_KEY!;
+export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
+export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!;
