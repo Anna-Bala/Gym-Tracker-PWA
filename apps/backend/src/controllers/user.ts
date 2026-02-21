@@ -85,7 +85,7 @@ export const changePassword = async (req: Request, res: Response) => {
 
       if (!user) throw new NotFoundException("User not found", ErrorCode.USER_NOT_FOUND);
 
-      const isCurrentPasswordCorrect = await compareSync(currentPassword, user.password);
+      const isCurrentPasswordCorrect = await compareSync(currentPassword, user.password!);
       if (!isCurrentPasswordCorrect) {
         throw new BadRequestException("Incorrect password", ErrorCode.INCORRECT_PASSWORD);
       }
