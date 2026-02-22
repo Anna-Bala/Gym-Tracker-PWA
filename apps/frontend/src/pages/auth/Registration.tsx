@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { handleRegistrationAction } from "./actions";
 import { Loader } from "@/components/Loader";
 import { Typography } from "@/components/base/Typography";
+import GoogleAuth from "./GoogleAuth";
 
 type RegistrationFormData = z.infer<typeof SignupSchema>;
 
@@ -122,19 +123,30 @@ const Registration = () => {
               )}
             />
           </div>
-          <div className="flex w-full fixed bottom-0 left-0 px-6 py-4 bg-background border-t border-muted shadow-wide-xl lg:static lg:shadow-none lg:mt-4 lg:border-none">
+          <div className="flex flex-col gap-4 w-full fixed bottom-0 left-0 px-6 py-4 bg-background border-t border-muted shadow-wide-xl lg:static lg:shadow-none lg:mt-4 lg:border-none">
             <Button className="w-full" type="submit">
               Sign up
             </Button>
+
+            <div className="flex items-center w-full">
+              <hr className="bg-foreground w-full" />
+              <Typography className="font-light px-4" variant="sm-20">
+                or
+              </Typography>
+              <hr className="bg-foreground w-full" />
+            </div>
+
+            <GoogleAuth />
+
+            <Typography className="mt-6 font-light text-center" variant="sm-20">
+              Already have an account?
+              <Button className="pl-3" variant="link" asChild>
+                <Link to="/login">Log in</Link>
+              </Button>
+            </Typography>
           </div>
         </form>
       </Form>
-      <Typography className="mt-8 font-light text-center" variant="sm-20">
-        Already have an account?
-        <Button className="pl-3" variant="link" asChild>
-          <Link to="/login">Log in</Link>
-        </Button>
-      </Typography>
     </section>
   );
 };
