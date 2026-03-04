@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 
-import { mockedWorkoutPlanAI, mockedWorkoutPlanUser } from "./mocks";
+import { mockedWorkoutPlanAI, mockedWorkoutPlanDetails, mockedWorkoutPlanUser } from "./mocks";
 
 export const mockWorkoutPlans = async (page: Page) => {
   await page.route("**/api/workout-plans", async (route) => {
@@ -38,6 +38,16 @@ export const mockEmptyWorkoutPlans = async (page: Page) => {
       status: 200,
       contentType: "application/json",
       body: JSON.stringify([]),
+    });
+  });
+};
+
+export const mockWorkoutPlanDetails = async (page: Page) => {
+  await page.route("**/api/workout-plans/1", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify(mockedWorkoutPlanDetails),
     });
   });
 };

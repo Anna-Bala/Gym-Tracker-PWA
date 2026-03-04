@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { type WorkoutPlanDetails as WorkouPlan } from "@gym-tracker-pwa/schemas";
 
+import { AddWorkoutToCalendar } from "@/components/AddWorkoutToCalendar";
 import { authFetch } from "@/lib/fetchClient";
 import { daysOptions } from "./constants";
 import { Loader } from "@/components/Loader";
@@ -70,6 +71,8 @@ const WorkoutPlanDetails = () => {
           {workoutPlanDetails?.description}
         </Typography>
       )}
+
+      {workoutPlanDetails ? <AddWorkoutToCalendar calendarEventName={workoutPlanDetails.name} calendarEventDescription={workoutPlanDetails.description} workoutDays={workoutPlanDetails.days} /> : null}
 
       <div className="flex flex-wrap gap-2 mt-6">
         <Typography variant="lg">Plan Schedule:</Typography>

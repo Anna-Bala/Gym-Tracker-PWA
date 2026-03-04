@@ -1,8 +1,15 @@
-import { describe, expect, test } from "vitest";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 
 import { calculateBMI, calculateBmiNeedlePosition, formatChartData, getDateRange } from "@/pages/report/utils";
+import { generateWorkoutPlanScheduleForCalendar } from "@/components/AddWorkoutToCalendar/utils";
 import { getCurrentDayIso, formatDate } from "@/lib/utils";
 import { workoutHistory } from "./fixtures/workoutHistory";
+
+const DEFAULT_TEST_DATE = new Date("2026-01-24T00:00:00Z");
+
+beforeEach(() => {
+  vi.setSystemTime(DEFAULT_TEST_DATE);
+});
 
 test("getCurrentDayIso function returns 6 as current day", () => {
   expect(getCurrentDayIso()).toBe(6);
@@ -111,5 +118,67 @@ describe("formatChartData function", () => {
 
   test("should return correctly formated data for multiple workout history entries", () => {
     expect(formatChartData([workoutHistory, workoutHistory])).toStrictEqual({ workouts: 2, calories: 720, minutes: 33 });
+  });
+});
+
+describe("generateWorkoutPlanScheduleForCalendar", () => {
+  test("creates a chronological event series for the upcoming workout days", () => {
+    expect(generateWorkoutPlanScheduleForCalendar(["7", "6", "1", "6"], "Push day", "10:00")).toStrictEqual([
+      { name: "Push day", startDate: "2026-01-24" },
+      { name: "Push day", startDate: "2026-01-25" },
+      { name: "Push day", startDate: "2026-01-26" },
+      { name: "Push day", startDate: "2026-01-31" },
+      { name: "Push day", startDate: "2026-02-01" },
+      { name: "Push day", startDate: "2026-02-02" },
+      { name: "Push day", startDate: "2026-02-07" },
+      { name: "Push day", startDate: "2026-02-08" },
+      { name: "Push day", startDate: "2026-02-09" },
+      { name: "Push day", startDate: "2026-02-14" },
+      { name: "Push day", startDate: "2026-02-15" },
+      { name: "Push day", startDate: "2026-02-16" },
+      { name: "Push day", startDate: "2026-02-21" },
+      { name: "Push day", startDate: "2026-02-22" },
+      { name: "Push day", startDate: "2026-02-23" },
+    ]);
+  });
+
+  test("skips the current day when the selected workout time has already passed", () => {
+    vi.setSystemTime(new Date("2026-01-24T10:30:00Z"));
+
+    expect(generateWorkoutPlanScheduleForCalendar(["6", "1"], "Leg day", "10:00")).toStrictEqual([
+      { name: "Leg day", startDate: "2026-01-26" },
+      { name: "Leg day", startDate: "2026-01-31" },
+      { name: "Leg day", startDate: "2026-02-02" },
+      { name: "Leg day", startDate: "2026-02-07" },
+      { name: "Leg day", startDate: "2026-02-09" },
+      { name: "Leg day", startDate: "2026-02-14" },
+      { name: "Leg day", startDate: "2026-02-16" },
+      { name: "Leg day", startDate: "2026-02-21" },
+      { name: "Leg day", startDate: "2026-02-23" },
+    ]);
+  });
+
+  test("keeps the current day when the workout time is still upcoming", () => {
+    vi.setSystemTime(new Date("2026-01-24T09:30:00Z"));
+
+    expect(generateWorkoutPlanScheduleForCalendar(["6"], "Upper body", "10:00")).toStrictEqual([
+      { name: "Upper body", startDate: "2026-01-24" },
+      { name: "Upper body", startDate: "2026-01-31" },
+      { name: "Upper body", startDate: "2026-02-07" },
+      { name: "Upper body", startDate: "2026-02-14" },
+      { name: "Upper body", startDate: "2026-02-21" },
+    ]);
+  });
+
+  test("includes workouts that land on the last day of the one-month window", () => {
+    vi.setSystemTime(new Date("2026-01-24T09:30:00Z"));
+
+    expect(generateWorkoutPlanScheduleForCalendar(["2"], "Conditioning", "10:00")).toStrictEqual([
+      { name: "Conditioning", startDate: "2026-01-27" },
+      { name: "Conditioning", startDate: "2026-02-03" },
+      { name: "Conditioning", startDate: "2026-02-10" },
+      { name: "Conditioning", startDate: "2026-02-17" },
+      { name: "Conditioning", startDate: "2026-02-24" },
+    ]);
   });
 });
