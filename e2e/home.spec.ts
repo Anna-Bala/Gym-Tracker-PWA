@@ -10,10 +10,10 @@ test.describe("Home page", () => {
 
     await expect(page.getByText(/All Your Workout Plans/i)).toBeVisible();
 
-    mockedWorkoutPlans.forEach(async (workoutPlan) => {
+    for (const workoutPlan of mockedWorkoutPlans) {
       await expect(page.getByText(workoutPlan.name).last()).toBeVisible();
       await expect(page.getByText(`${workoutPlan.calories} kcal`).last()).toBeVisible();
-    });
+    }
   });
 
   test("should contain today's workout plan", async ({ page, mockedWorkoutPlans }) => {

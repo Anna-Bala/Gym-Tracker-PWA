@@ -42,11 +42,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       VITE_API_ENDPOINT_PREFIX: http://127.0.0.1:5173/api
+      VITE_GOOGLE_CLIENT_ID: mock-google-client-id.apps.googleusercontent.com
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: 24.5.0
       - name: Install dependencies
         run: npm install -g pnpm && pnpm install
       - name: Build internal packages
