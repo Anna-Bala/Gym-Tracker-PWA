@@ -1,4 +1,4 @@
-import { WorkoutPlan } from "apps/schemas/dist";
+import { WorkoutPlan, WorkoutPlanDetails } from "apps/schemas/dist";
 
 export const mockedWorkoutPlanAI: WorkoutPlan = {
   id: 1,
@@ -24,4 +24,25 @@ export const mockedWorkoutPlanUser: WorkoutPlan = {
   ai: false,
   createdAt: "2026-02-01 15:30:00.000",
   updatedAt: "2026-02-01 15:30:00.000",
+};
+
+export const mockedWorkoutPlanDetails: WorkoutPlanDetails = {
+  ...mockedWorkoutPlanAI,
+  exercises: [
+    {
+      id: "exercise-1",
+      code: "air-squat",
+      exerciseApiCode: "exercise-1",
+      name: "Air Squat",
+      image: "data:image/gif;base64,R0lGODlhAQABAAAAACw=",
+      description: "Bodyweight squat",
+      primaryMuscles: [{ id: "quadriceps", code: "quadriceps", name: "Quadriceps" }],
+      secondaryMuscles: [],
+      types: [],
+      categories: [],
+      reps: 12,
+      sets: 3,
+      workoutPlanId: 1,
+    },
+  ],
 };
