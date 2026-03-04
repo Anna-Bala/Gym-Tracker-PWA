@@ -7,11 +7,10 @@ import { TimeFieldButton } from "./TimeFieldButton";
 import { Typography } from "@/components/base/Typography";
 import { WheelPicker, WheelPickerWrapper, type WheelPickerOption } from "@/components/ui/wheel-picker";
 
-const hoursOptions: WheelPickerOption[] = Array.from({ length: 12 }, (_, index) => {
-  const value = String(index + 1).padStart(2, "0");
-
-  return { label: value, value };
-});
+const hoursOptions: WheelPickerOption[] = ["12", ...Array.from({ length: 11 }, (_, index) => String(index + 1).padStart(2, "0"))].map((value) => ({
+  label: value,
+  value,
+}));
 
 const minutesOptions: WheelPickerOption[] = Array.from({ length: 60 }, (_, index) => {
   const value = String(index).padStart(2, "0");
