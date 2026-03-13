@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 import { WorkoutPlan } from "@gym-tracker-pwa/schemas";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Typography } from "@/components/base/Typography";
+import { EmptyState } from "@/components/base/EmptyState";
+import { SectionCard } from "@/components/base/SectionCard";
+import { SectionHeader } from "@/components/base/SectionHeader";
 import { WorkoutPlanItem } from "@/components/WorkoutPlanItem";
 import Paper from "@icons/paper.svg?react";
 import Plus from "@icons/plus.svg?react";
@@ -17,39 +18,45 @@ const AllUserWorkoutPlans = ({ userWorkoutPlans, handleAIWorkoutPlanCreation }: 
   const emptyUserWorkoutPlans = userWorkoutPlans.length === 0;
 
   return (
-    <>
-      <div className="w-full flex justify-between items-center mt-8">
-        <Typography className="w-full font-semibold" variant="h4">
-          All Your Workout Plans
-        </Typography>
-        <Link className={cn("bg-primary rounded-3xl p-2", { hidden: emptyUserWorkoutPlans })} to="/home/create-workout-plan">
-          <Plus className="text-white w-5 h-5" />
-        </Link>
-      </div>
+    <SectionCard className="mt-8" tone="muted">
+      <SectionHeader
+        title="All Your Workout Plans"
+        action={
+          !emptyUserWorkoutPlans ? (
+            <Button asChild size="sm">
+              <Link to="/home/create-workout-plan">
+                <Plus className="h-4 w-4" />
+                New plan
+              </Link>
+            </Button>
+          ) : null
+        }
+      />
       {emptyUserWorkoutPlans ? (
-        <>
-          <Paper className="!w-24 !h-24 mt-4 text-primary mx-auto" />
-          <Typography className="w-full text-center font-normal text-muted-foreground mt-2" variant="md-20">
-            You haven't created any workout plans yet
-          </Typography>
-          <Typography className="w-full text-center font-normal text-muted-foreground mt-1" variant="sm-20">
-            Create your own workout plans for routines you already love or generate one with AI.
-          </Typography>
-          <Button className="mt-3" variant="default" asChild>
-            <Link to="/home/create-workout-plan">Create your workout plan</Link>
-          </Button>
-          <Button className="mt-3" variant="secondary" onClick={handleAIWorkoutPlanCreation}>
-            Generate workout plan with AI
-          </Button>
-        </>
+        <EmptyState
+          className="mt-5"
+          icon={<Paper />}
+          title="No workout plans yet"
+          description="Create your own workout plans for routines you already love or generate one with AI."
+          action={
+            <>
+              <Button variant="default" asChild>
+                <Link to="/home/create-workout-plan">Create your workout plan</Link>
+              </Button>
+              <Button variant="secondary" onClick={handleAIWorkoutPlanCreation}>
+                Generate workout plan with AI
+              </Button>
+            </>
+          }
+        />
       ) : (
-        <div className="flex flex-col w-full gap-2 mt-3">
+        <div className="flex w-full flex-col gap-3 mt-5">
           {userWorkoutPlans.map((userWorkoutPlan) => (
             <WorkoutPlanItem workoutPlan={userWorkoutPlan} key={userWorkoutPlan.id} />
           ))}
         </div>
       )}
-    </>
+    </SectionCard>
   );
 };
 

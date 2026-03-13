@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui";
 import { Form } from "@/components/ui/form";
+import { ResponsivePageShell } from "@/components/base/ResponsivePageShell";
 import { Typography } from "@/components/base/Typography";
 
 interface OnboardingStepWrapperProps {
@@ -20,30 +21,31 @@ const OnboardingStepWrapper = ({ children, disableBackButton, description, form,
   const navigate = useNavigate();
   const navigateToPreviousScreen = () => navigate(-1);
 
+  const {
+    formState: { isValid },
+  } = form;
+
   return (
-    <section className="flex flex-col pb-24">
-      <Typography className="font-bold w-full text-center" variant="h2">
-        {title}
-      </Typography>
-      <Typography className="mt-2 font-light text-center" variant="md-24">
-        {description}
-      </Typography>
+    <ResponsivePageShell contentClassName="w-full xl:max-w-[760px] xl:mx-auto" title={title} hideMobileBackButton>
       <Form {...form}>
-        <form onSubmit={handleFormSubmit} noValidate>
-          <div className="w-full flex flex-col gap-4 mt-6">{children}</div>
-          <div className="flex w-full fixed bottom-0 left-0 px-6 py-4 bg-background border-t border-muted shadow-wide-xl gap-4 z-20">
-            {!disableBackButton && (
-              <Button className="flex-grow" variant="secondary" onClick={navigateToPreviousScreen}>
+        <form className="w-full xl:rounded-2xl xl:border xl:border-border/80 xl:bg-gradient-to-b xl:from-card xl:to-muted/20 xl:p-6 xl:shadow-wide-xs" onSubmit={handleFormSubmit} noValidate>
+          <Typography className="mb-6 text-center text-muted-foreground xl:text-left" variant="md-24">
+            {description}
+          </Typography>
+          <div className="w-full flex flex-col gap-4">{children}</div>
+          <div className="flex w-full fixed bottom-0 left-0 px-6 py-4 bg-background/95 border-t border-border shadow-wide-lg backdrop-blur gap-4 z-20 xl:static xl:px-0 xl:py-0 xl:mt-6 xl:border-none xl:shadow-none xl:backdrop-blur-none">
+            {!disableBackButton ? (
+              <Button className="flex-grow" variant="secondary" type="button" onClick={navigateToPreviousScreen}>
                 Back
               </Button>
-            )}
-            <Button className="flex-grow" type="submit">
+            ) : null}
+            <Button className="flex-grow" disabled={!isValid} type="submit">
               Continue
             </Button>
           </div>
         </form>
       </Form>
-    </section>
+    </ResponsivePageShell>
   );
 };
 

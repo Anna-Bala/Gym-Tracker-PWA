@@ -19,18 +19,21 @@ export const CheckboxCardItem: React.FC<CheckboxCardItem> = ({ className, checke
     onCheckedChange={onCheckedChange}
     checked={checked}
     value={value}
-    className={cn("flex flex-row gap-4 bg-card items-center w-full ring-[1px] ring-border rounded py-4 px-4 data-[state=checked]:ring-2 data-[state=checked]:ring-primary", className)}
+    className={cn(
+      "surface-card flex w-full flex-row items-center gap-4 p-4 transition-all data-[state=checked]:border-primary/35 data-[state=checked]:bg-primary/[0.04] hover:border-primary/50 hover:bg-primary/[0.05] hover:cursor-pointer",
+      className
+    )}
   >
     <>
-      {Icon && <Icon className="w-12 h-12" />}
+      {Icon && <Icon className="h-11 w-11 text-primary" />}
       <div className="flex flex-col gap-1">
         {label && (
-          <Typography className="font-bold w-full text-left" variant="md-24">
+          <Typography className="w-full text-left font-bold text-foreground" variant="md-24">
             {label}
           </Typography>
         )}
         {description && (
-          <Typography className="font-light text-left" variant="sm-20">
+          <Typography className="text-left font-normal text-muted-foreground" variant="sm-20">
             {description}
           </Typography>
         )}

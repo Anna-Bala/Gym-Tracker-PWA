@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 import { Badge } from "../ui";
-import { cn } from "@/lib/utils";
+import { cn, formatFocusArea } from "@/lib/utils";
 import { Typography } from "@/components/base/Typography";
 import Fire from "@icons/fire.svg?react";
 import Timer from "@icons/timer.svg?react";
@@ -18,16 +18,15 @@ export const WorkoutPlanItem = ({ children, className, variant = "default", work
   const workoutPlanRowInfo = [
     { Icon: Timer, text: `${Math.round(workoutPlan.duration / 60)} mins` },
     { Icon: Fire, text: `${workoutPlan.calories} kcal` },
-    { Icon: null, text: `${workoutPlan.focusArea.join(" / ")}` },
+    { Icon: null, text: formatFocusArea(workoutPlan.focusArea) },
   ];
 
   return (
     <Link
       className={cn(
-        "flex items-center p-3 rounded-md",
+        "surface-card flex items-center gap-4 p-4 transition-colors duration-200 hover:border-primary/50 hover:bg-primary/[0.05] md:px-5",
         {
-          "gap-4 bg-card border border-border": variant === "default",
-          "flex-wrap bg-card border-2 border-primary": variant === "primary",
+          "surface-card-accent flex-wrap border-primary/22 bg-primary/[0.03]": variant === "primary",
         },
         className
       )}
@@ -37,41 +36,36 @@ export const WorkoutPlanItem = ({ children, className, variant = "default", work
         <Typography
           className={cn("flex items-center font-normal text-left", {
             "text-card-foreground": variant === "default",
-            "text-primary-foreground": variant === "primary",
+            "text-foreground": variant === "primary",
           })}
           variant="lg"
         >
           {workoutPlan.ai && (
-            <Badge className="mr-4" variant="secondary">
+            <Badge className="mr-3" variant="default">
               AI
             </Badge>
           )}
           {workoutPlan.name}
         </Typography>
-        <div className="flex flex-wrap gap-1 items-center mt-1">
-          {workoutPlanRowInfo.map(({ Icon, text }, index) => (
-            <>
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          {workoutPlanRowInfo.map(({ Icon, text }) => (
+            <div className="contents" key={`${workoutPlan.id}-${text}`}>
               <Typography
-                className={cn("flex items-center gap-1 font-light", {
-                  "text-card-foreground": variant === "default",
-                  "text-primary-foreground": variant === "primary",
+                className={cn("flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-normal", {
+                  "border-border/65 bg-muted/34 text-muted-foreground": variant === "default",
+                  "border-primary/12 bg-background/80 text-muted-foreground": variant === "primary",
                 })}
                 variant="sm-20"
               >
-                {Icon && <Icon className="w-6 h-6" />}
+                {Icon && <Icon className="h-4 w-4" />}
                 {text}
               </Typography>
-              {index < workoutPlanRowInfo.length - 1 && (
-                <Typography className={cn("font-thin text-[3px]", { "text-card-foreground": variant === "default", "text-primary-foreground": variant === "primary" })} variant="sm-20">
-                  &#9679;
-                </Typography>
-              )}
-            </>
+            </div>
           ))}
         </div>
       </div>
 
-      {children}
+      {children ? <div className="w-full md:w-auto">{children}</div> : null}
     </Link>
   );
 };

@@ -6,7 +6,7 @@ import { AgeDrawer, GenderDrawer, HeightDrawer, WeightDrawer } from "./drawers";
 import { authFetch } from "@/lib/fetchClient";
 import { Button } from "@/components/ui";
 import { Loader } from "@/components/Loader";
-import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
+import { ResponsivePageShell } from "@/components/base/ResponsivePageShell";
 import Chevron from "@icons/chevron.svg?react";
 
 const bodyMetricMissingText = "missing information";
@@ -77,19 +77,23 @@ const BodyMetricsSettings = () => {
 
   return (
     <>
-      <section className="flex flex-col h-[90vh]">
-        <MobileHeaderNavigation centerText headerText="Body Metrics" />
-
+      <ResponsivePageShell title="Body Metrics">
         {isLoading ? (
           <Loader className="m-auto" color="primary" variant="inline" size="lg" isLoading={isLoading} />
         ) : (
-          <div className="flex flex-col w-full mt-6 gap-4 h-[calc(100vh-230px)]">
+          <div className="grid grid-cols-1 gap-4 max-w-[800px] m-auto">
             {bodyMetricsSettingsOptions.map(({ currentValue, label, onClick }) => {
               return (
-                <Button className="w-full text-base flex items-center !px-0 justify-start text-foreground py-2 font-medium" variant="link" size="lg" onClick={onClick} key={label}>
+                <Button
+                  className="w-full text-base flex items-center justify-start text-foreground p-3 font-medium rounded-2xl border border-border bg-card/90 shadow-compact-xs transition-[border-color,background-color,box-shadow] hover:bg-accent/60 hover:border-primary/35 hover:shadow-compact-md cursor-pointer"
+                  variant="ghost"
+                  size="lg"
+                  onClick={onClick}
+                  key={label}
+                >
                   <>
                     {label}
-                    <span className="text-sm ml-auto font-normal">{currentValue}</span>
+                    <span className="text-sm ml-auto font-normal text-muted-foreground">{currentValue}</span>
                     <Chevron className="!w-6 !h-6 rotate-180 mr-2 stroke-[3]" />
                   </>
                 </Button>
@@ -97,7 +101,7 @@ const BodyMetricsSettings = () => {
             })}
           </div>
         )}
-      </section>
+      </ResponsivePageShell>
       {!isLoading && (
         <>
           <GenderDrawer onClose={closeDrawers} onSave={handleOnboardingSettingsSave} defaultValue={userOnboardingData!.gender} isOpen={openDrawer === "gender"} />

@@ -47,21 +47,21 @@ const ReportBmi = ({ height, weight }: ReportBmiProps) => {
   const needlePosition = calculateBmiNeedlePosition(bmi || 0);
 
   return (
-    <section className="flex flex-col py-2 px-2 border border-border rounded-md lg:w-1/2 lg:mx-auto" data-testid="bmi-chart">
+    <section className="flex flex-col p-2 border border-border rounded-2xl overflow-hidden bg-gradient-to-b from-card to-muted/20 shadow-compact-sm xl:w-full xl:mx-0" data-testid="bmi-chart">
       <div className="flex justify-between p-3">
         <Typography className="font-semibold" variant="h4">
           BMI (kg/m<sup>2</sup>): {bmi || "none"}
         </Typography>
 
-        <Link className="!p-0" to="/settings/metrics">
+        <Link className="!p-0 rounded-lg hover:bg-accent/55 lg:!p-1" to="/settings/metrics">
           <Pencil className="!w-7 !h-7 text-muted-foreground" />
         </Link>
       </div>
-      <hr className="my-4 w-full border-border dark:border-accent" />
+      <hr className="my-4 w-full border-border" />
       {bmi ? (
         <PieChart
           chartConfig={chartConfig}
-          className="w-full h-[300]"
+          className="w-full !aspect-[2/1]"
           cx="50%"
           cy="95%"
           data={chartData}

@@ -12,8 +12,8 @@ export const TimeFieldButton = ({ isActive, label, onClick, value }: TimeFieldBu
   <button
     type="button"
     className={cn(
-      "flex min-w-0 flex-col rounded-2xl border px-4 py-3 text-left transition-colors",
-      isActive ? "border-primary bg-primary/8 shadow-compact-sm" : "border-border bg-card hover:bg-accent/40"
+      "flex min-w-0 flex-col rounded-lg border px-4 py-3 text-left transition-colors",
+      isActive ? "border-primary/35 bg-primary/5" : "border-border bg-card hover:bg-accent/35 hover:cursor-pointer"
     )}
     onClick={onClick}
   >

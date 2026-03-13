@@ -3,7 +3,8 @@ import type { Exercise } from "@gym-tracker-pwa/schemas";
 
 import { authFetch } from "@/lib/fetchClient";
 import { Loader } from "@/components/Loader";
-import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
+import { ResponsivePageShell } from "@/components/base/ResponsivePageShell";
+import { Typography } from "@/components/base/Typography";
 import ExercisesFilter from "@/components/exercises/ExercisesFilter";
 import ExercisesList from "@/components/exercises/ExercisesList";
 
@@ -29,12 +30,22 @@ const DiscoverExercises = () => {
   }, []);
 
   return (
-    <section className="flex flex-col min-h-[80vh] pt-2">
-      <MobileHeaderNavigation centerText hideGoBackButton headerText="Discover exercises" />
-
-      <ExercisesFilter setExercisesList={setExercisesList} setIsLoading={setIsLoading} />
-      {isLoading ? <Loader className="m-auto" color="primary" variant="inline" isLoading={isLoading} size="lg" /> : <ExercisesList exercisesList={exercisesList} />}
-    </section>
+    <ResponsivePageShell contentClassName="xl:mx-auto xl:max-w-[960px]" hideMobileBackButton title="Discover exercises">
+      <div className="flex flex-col gap-6">
+        <aside className="xl:rounded-2xl xl:p-4">
+          <Typography className="font-semibold" variant="h4">
+            Find exercises
+          </Typography>
+          <Typography className="mt-1 text-muted-foreground" variant="sm-20">
+            Search by name and refine by muscle, category, or movement type.
+          </Typography>
+          <div className="xl:mt-4">
+            <ExercisesFilter setExercisesList={setExercisesList} setIsLoading={setIsLoading} />
+          </div>
+        </aside>
+        <div>{isLoading ? <Loader className="m-auto" color="primary" variant="inline" isLoading={isLoading} size="lg" /> : <ExercisesList exercisesList={exercisesList} />}</div>
+      </div>
+    </ResponsivePageShell>
   );
 };
 

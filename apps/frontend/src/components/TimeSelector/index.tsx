@@ -36,7 +36,7 @@ export const TimeSelector = ({ endTime, setEndTime, setStartTime, startTime }: T
 
   const pickerClassNames = {
     highlightItem: "!text-2xl font-semibold after:hidden",
-    highlightWrapper: "border-y border-primary/20 bg-primary/6",
+    highlightWrapper: "border-y border-primary/15 bg-primary/5",
     optionItem: "!text-xl",
   };
 
@@ -65,7 +65,7 @@ export const TimeSelector = ({ endTime, setEndTime, setStartTime, startTime }: T
         </Typography>
       ) : null}
       <div
-        className="rounded-3xl border border-border bg-muted/35 p-3"
+        className="p-3"
         onPointerDown={(event) => event.stopPropagation()}
         onPointerMove={(event) => event.stopPropagation()}
         onTouchMove={(event) => event.stopPropagation()}
@@ -81,11 +81,11 @@ export const TimeSelector = ({ endTime, setEndTime, setStartTime, startTime }: T
         </div>
 
         <div className="grid grid-cols-[1fr_1fr_88px] gap-2">
-          <WheelPickerWrapper className="!w-full rounded-2xl bg-background px-0">
+          <WheelPickerWrapper className="!w-full rounded-lg bg-background px-0">
             <WheelPicker classNames={pickerClassNames} onValueChange={(hour) => setTime({ hour })} optionItemHeight={44} options={hoursOptions} value={activeTime.hour} visibleCount={20} />
           </WheelPickerWrapper>
 
-          <WheelPickerWrapper className="!w-full rounded-2xl bg-background px-0">
+          <WheelPickerWrapper className="!w-full rounded-lg bg-background px-0">
             <WheelPicker classNames={pickerClassNames} onValueChange={(minute) => setTime({ minute })} optionItemHeight={44} options={minutesOptions} value={activeTime.minute} visibleCount={20} />
           </WheelPickerWrapper>
 
@@ -95,8 +95,8 @@ export const TimeSelector = ({ endTime, setEndTime, setStartTime, startTime }: T
                 key={period}
                 type="button"
                 className={cn(
-                  "rounded-2xl border px-3 py-5 typography-sm-20 font-semibold transition-colors",
-                  activeTime.period === period ? "border-primary bg-primary text-primary-foreground shadow-compact-sm" : "border-border bg-background hover:bg-accent/40"
+                  "rounded-lg border px-3 py-5 typography-sm-20 font-semibold transition-colors",
+                  activeTime.period === period ? "border-primary/35 bg-primary/6 text-primary" : "border-border bg-background hover:bg-accent/35 hover:cursor-pointer"
                 )}
                 onClick={() => setTime({ period })}
               >

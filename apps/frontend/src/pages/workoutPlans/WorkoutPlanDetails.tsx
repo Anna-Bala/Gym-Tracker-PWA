@@ -5,8 +5,9 @@ import { type WorkoutPlanDetails as WorkouPlan } from "@gym-tracker-pwa/schemas"
 import { AddWorkoutToCalendar } from "@/components/AddWorkoutToCalendar";
 import { authFetch } from "@/lib/fetchClient";
 import { daysOptions } from "./constants";
+import { formatFocusArea } from "@/lib/utils";
 import { Loader } from "@/components/Loader";
-import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
+import { ResponsivePageShell } from "@/components/base/ResponsivePageShell";
 import { Typography } from "@/components/base/Typography";
 import ExercisesList from "@/components/exercises/ExercisesList";
 import Fire from "@icons/fire.svg?react";
@@ -59,51 +60,68 @@ const WorkoutPlanDetails = () => {
   ];
 
   return (
-    <section className="flex flex-col pb-24">
+    <ResponsivePageShell title={workoutPlanDetails?.name}>
       <Loader variant="full-screen" isLoading={isLoading} color="white" />
-      {workoutPlanDetails?.name ? (
-        <MobileHeaderNavigation centerText headerText={workoutPlanDetails.name}>
-          <WorkoutPlanContextMenu workoutPlanDetails={workoutPlanDetails} />
-        </MobileHeaderNavigation>
-      ) : null}
-      {workoutPlanDetails?.description && (
-        <Typography className="w-full text-center mt-2" variant="sm-20">
-          {workoutPlanDetails?.description}
-        </Typography>
-      )}
 
-      {workoutPlanDetails ? <AddWorkoutToCalendar calendarEventName={workoutPlanDetails.name} calendarEventDescription={workoutPlanDetails.description} workoutDays={workoutPlanDetails.days} /> : null}
+      <div className="flex flex-col">
+        <div className="flex flex-col gap-4 xl:rounded-2xl xl:top-24">
+          {workoutPlanDetails ? (
+            <div className="flex flex-wrap items-center gap-3 p-3 rounded-2xl border border-border/80 bg-card/90 shadow-compact-xs">
+              <div className="flex flex-col gap-2 w-full">
+                {workoutPlanDetails?.description ? (
+                  <div className="flex flex-col gap-2">
+                    <Typography className="font-semibold" variant="h4">
+                      Overview
+                    </Typography>
+                    <Typography className="text-muted-foreground" variant="md-24">
+                      {workoutPlanDetails.description}
+                    </Typography>
+                  </div>
+                ) : null}
 
-      <div className="flex flex-wrap gap-2 mt-6">
-        <Typography variant="lg">Plan Schedule:</Typography>
-        <Typography className="text-muted-foreground" variant="md-24">
-          {workoutPlanDetails?.days.map((day) => daysMapped[day]).join(", ")}
-        </Typography>
-      </div>
+                <div className="flex flex-wrap gap-2">
+                  <Typography variant="lg">Plan Schedule:</Typography>
+                  <Typography className="text-muted-foreground" variant="md-24">
+                    {workoutPlanDetails?.days.map((day) => daysMapped[day]).join(", ")}
+                  </Typography>
+                </div>
 
-      <div className="flex justify-between py-2 px-3 border border-border rounded-md mt-4">
-        {workoutPlanColumns.map(({ amount, Icon, label }) => (
-          <div className="flex flex-col flex-1 items-center gap-1" key={label}>
-            <Icon className="w-8 h-8 text-chart-2 stroke-2" />
-            <Typography className="font-semibold" variant="sm-16">
-              {amount}
-            </Typography>
-            <Typography className="text-muted-foreground" variant="sm-16">
-              {label}
-            </Typography>
+                <div className="flex flex-wrap gap-2">
+                  <Typography variant="lg">Focus Areas:</Typography>
+                  <Typography className="text-muted-foreground" variant="md-24">
+                    {formatFocusArea(workoutPlanDetails?.focusArea)}
+                  </Typography>
+                </div>
+              </div>
+
+              <AddWorkoutToCalendar
+                className="mt-0 flex-1 sm:flex-none"
+                calendarEventName={workoutPlanDetails.name}
+                calendarEventDescription={workoutPlanDetails.description}
+                workoutDays={workoutPlanDetails.days}
+              />
+              <WorkoutPlanContextMenu workoutPlanDetails={workoutPlanDetails} />
+            </div>
+          ) : null}
+
+          <div className="flex justify-between p-3 border border-border rounded-2xl bg-gradient-to-b from-card to-muted/25 shadow-wide-xs">
+            {workoutPlanColumns.map(({ amount, Icon, label }) => (
+              <div className="flex flex-col flex-1 items-center gap-1" key={label}>
+                <Icon className="w-8 h-8 text-muted-foreground stroke-2" />
+                <Typography className="font-semibold" variant="sm-16">
+                  {amount}
+                </Typography>
+                <Typography className="text-muted-foreground" variant="sm-16">
+                  {label}
+                </Typography>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
 
-      <div className="flex flex-col gap-1 mt-6">
-        <Typography variant="lg">Exercises</Typography>
-        <Typography className="text-muted-foreground" variant="md-24">
-          Focus areas: {workoutPlanDetails?.focusArea.join(" / ")}
-        </Typography>
+        <ExercisesList exercisesList={workoutPlanDetails?.exercises || []} />
       </div>
-
-      <ExercisesList exercisesList={workoutPlanDetails?.exercises || []} />
-    </section>
+    </ResponsivePageShell>
   );
 };
 

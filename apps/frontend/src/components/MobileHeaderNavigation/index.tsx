@@ -9,7 +9,7 @@ import Chevron from "@icons/chevron.svg?react";
 interface MobileHeaderNavigation {
   centerText?: boolean;
   children?: ReactNode;
-  headerText: string;
+  headerText?: string;
   hideGoBackButton?: boolean;
 }
 
@@ -17,16 +17,30 @@ export const MobileHeaderNavigation: React.FC<MobileHeaderNavigation> = ({ cente
   const navigate = useNavigate();
 
   return (
-    <header className={cn("flex items-center relative h-9 w-full", { "gap-4": !hideGoBackButton })}>
+    <header
+      className={cn(
+        "flex w-full items-center min-h-14 relative rounded-[1.35rem] border border-border/70 bg-background/85 px-2 shadow-wide-xs backdrop-blur-md transition-[background-color,border-color,box-shadow]",
+        {
+          "gap-2": !hideGoBackButton,
+          hidden: !headerText && hideGoBackButton,
+        }
+      )}
+    >
       {!hideGoBackButton ? (
-        <Button className="-ml-2" variant="ghost" size="icon" onClick={() => navigate(-1)}>
-          <Chevron className="!w-8 !h-8 text-foreground stroke-[5]" />
+        <Button className="relative z-10 rounded-xl" variant="ghost" size="icon" onClick={() => navigate(-1)}>
+          <Chevron className="!h-7 !w-7 text-foreground stroke-[4]" />
         </Button>
       ) : null}
-      <Typography className={cn("w-max text-foreground font-semibold", { "text-center absolute left-1/2 -translate-x-1/2": centerText, "text-left": !centerText })} variant="h2">
+      <Typography
+        className={cn("text-foreground font-extrabold", {
+          "pointer-events-none absolute left-1/2 top-1/2 w-[calc(100%-7rem)] -translate-x-1/2 -translate-y-1/2 px-2 text-center": centerText,
+          "text-left min-w-0 flex-1 pl-1": !centerText,
+        })}
+        variant="h5"
+      >
         {headerText}
       </Typography>
-      {children}
+      {children ? <div className="flex items-center relative z-10 ml-auto">{children}</div> : null}
     </header>
   );
 };

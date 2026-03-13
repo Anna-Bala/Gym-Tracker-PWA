@@ -21,7 +21,7 @@ export const BarChart: React.FC<BarChartProps> = ({ className, chartConfig, data
         <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
 
         {chartBars.map(({ dataKey, fill }) => (
-          <Bar dataKey={dataKey} yAxisId={dataKey} fill={fill} radius={4} />
+          <Bar key={dataKey} dataKey={dataKey} yAxisId={dataKey} fill={fill} isAnimationActive={false} radius={4} />
         ))}
 
         {xAxisProps.dataKey && <XAxis dataKey={xAxisProps.dataKey} {...xAxisProps} tickLine={false} tickMargin={10} axisLine={false} />}

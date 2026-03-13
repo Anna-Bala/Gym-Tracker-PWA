@@ -10,3 +10,12 @@ export const getCurrentDayIso = () => {
   const day = new Date().getDay();
   return day === 0 ? 7 : day;
 };
+
+export const formatFocusArea = (focusArea: string[]) => {
+  return focusArea
+    .map((area) => {
+      const detectUppercase = area.replace(/([A-Z])/g, " $1");
+      return detectUppercase.charAt(0).toUpperCase() + detectUppercase.slice(1);
+    })
+    ?.join(" / ");
+};
