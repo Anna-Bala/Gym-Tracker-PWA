@@ -36,25 +36,25 @@ const ExercisesList = ({ exercisesList, exerciseDetailsFooterContent }: Exercise
       <div className="flex flex-col mt-4 gap-3">
         {exercisesList.map((exercise) => (
           <button
-            className="flex flex-row items-center bg-card border border-border py-3 px-2 rounded-md justify-between"
+            className="surface-card flex flex-row items-center justify-between gap-3 p-3 text-left transition-colors duration-200 hover:border-primary/50 hover:bg-primary/[0.05] hover:cursor-pointer md:px-4"
             onClick={() => {
               setExerciseDetails(exercise);
               toggleExercisePanelOpen();
             }}
             key={exercise.id}
           >
-            <img alt={exercise.name} src={exercise.image} className="w-16 h-16" />
-            <div className="flex flex-1 flex-col gap-2 ml-2">
-              <Typography className="font-medium text-left text-card-foreground" variant="sm-20">
+            <img alt={exercise.name} src={exercise.image} className="h-18 w-18 invert-80 rounded-lg bg-foreground/10 object-cover p-1 dark:invert-0 dark:bg-muted/40" />
+            <div className="flex flex-1 flex-col ml-1 gap-2">
+              <Typography className="font-semibold text-left text-card-foreground" variant="sm-20">
                 {exercise.name}
               </Typography>
               {isWorkoutPlanExercise(exercise) ? (
                 <div className="flex gap-2">
-                  <Typography className="font-light text-left text-card-foreground" variant="sm-20">
+                  <Typography className="font-normal text-left text-muted-foreground" variant="sm-20">
                     Sets: {exercise.sets}
                   </Typography>
 
-                  <Typography className="font-light text-left text-card-foreground" variant="sm-20">
+                  <Typography className="font-normal text-left text-muted-foreground" variant="sm-20">
                     Reps: {exercise.reps}
                   </Typography>
                 </div>
@@ -71,7 +71,7 @@ const ExercisesList = ({ exercisesList, exerciseDetailsFooterContent }: Exercise
                 </div>
               )}
             </div>
-            <ChevronRight className="text-muted-foreground" />
+            <ChevronRight className="text-muted-foreground shrink-0" />
           </button>
         ))}
       </div>

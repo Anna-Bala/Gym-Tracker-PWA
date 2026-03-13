@@ -3,6 +3,7 @@ import { useState } from "react";
 import { atcb_action, type AddToCalendarActionType } from "add-to-calendar-button-react";
 
 import { Button } from "@/components/ui";
+import { cn } from "@/lib/utils";
 import { Drawer } from "@/components/Drawer";
 import { generateWorkoutPlanScheduleForCalendar } from "./utils";
 import { TimeSelector } from "../TimeSelector";
@@ -13,10 +14,11 @@ import CalendarIcon from "@icons/calendar.svg?react";
 interface AddToCalendarProps {
   calendarEventName: string;
   calendarEventDescription?: string;
+  className?: string;
   workoutDays: string[];
 }
 
-export const AddWorkoutToCalendar: React.FC<AddToCalendarProps> = ({ calendarEventName, calendarEventDescription, workoutDays }) => {
+export const AddWorkoutToCalendar: React.FC<AddToCalendarProps> = ({ calendarEventName, calendarEventDescription, className, workoutDays }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [startTime, setStartTime] = useState({ hour: "12", minute: "00", period: "AM" as "AM" | "PM" });
   const [endTime, setEndTime] = useState({ hour: "01", minute: "00", period: "PM" as "AM" | "PM" });
@@ -59,14 +61,13 @@ export const AddWorkoutToCalendar: React.FC<AddToCalendarProps> = ({ calendarEve
 
   return (
     <>
-      <Button className="mt-4" onClick={openDrawer} size="lg" variant="secondary">
+      <Button className={cn("mt-4", className)} onClick={openDrawer} size="lg" variant="secondary">
         <CalendarIcon className="!h-6 !w-6" />
         Add to calendar
       </Button>
 
       <Drawer
         isOpen={isDrawerOpen}
-        modal={false}
         onAnimationEnd={handleDrawerAnimationEnd}
         footerContent={
           <Button disabled={!canSaveToCalendar} variant="default" onClick={handleAddToCalendarClick}>
@@ -80,12 +81,14 @@ export const AddWorkoutToCalendar: React.FC<AddToCalendarProps> = ({ calendarEve
             Pick workout plan time window
           </Typography>
 
-          <Button className="pr-0 text-muted-foreground" onClick={closeDrawer} variant="ghost">
+          <Button className="pr-0 text-muted-foreground lg:pr-4" onClick={closeDrawer} variant="ghost">
             Close
           </Button>
         </div>
 
-        <TimeSelector startTime={startTime} endTime={endTime} setStartTime={setStartTime} setEndTime={setEndTime} />
+        <div className="surface-muted mt-4 p-4">
+          <TimeSelector startTime={startTime} endTime={endTime} setStartTime={setStartTime} setEndTime={setEndTime} />
+        </div>
       </Drawer>
     </>
   );

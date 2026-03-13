@@ -41,7 +41,7 @@ const DeleteAccountDrawer = ({ handleClose, isOpen }: DeleteAccountDrawerProps) 
       isOpen={isOpen}
       onAnimationEnd={handleClose}
       footerContent={
-        <div className="flex gap-4 w-full mt-1">
+        <div className="flex gap-4 w-full mt-1 lg:flex-col">
           <Button className="flex-1" variant="outline" onClick={handleClose}>
             Cancel
           </Button>
@@ -60,7 +60,7 @@ const DeleteAccountDrawer = ({ handleClose, isOpen }: DeleteAccountDrawerProps) 
           By deleting your account, you will lose all your data. You will not be able to retrieve your account afterward.
         </Typography>
 
-        {isError && <Alert className="mt-4" title="Unable to Delete Account" description="Account deletion failed. Please try again later." icon={<CircleAlert />} variant="destructive" />}
+        {isError && <Alert className="my-4" title="Unable to Delete Account" description="Account deletion failed. Please try again later." icon={<CircleAlert />} variant="destructive" />}
       </div>
     </Drawer>
   );

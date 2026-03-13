@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Filter } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z, FilterExercisesSchema, SearchExercisesSchema, type Exercise } from "@gym-tracker-pwa/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,8 +11,8 @@ import { discoverExercisesFilterFields } from "./constants";
 import { Drawer } from "@/components/Drawer";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { SectionCard } from "@/components/base/SectionCard";
 import { Typography } from "@/components/base/Typography";
-import Filter from "@icons/filter.svg?react";
 import MagnifyingGlass from "@icons/magnifying-glass.svg?react";
 import useDebounce from "@/hooks/useDebounce";
 
@@ -93,7 +94,7 @@ const ExercisesFilter = ({ setExercisesList, setIsLoading }: ExercisesFilterProp
             <Typography className="font-semibold" variant="h3">
               Filter
             </Typography>
-            <Button className="pr-0 text-muted-foreground" variant="ghost" onClick={toggleFilterPanelOpen}>
+            <Button className="pr-0 text-muted-foreground lg:pr-4" variant="ghost" onClick={toggleFilterPanelOpen}>
               Close
             </Button>
           </div>
@@ -132,27 +133,30 @@ const ExercisesFilter = ({ setExercisesList, setIsLoading }: ExercisesFilterProp
             ))}
           </div>
         </Drawer>
-        <div className="w-full flex items-center gap-4 mt-6">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
-                  <InputGroup className="h-12">
-                    <InputGroupInput placeholder="Search exercise..." onChange={field.onChange} />
-                    <InputGroupAddon>
-                      <MagnifyingGlass className="!w-6 !h-6" />
-                    </InputGroupAddon>
-                  </InputGroup>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <Button className="!p-0" variant="ghost" onClick={toggleFilterPanelOpen} type="button">
-            <Filter className="!w-7 !h-7 text-muted-foreground" />
-          </Button>
-        </div>
+        <SectionCard className="mt-6 p-3 md:p-4">
+          <div className="flex w-full items-center gap-3">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormControl>
+                    <InputGroup className="h-12">
+                      <InputGroupAddon>
+                        <MagnifyingGlass className="!h-5 !w-5" />
+                      </InputGroupAddon>
+                      <InputGroupInput placeholder="Search exercise..." onChange={field.onChange} />
+                    </InputGroup>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <Button className="shrink-0" variant="outline" onClick={toggleFilterPanelOpen} type="button">
+              <Filter className="!h-4 !w-4" />
+              Filter
+            </Button>
+          </div>
+        </SectionCard>
       </form>
     </Form>
   );

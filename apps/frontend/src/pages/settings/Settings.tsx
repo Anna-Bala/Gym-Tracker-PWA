@@ -8,7 +8,7 @@ import { Button } from "@/components/ui";
 import { changeUserTheme } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { Loader } from "@/components/Loader";
-import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
+import { ResponsivePageShell } from "@/components/base/ResponsivePageShell";
 import { Switch } from "@/components/ui/switch";
 import { Typography } from "@/components/base/Typography";
 import { useTheme } from "@/contexts/theme/useTheme";
@@ -60,35 +60,37 @@ const Settings = () => {
       .finally(() => setIsLogoutLoading(false));
   };
 
-  const buttonClasses = "text-base flex items-center !px-0 justify-start text-foreground py-2 gap-4 font-medium";
-  const iconClasses = "!w-10 !h-10 text-foreground";
+  const buttonClasses =
+    "text-base flex items-center justify-start text-foreground p-3 gap-4 font-medium rounded-2xl border border-border bg-card/90 shadow-compact-xs transition-[border-color,background-color,box-shadow] hover:cursor-pointer hover:bg-accent/60 hover:border-primary/35 hover:shadow-compact-md";
+  const iconClasses = "!w-10 !h-10";
   const chevronClasses = "!w-6 !h-6 rotate-180 ml-auto mr-2 stroke-[3]";
 
   return (
-    <section>
-      <MobileHeaderNavigation centerText hideGoBackButton headerText="Settings" />
-      <div className="flex flex-col w-full mt-6 gap-4 h-[calc(100vh-230px)]">
-        {settingsOptions.map(({ Icon, label, to }) => {
-          return (
-            <Link className={buttonClasses} to={to} key={label}>
-              <>
-                <Icon className={iconClasses} />
-                <Typography variant="md-24">{label}</Typography>
-                <Chevron className={chevronClasses} />
-              </>
-            </Link>
-          );
-        })}
+    <ResponsivePageShell hideMobileBackButton title="Settings">
+      <div className="grid grid-cols-1 gap-4 xl:gap-6">
+        <div className="flex flex-col gap-4">
+          {settingsOptions.map(({ Icon, label, to }) => {
+            return (
+              <Link className={buttonClasses} to={to} key={label}>
+                <>
+                  <Icon className={cn(iconClasses, "text-foreground")} />
+                  <Typography variant="md-24">{label}</Typography>
+                  <Chevron className={chevronClasses} />
+                </>
+              </Link>
+            );
+          })}
 
-        <div className="flex items-center">
-          <Moon className={iconClasses} />
-          <Label className={cn(buttonClasses, "ml-4")} htmlFor="dark-mode">
-            Dark Mode
-          </Label>
-          <Switch className="ml-auto" checked={theme === "dark"} onCheckedChange={handleDarkModeChange} id="dark-mode" />
+          <div className="flex items-center rounded-2xl border border-border bg-card/90 p-3 gap-4 shadow-compact-xs">
+            <Moon className={cn(iconClasses, "text-foreground")} />
+            <Label className={cn("text-base font-medium")} htmlFor="dark-mode">
+              Dark Mode
+            </Label>
+            <Switch className="ml-auto" checked={theme === "dark"} onCheckedChange={handleDarkModeChange} id="dark-mode" />
+          </div>
         </div>
 
-        <div className="flex flex-col gap-4 mt-auto">
+        <div className="flex flex-col gap-4 xl:sticky xl:top-24">
           {isLogoutError && (
             <Alert
               variant="destructive"
@@ -97,7 +99,13 @@ const Settings = () => {
               description="Something went wrong on our end. Please try clicking 'Logout' again, or simply close your browser window to finish."
             />
           )}
-          <Button className={cn(buttonClasses, "text-destructive border border-destructive justify-center gap-1")} variant="outline" size="lg" onClick={handleLogoutAction} disabled={isLogoutLoading}>
+          <Button
+            className={cn(buttonClasses, "text-destructive border-destructive justify-center gap-1 md:w-fit md:m-auto")}
+            variant="outline"
+            size="lg"
+            onClick={handleLogoutAction}
+            disabled={isLogoutLoading}
+          >
             <>
               <PersonExit className={cn(iconClasses, "text-destructive")} />
               Logout
@@ -106,7 +114,7 @@ const Settings = () => {
           </Button>
         </div>
       </div>
-    </section>
+    </ResponsivePageShell>
   );
 };
 

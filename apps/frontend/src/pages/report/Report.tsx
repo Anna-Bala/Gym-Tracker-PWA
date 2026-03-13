@@ -3,7 +3,7 @@ import type { UserStatistics } from "@gym-tracker-pwa/schemas";
 
 import { authFetch } from "@/lib/fetchClient";
 import { Loader } from "@/components/Loader";
-import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
+import { ResponsivePageShell } from "@/components/base/ResponsivePageShell";
 import ReportBmi from "./ReportBmi";
 import ReportSummary from "./ReportSummary";
 import ReportWorkouts from "./ReportWorkouts";
@@ -30,19 +30,17 @@ const Report = () => {
   }, []);
 
   return (
-    <section className="flex flex-col min-h-[90vh] pb-24">
-      <MobileHeaderNavigation centerText hideGoBackButton headerText="Report" />
-
+    <ResponsivePageShell contentClassName="xl:mx-auto xl:max-w-[960px]" hideMobileBackButton title="Report">
       {isLoading ? (
         <Loader className="m-auto" color="primary" variant="inline" size="lg" isLoading={isLoading} />
       ) : (
-        <div className="flex flex-col gap-6 mt-6">
+        <div className="flex flex-col gap-6">
           <ReportSummary totalWorkouts={userStatisticsReport!.totalWorkouts} totalCalories={userStatisticsReport!.totalCalories} totalDuration={userStatisticsReport!.totalDuration} />
           <ReportWorkouts />
           <ReportBmi height={userStatisticsReport!.height} weight={userStatisticsReport!.weight} />
         </div>
       )}
-    </section>
+    </ResponsivePageShell>
   );
 };
 

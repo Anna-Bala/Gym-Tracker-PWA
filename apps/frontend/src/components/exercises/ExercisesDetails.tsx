@@ -55,16 +55,16 @@ const ExercisesDetails = ({ exerciseDetails, footerContent: Footer, isExercisePa
         <Typography className="font-semibold" variant="h3">
           {exerciseDetails.name}
         </Typography>
-        <Button className="pr-0 text-muted-foreground" variant="ghost" onClick={toggleExercisePanelOpen}>
+        <Button className="pr-0 text-muted-foreground lg:pr-4" variant="ghost" onClick={toggleExercisePanelOpen}>
           Close
         </Button>
       </div>
-      <div className="flex flex-col mt-6 overflow-auto scrollbar-none">
+      <div className="flex flex-col mt-6 overflow-scroll scrollbar-none">
         {exerciseDetailsRows.map(
           ({ badgeVariant, isVisible, items, label }, index) =>
             isVisible && (
-              <div className={cn("flex flex-wrap gap-2", { "mt-3": index > 0 })}>
-                <Typography className="font-medium" variant="md-20">
+              <div className={cn("flex flex-wrap gap-2", { "mt-4": index > 0 })} key={label}>
+                <Typography className="text-foreground font-semibold" variant="md-20">
                   {label}:
                 </Typography>
                 {items?.map(({ name }) => (
@@ -75,8 +75,14 @@ const ExercisesDetails = ({ exerciseDetails, footerContent: Footer, isExercisePa
               </div>
             )
         )}
-        <img alt={exerciseDetails?.name} src={exerciseDetails?.image} className="w-3/5 mt-6 mb-2 h-auto m-auto" />
-        <Typography variant="sm-20">{exerciseDetails?.description}</Typography>
+        <div className="surface-muted mt-6 overflow-hidden px-4 py-5">
+          <img alt={exerciseDetails?.name} src={exerciseDetails?.image} className="invert-80 m-auto h-auto w-3/5 max-w-52 dark:invert-0" />
+        </div>
+        {exerciseDetails?.description && (
+          <Typography className="text-muted-foreground my-4" variant="sm-20">
+            {exerciseDetails.description}
+          </Typography>
+        )}
       </div>
     </Drawer>
   );

@@ -27,7 +27,7 @@ const BodyMetricsDrawerWrapper = ({ children, isOpen, isSaveActionDisabled, onCl
       <Typography className="font-semibold" variant="h3">
         {title}
       </Typography>
-      <Button className="pr-0 text-muted-foreground" variant="ghost" onClick={onClose}>
+      <Button className="pr-0 text-muted-foreground lg:pr-4" variant="ghost" onClick={onClose}>
         Close
       </Button>
     </div>

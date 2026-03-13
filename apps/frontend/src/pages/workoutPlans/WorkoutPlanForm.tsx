@@ -11,7 +11,7 @@ import { CheckboxCardItem } from "@/components/CheckboxCardItem";
 import { daysOptions } from "./constants";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Loader } from "@/components/Loader";
-import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
+import { ResponsivePageShell } from "@/components/base/ResponsivePageShell";
 import { Textarea } from "@/components/ui/textarea";
 import { Typography } from "@/components/base/Typography";
 import { useWorkoutPlanForm } from "@/contexts/workoutPlan/useWorkoutPlanForm";
@@ -74,77 +74,92 @@ const WorkoutPlanForm = () => {
           return;
         }
 
-        navigate("/home");
+        navigate(`/home/workout-plan/${location.state.id}`);
         toast.success("Your workout plan have been updated successfully.");
       })
       .catch(() => setErrorMessage(null));
   });
 
   return (
-    <section className="flex flex-col pb-24">
+    <ResponsivePageShell title={`${isEdit ? "Edit" : "Create"} Workout Plan`}>
       <Loader variant="full-screen" isLoading={isSubmitting} color="white" />
-      <MobileHeaderNavigation centerText headerText={`${isEdit ? "Edit" : "Create"} Workout Plan`} />
-      <Typography className="mt-4 font-light" variant="md-24">
-        {isEdit ? "Edit your workout plan by changing it's name, description, schedule or replacing exercises." : "Create a personalized workout plan by choosing exercises, sets, and schedule."}
-      </Typography>
-      {errorMessage && <Alert className="mt-4" description={errorMessage} icon={<CircleAlert />} title="Unable to save Workout Plan" variant="destructive" />}
+      {errorMessage && <Alert className="my-4" description={errorMessage} icon={<CircleAlert />} title="Unable to save Workout Plan" variant="destructive" />}
       <Form {...form}>
-        <form className="w-full flex flex-col gap-4 mt-6" onSubmit={isEdit ? handleWorkoutPlanUpdate : handleWorkoutPlanCreation} noValidate>
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Plan Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Upper Body Strength" type="text" {...field} />
-                </FormControl>
-                {errors.name && <FormMessage>{errors.name.message}</FormMessage>}
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Plan Description</FormLabel>
-                <FormControl>
-                  <Textarea placeholder="Focuses on compound lifts with moderate volume." {...field} />
-                </FormControl>
-                {errors.description && <FormMessage>{errors.description.message}</FormMessage>}
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="days"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Plan Schedule</FormLabel>
-                <FormControl>
-                  <div className="flex flex-wrap gap-2">
-                    {daysOptions.map((option) => (
-                      <CheckboxCardItem
-                        className="w-fit p-3"
-                        key={option.value}
-                        onCheckedChange={(checked) => {
-                          const newValue = checked ? [...(field.value || []), option.value] : field.value.filter((value) => value !== option.value);
-                          field.onChange(newValue);
-                        }}
-                        checked={field.value?.includes(option.value as WorkoutPlanDay)}
-                        {...option}
-                      />
-                    ))}
-                  </div>
-                </FormControl>
-                {errors.days && <FormMessage>{errors.days.message}</FormMessage>}
-              </FormItem>
-            )}
-          />
+        <form
+          className="w-full flex flex-col gap-6 xl:grid xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:items-start xl:gap-7"
+          onSubmit={isEdit ? handleWorkoutPlanUpdate : handleWorkoutPlanCreation}
+          noValidate
+        >
+          <div className="flex flex-col gap-4 xl:rounded-2xl xl:border xl:border-border/80 xl:bg-gradient-to-b xl:from-card xl:to-muted/20 xl:p-5 xl:shadow-wide-xs">
+            <div className="flex flex-col gap-1">
+              <Typography className="font-semibold" variant="h4">
+                {isEdit ? "Update the basics" : "Start with the basics"}
+              </Typography>
+              <Typography className="text-muted-foreground" variant="sm-20">
+                {isEdit ? "Adjust the plan name, summary, weekly schedule, and exercise list." : "Name your plan, add a short summary, choose the schedule, and then build the exercise list."}
+              </Typography>
+            </div>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Plan Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Upper Body Strength" type="text" {...field} />
+                  </FormControl>
+                  {errors.name && <FormMessage>{errors.name.message}</FormMessage>}
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Plan Description</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Focuses on compound lifts with moderate volume." {...field} />
+                  </FormControl>
+                  {errors.description && <FormMessage>{errors.description.message}</FormMessage>}
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="days"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Plan Schedule</FormLabel>
+                  <FormControl>
+                    <div className="flex flex-wrap gap-2">
+                      {daysOptions.map((option) => (
+                        <CheckboxCardItem
+                          className="w-fit px-4 py-3"
+                          key={option.value}
+                          onCheckedChange={(checked) => {
+                            const newValue = checked ? [...(field.value || []), option.value] : field.value.filter((value) => value !== option.value);
+                            field.onChange(newValue);
+                          }}
+                          checked={field.value?.includes(option.value as WorkoutPlanDay)}
+                          {...option}
+                        />
+                      ))}
+                    </div>
+                  </FormControl>
+                  {errors.days && <FormMessage>{errors.days.message}</FormMessage>}
+                </FormItem>
+              )}
+            />
+          </div>
 
-          <div className="flex flex-col">
-            <FormLabel>Exercises</FormLabel>
+          <div className="flex flex-col xl:rounded-2xl xl:border xl:border-border/80 xl:bg-gradient-to-b xl:from-card xl:to-muted/20 xl:p-5 xl:shadow-wide-xs">
+            <div className="flex flex-col gap-1">
+              <FormLabel>Exercises</FormLabel>
+              <Typography className="text-muted-foreground" variant="sm-20">
+                Add and review the movements that make up this routine.
+              </Typography>
+            </div>
 
             {exercisesFields.length === 0 ? (
               <>
@@ -156,9 +171,9 @@ const WorkoutPlanForm = () => {
                 </Button>
               </>
             ) : (
-              <div className="flex flex-col gap-2 mt-2 pb-36">
+              <div className="flex flex-col gap-2 mt-2 pb-36 xl:pb-4">
                 {exercisesFields.map((exercise, index) => (
-                  <div className="flex justify-between items-center bg-card border border-border p-3 rounded-md" key={exercise.id}>
+                  <div className="flex justify-between items-center bg-card/95 border border-border p-3 rounded-2xl shadow-compact-xs" key={exercise.id}>
                     <div className="flex flex-col gap-1">
                       <Typography className="font-medium text-left text-card-foreground" variant="md-20">
                         {exercise.name}
@@ -180,22 +195,25 @@ const WorkoutPlanForm = () => {
                   </div>
                 ))}
 
-                <div className="flex justify-between fixed bottom-[90px] box-border right-0 left-0 px-4 gap-4 py-4 bg-background z-20">
+                <div className="flex justify-between fixed bottom-[90px] box-border right-0 left-0 px-4 gap-4 py-4 bg-background/95 border-t border-border shadow-wide-sm backdrop-blur z-20 xl:static xl:px-0 xl:py-0 xl:bg-transparent xl:border-none xl:shadow-none xl:backdrop-blur-none xl:mt-4">
                   <Button className="!flex-1" variant="secondary" onClick={toggleIsExercisesDrawerOpen} type="button">
                     Add more exercises
                   </Button>
-                  <Button className="!flex-1" type="submit">
+                  <Button className="!flex-1 xl:hidden" type="submit">
                     {isEdit ? "Save" : "Create"} workout plan
                   </Button>
                 </div>
               </div>
             )}
           </div>
+          <Button className="hidden col-span-2 xl:block" disabled={exercisesFields.length === 0} type="submit">
+            {isEdit ? "Save" : "Create"} workout plan
+          </Button>
 
           <WorkoutPlanExercisesDrawer isOpen={isExercisesDrawerOpen} onClose={toggleIsExercisesDrawerOpen} />
         </form>
       </Form>
-    </section>
+    </ResponsivePageShell>
   );
 };
 

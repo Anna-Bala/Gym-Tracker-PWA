@@ -16,13 +16,13 @@ interface DrawerProps {
 
 export const Drawer: React.FC<DrawerProps> = ({ children, className, description, footerContent, isOpen, modal = true, onAnimationEnd, title }) => (
   <DrawerBase open={isOpen} modal={modal} onAnimationEnd={onAnimationEnd}>
-    <DrawerContent className={cn("px-6", className)}>
+    <DrawerContent className={cn("px-6 lg:m-auto lg:max-w-[720px]", className)}>
       <DrawerHeader>
         <DrawerTitle>{title}</DrawerTitle>
         {description && <DrawerDescription>{description}</DrawerDescription>}
       </DrawerHeader>
-      {children}
-      <DrawerFooter>{footerContent}</DrawerFooter>
+      <div className="flex-1 overflow-y-auto overscroll-contain px-1 pb-2">{children}</div>
+      {footerContent && <DrawerFooter>{footerContent}</DrawerFooter>}
     </DrawerContent>
   </DrawerBase>
 );

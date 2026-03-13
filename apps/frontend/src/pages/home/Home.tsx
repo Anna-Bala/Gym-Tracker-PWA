@@ -7,7 +7,7 @@ import { AllUserWorkoutPlans, GeneratingAiWorkoutPlan, TodayWorkoutPlans } from 
 import { authFetch } from "@/lib/fetchClient";
 import { getCurrentDayIso } from "@/lib/utils";
 import { Loader } from "@/components/Loader";
-import { MobileHeaderNavigation } from "@/components/MobileHeaderNavigation";
+import { ResponsivePageShell } from "@/components/base/ResponsivePageShell";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -85,26 +85,32 @@ const Home = () => {
   );
 
   return (
-    <section className="flex flex-col min-h-[90vh] pb-24">
-      <MobileHeaderNavigation centerText hideGoBackButton headerText="Gym Tracker" />
-
-      {errorMessage && <Alert className="mt-4" title="Something went wrong" description={errorMessage} icon={<CircleAlert />} variant="destructive" />}
+    <ResponsivePageShell contentClassName="xl:mx-auto xl:max-w-[960px]" hideMobileBackButton title="Home">
+      {errorMessage && <Alert className="my-4" title="Something went wrong" description={errorMessage} icon={<CircleAlert />} variant="destructive" />}
 
       {isLoading ? (
         <Loader className="m-auto" color="primary" variant="inline" size="lg" isLoading={isLoading} />
       ) : (
         <>
           {isGeneratingAIWorkoutPlan ? (
-            <GeneratingAiWorkoutPlan isGeneratingAIWorkoutPlan={isGeneratingAIWorkoutPlan} />
+            <div className="xl:max-w-[720px] xl:mx-auto xl:w-full">
+              <GeneratingAiWorkoutPlan isGeneratingAIWorkoutPlan={isGeneratingAIWorkoutPlan} />
+            </div>
           ) : (
-            <>
-              {userWorkoutPlans.length > 0 && <TodayWorkoutPlans todayWorkoutPlans={todayWorkoutPlans} fetchUserWorkoutHistory={fetchUserWorkoutHistory} />}
-              <AllUserWorkoutPlans userWorkoutPlans={userWorkoutPlans} handleAIWorkoutPlanCreation={handleAIWorkoutPlanCreation} />
-            </>
+            <div className="flex flex-col gap-6">
+              {userWorkoutPlans.length > 0 && (
+                <div>
+                  <TodayWorkoutPlans todayWorkoutPlans={todayWorkoutPlans} fetchUserWorkoutHistory={fetchUserWorkoutHistory} />
+                </div>
+              )}
+              <div>
+                <AllUserWorkoutPlans userWorkoutPlans={userWorkoutPlans} handleAIWorkoutPlanCreation={handleAIWorkoutPlanCreation} />
+              </div>
+            </div>
           )}
         </>
       )}
-    </section>
+    </ResponsivePageShell>
   );
 };
 

@@ -5,6 +5,7 @@ import { authFetch } from "@/lib/fetchClient";
 import { Button } from "@/components/ui";
 import { Drawer } from "@/components/Drawer";
 import { Loader } from "@/components/Loader";
+import { SectionCard } from "@/components/base/SectionCard";
 import { Typography } from "@/components/base/Typography";
 import ExercisesFilter from "@/components/exercises/ExercisesFilter";
 import ExercisesList from "@/components/exercises/ExercisesList";
@@ -42,14 +43,14 @@ const WorkoutPlanExercisesDrawer = ({ isOpen, onClose }: WorkoutPlanExercisesDra
         <Typography className="font-semibold" variant="h3">
           Add exercise
         </Typography>
-        <Button className="pr-0 text-muted-foreground" variant="ghost" onClick={onClose}>
+        <Button className="pr-0 text-muted-foreground lg:pr-4" variant="ghost" onClick={onClose}>
           Close
         </Button>
       </div>
 
       <ExercisesFilter setExercisesList={setExercisesList} setIsLoading={setIsLoading} />
       <div
-        className="flex flex-col mt-4 mb-2 overflow-y-scroll w-full"
+        className="flex w-full flex-col overflow-y-scroll mb-2 mt-4"
         onTouchStart={(e) => e.stopPropagation()}
         onTouchMove={(e) => e.stopPropagation()}
         onPointerDown={(e) => e.stopPropagation()}
@@ -58,7 +59,9 @@ const WorkoutPlanExercisesDrawer = ({ isOpen, onClose }: WorkoutPlanExercisesDra
         {isLoading ? (
           <Loader className="m-auto" color="primary" variant="inline" isLoading={isLoading} size="lg" />
         ) : (
-          <ExercisesList exercisesList={exercisesList} exerciseDetailsFooterContent={ExercisesDetailsFooter} />
+          <SectionCard className="border-0 bg-transparent p-0 shadow-none">
+            <ExercisesList exercisesList={exercisesList} exerciseDetailsFooterContent={ExercisesDetailsFooter} />
+          </SectionCard>
         )}
       </div>
     </Drawer>

@@ -29,10 +29,10 @@ const ReportSummary = ({ totalCalories, totalDuration, totalWorkouts }: ReportSu
   ];
 
   return (
-    <section className="flex justify-between py-2 px-3 border border-border rounded-md">
+    <section className="grid grid-cols-3 gap-2 p-3 border border-border rounded-2xl bg-gradient-to-b from-card to-muted/25 shadow-wide-xs xl:p-4">
       {reportSummaryColumns.map(({ amount, Icon, label }) => (
-        <div className="flex flex-col flex-1 items-center gap-1" key={label}>
-          <Icon className="w-8 h-8 text-chart-2 stroke-2" />
+        <div className="flex flex-col flex-1 items-center gap-1 rounded-xl bg-background/65 border border-border/70 p-2" key={label}>
+          <Icon className="w-8 h-8 text-muted-foreground stroke-2" />
           <Typography className="font-semibold" variant="sm-16">
             {amount}
           </Typography>

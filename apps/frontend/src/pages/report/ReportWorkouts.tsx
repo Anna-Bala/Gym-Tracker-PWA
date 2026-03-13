@@ -100,17 +100,17 @@ const ReportWorkouts = () => {
   }, [periodOfTime, workoutPlanHistory]);
 
   return (
-    <section className="flex flex-col py-2 px-2 border border-border rounded-md" data-testid="workout-chart">
-      <div className="flex items-center justify-between p-3">
+    <section className="flex flex-col p-2 border border-border rounded-2xl bg-gradient-to-b from-card to-muted/25 shadow-wide-xs" data-testid="workout-chart">
+      <div className="flex items-center justify-between gap-3 p-3">
         <Typography className="font-semibold" variant="h4">
           Statistics
         </Typography>
-        <Select className="w-[170px]" handleValueChange={(value) => setPeriodOfTime(value as DateRange)} options={dateRangeSelectOptions} value={periodOfTime} />
+        <Select className="w-[160px] xl:w-[180px]" handleValueChange={(value) => setPeriodOfTime(value as DateRange)} options={dateRangeSelectOptions} value={periodOfTime} />
       </div>
-      <hr className="my-4 w-full border-border dark:border-accent" />
+      <hr className="my-4 w-full border-border" />
       {workoutPlanHistory.length > 0 ? (
         <BarChart
-          className="lg:max-h-[300px]"
+          className="h-[300px] w-full !aspect-auto xl:h-[320px]"
           chartConfig={chartConfig}
           data={chartData}
           xAxisProps={{
@@ -126,7 +126,7 @@ const ReportWorkouts = () => {
           <Typography className="text-center mt-2 text-muted-foreground" variant="md-20">
             You did not exercise yet
           </Typography>
-          <Zzz className="!w-12 !h-12  mt-4 text-primary mx-auto" />
+          <Zzz className="!w-12 !h-12 mt-4 text-primary mx-auto" />
         </>
       )}
     </section>

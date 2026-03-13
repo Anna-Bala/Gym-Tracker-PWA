@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
 import { Progress } from "@/components/ui/progress";
+import { SectionCard } from "@/components/base/SectionCard";
+import { SectionHeader } from "@/components/base/SectionHeader";
 import { Typography } from "@/components/base/Typography";
 
 const progressPercentageInfo = {
@@ -38,16 +40,14 @@ const GeneratingAiWorkoutPlan = ({ isGeneratingAIWorkoutPlan }: GeneratingAiWork
   }, [isGeneratingAIWorkoutPlan]);
 
   return (
-    <div className="w-full flex flex-wrap justify-between items-center mt-8">
-      <Typography className="w-full font-semibold" variant="h4">
-        AI is currently generating your workout plan...
-      </Typography>
-      <Progress className="mt-4" value={progress} />
+    <SectionCard className="mt-8" tone="accent">
+      <SectionHeader title="AI is currently generating your workout plan..." />
+      <Progress className="mt-5" value={progress} />
 
       <Typography className="w-full text-center font-normal text-muted-foreground mt-4" variant="md-20">
         {progressPercentageInfo[progress as keyof typeof progressPercentageInfo]}
       </Typography>
-    </div>
+    </SectionCard>
   );
 };
 
