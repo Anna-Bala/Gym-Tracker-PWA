@@ -43,7 +43,7 @@ test.describe("Home page", () => {
 
     await page.goto("/home");
 
-    await expect(page.getByText(/You haven't created any workout plans yet/i)).toBeVisible();
+    await expect(page.getByText(/No workout plans yet/i)).toBeVisible();
     await expect(page.getByRole("link", { name: "Create your workout plan" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Generate workout plan with AI" })).toBeVisible();
   });

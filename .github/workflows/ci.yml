@@ -6,7 +6,7 @@ on:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,7 +39,7 @@ jobs:
 
   test:
     timeout-minutes: 60
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     env:
       VITE_API_ENDPOINT_PREFIX: http://127.0.0.1:5173/api
       VITE_GOOGLE_CLIENT_ID: mock-google-client-id.apps.googleusercontent.com

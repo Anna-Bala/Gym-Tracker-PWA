@@ -8,45 +8,45 @@ import { mockOnboardingCreationError, mockOnboardingCreationSuccess } from "./fi
 const fillOutForm = async (page: Page, mockedOnboarding: FullOnboarding) => {
   await page.goto("/onboarding/1");
 
-  await expect(page.getByText(/Select Your Gender/i)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Select Your Gender" })).toBeVisible();
   await expect(page.getByRole("radio", { name: "Female" })).toBeVisible();
   await expect(page.getByRole("radio", { name: "Male", exact: true })).toBeVisible();
   await page.getByRole("radio", { name: mockedOnboarding.gender === "M" ? "Male" : "Female", exact: true }).click();
   await page.getByRole("button", { name: "Continue" }).click();
 
-  await expect(page.getByText(/Choose Your Focus Area/i)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Choose Your Focus Area" })).toBeVisible();
   mockedOnboarding.focusArea.forEach(async (area) => await page.getByRole("checkbox", { name: area }).click({ force: true }));
   await page.getByRole("button", { name: "Continue" }).click();
 
-  await expect(page.getByText(/Enter Your Age/i)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Enter Your Age" })).toBeVisible();
   await page.locator('li[data-rwp-option="true"]').getByText(mockedOnboarding.age.toString(), { exact: true }).click({ force: true });
   await page.getByRole("button", { name: "Continue" }).click();
 
-  await expect(page.getByText(/Enter Your Height/i)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Enter Your Height" })).toBeVisible();
   await page.locator('li[data-rwp-option="true"]').getByText(mockedOnboarding.height.toString(), { exact: true }).click({ force: true });
   await page.getByRole("button", { name: "Continue" }).click();
 
-  await expect(page.getByText(/Enter Your Weight/i)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Enter Your Weight" })).toBeVisible();
   await page.locator('li[data-rwp-option="true"]').getByText(mockedOnboarding.weight.toString(), { exact: true }).click({ force: true });
   await page.getByRole("button", { name: "Continue" }).click();
 
-  await expect(page.getByText(/Select Your Activity Level/i)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Select Your Activity Level" })).toBeVisible();
   await page.getByRole("radio", { name: mockedOnboarding.activityLevel }).click({ force: true });
   await page.getByRole("button", { name: "Continue" }).click();
 
-  await expect(page.getByText(/Set Your Workout Goal/i)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Set Your Workout Goal" })).toBeVisible();
   await page.getByRole("radio", { name: mockedOnboarding.workoutGoal.replace(/([A-Z])/g, " $1").trim() }).click({ force: true });
   await page.getByRole("button", { name: "Continue" }).click();
 
-  await expect(page.getByText(/How Many Push-Ups Can You Do?/i)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "How Many Push-Ups Can You Do?" })).toBeVisible();
   await page.getByRole("radio", { name: mockedOnboarding.fitnessLevel }).click({ force: true });
   await page.getByRole("button", { name: "Continue" }).click();
 
-  await expect(page.getByText(/Select Your Weekly Workout Plan/i)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Select Your Weekly Workout Plan" })).toBeVisible();
   await page.locator('li[data-rwp-option="true"]').getByText(mockedOnboarding.days.toString()).first().click({ force: true });
   await page.getByRole("button", { name: "Continue" }).click();
 
-  await expect(page.getByText(/Rest Between Sets/i)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Rest Between Sets" })).toBeVisible();
   await page.locator('li[data-rwp-option="true"]').getByText(mockedOnboarding.restTime.toString(), { exact: true }).click({ force: true });
   await page.getByRole("button", { name: "Continue" }).click();
 };
@@ -58,7 +58,7 @@ test.describe("Onboarding form", () => {
 
     await fillOutForm(page, mockedOnboarding);
 
-    await expect(page.getByText(/Failed to initialize/i)).not.toBeVisible();
+    await expect(page.getByRole("heading", { name: "Failed to initialize your profile" })).not.toBeVisible();
     await expect(page.getByText(/All Your Workout Plans/i)).toBeVisible();
   });
 
@@ -68,7 +68,7 @@ test.describe("Onboarding form", () => {
 
     await fillOutForm(page, mockedOnboarding);
 
-    await expect(page.getByText(/Failed to initialize/i)).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Failed to initialize your profile" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Retry" })).toBeVisible();
   });
 });
