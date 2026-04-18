@@ -1,6 +1,6 @@
 import { Exercise, FilterExercises } from "@gym-tracker-pwa/schemas";
+import { redisClient } from "@/clients";
 import { WORKOUT_API_BASE_URL, WORKOUT_API_KEY } from "../secrets";
-import { redisClient } from "..";
 
 export class ExerciseApiService {
   private workoutApiDataCasheLifetime = 7 * 24 * 3600;

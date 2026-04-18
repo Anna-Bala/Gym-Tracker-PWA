@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import { compareSync, hashSync } from "bcrypt";
 import { BadRequestException } from "../exceptions/bad-request";
 import { ChangePasswordSchema, UserPersonalInfoSchema, UserThemeSchema } from "@gym-tracker-pwa/schemas";
+import { prismaClient } from "@/clients";
 import { ErrorCode } from "../exceptions";
 import { NotFoundException } from "../exceptions/not-found";
-import { prismaClient } from "..";
 
 export const get = async (req: Request, res: Response) => {
   const userId = req.userId;

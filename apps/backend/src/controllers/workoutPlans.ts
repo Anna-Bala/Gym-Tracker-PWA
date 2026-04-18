@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { ApiWorkoutPlanSchema, FullOnboarding } from "@gym-tracker-pwa/schemas";
+import { prismaClient } from "@/clients";
 import { BadRequestException } from "../exceptions/bad-request";
 import { calculateWorkoutPlanCalories, calculateWorkoutPlanDuration, mapMusclesToFocusArea } from "../helpers";
 import { ErrorCode } from "../exceptions";
 import { InternalException } from "../exceptions/internal-exception";
 import { NotFoundException } from "../exceptions/not-found";
-import { prismaClient } from "..";
 import exerciseApiService from "../services/exerciseApi.service";
 import openAiApiService from "../services/openAiApi.service";
 

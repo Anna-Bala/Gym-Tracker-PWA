@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { BodyMetricsSchema, FullOnboardingSchema } from "@gym-tracker-pwa/schemas";
+import { prismaClient } from "@/clients";
 import { NotFoundException } from "../exceptions/not-found";
 import { BadRequestException } from "../exceptions/bad-request";
 import { ErrorCode } from "../exceptions";
-import { prismaClient } from "..";
 
 export const get = async (req: Request, res: Response) => {
   const userId = req.userId;

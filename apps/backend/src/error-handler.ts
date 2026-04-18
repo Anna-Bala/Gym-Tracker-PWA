@@ -10,7 +10,7 @@ export const errorHandler = (method: Function) => {
       await method(req, res, next);
     } catch (error: any) {
       let exception: any;
-      if (exception instanceof HttpException) {
+      if (error instanceof HttpException) {
         exception = error;
       } else {
         if (error instanceof ZodError) {
