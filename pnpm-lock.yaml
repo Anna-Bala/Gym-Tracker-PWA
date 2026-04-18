@@ -102,6 +102,9 @@ importers:
       typescript:
         specifier: ~5.8.3
         version: 5.8.3
+      vitest-mock-extended:
+        specifier: 4.0.0
+        version: 4.0.0(typescript@5.8.3)(vitest@4.0.18(@types/node@24.1.0)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.21.0)(yaml@2.8.1))
 
   apps/frontend:
     dependencies:
@@ -3788,6 +3791,14 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4'
 
+  ts-essentials@10.1.1:
+    resolution: {integrity: sha512-4aTB7KLHKmUvkjNj8V+EdnmuVTiECzn3K+zIbRthumvHu+j44x3w63xpfs0JL3NGIzGXqoQ7AV591xHO+XrOTw==}
+    peerDependencies:
+      typescript: '>=4.5.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
 
@@ -3970,6 +3981,12 @@ packages:
         optional: true
       yaml:
         optional: true
+
+  vitest-mock-extended@4.0.0:
+    resolution: {integrity: sha512-m2FmH8JYfxzZoLsHuhXRY+Pv++a3zd91HYpSz81tpRLEHbtFkEL2QcWvJowucWuNTirzQURKfWbJJSXbYqkTsA==}
+    peerDependencies:
+      typescript: 3.x || 4.x || 5.x || 6.x
+      vitest: '>=4.0.0'
 
   vitest@4.0.18:
     resolution: {integrity: sha512-hOQuK7h0FGKgBAas7v0mSAsnvrIgAvWmRFjmzpJ7SwFHH3g1k2u37JtYwOwmEKhK6ZO3v9ggDBBm0La1LCK4uQ==}
@@ -7450,6 +7467,10 @@ snapshots:
     dependencies:
       typescript: 5.8.3
 
+  ts-essentials@10.1.1(typescript@5.8.3):
+    optionalDependencies:
+      typescript: 5.8.3
+
   ts-interface-checker@0.1.13: {}
 
   ts-node@10.9.2(@types/node@24.1.0)(typescript@5.8.3):
@@ -7668,6 +7689,12 @@ snapshots:
       lightningcss: 1.30.1
       tsx: 4.21.0
       yaml: 2.8.1
+
+  vitest-mock-extended@4.0.0(typescript@5.8.3)(vitest@4.0.18(@types/node@24.1.0)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.21.0)(yaml@2.8.1)):
+    dependencies:
+      ts-essentials: 10.1.1(typescript@5.8.3)
+      typescript: 5.8.3
+      vitest: 4.0.18(@types/node@24.1.0)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.21.0)(yaml@2.8.1)
 
   vitest@4.0.18(@types/node@24.1.0)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.21.0)(yaml@2.8.1):
     dependencies:

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { compareSync, hashSync } from "bcrypt";
 import { JwtPayload } from "jsonwebtoken";
 import { SignupSchema } from "@gym-tracker-pwa/schemas";
-import { prismaClient } from "..";
+import { prismaClient } from "@/clients";
 import { ENVIRONMENT } from "../secrets";
 import { BadRequestException } from "../exceptions/bad-request";
 import { ErrorCode } from "../exceptions";
