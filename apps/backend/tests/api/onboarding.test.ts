@@ -1,10 +1,12 @@
 import { describe, expect, test } from "vitest";
 import request from "supertest";
-import { prismaMock } from "./setup";
+
+import "./setup";
+import app from "@/app";
 import { authRequest } from "./helpers";
 import { ErrorCode } from "@/exceptions";
 import { onboarding } from "../fixtures/onboarding";
-import app from "@/app";
+import { prismaMock } from "./setup";
 
 describe("GET /api/onboarding", () => {
   test("returns onboarding data", async () => {

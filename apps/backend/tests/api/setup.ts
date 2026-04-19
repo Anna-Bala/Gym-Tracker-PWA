@@ -7,14 +7,9 @@ export const prismaMock = mockDeep<PrismaClient>();
 export const redisMock = mockDeep<RedisClientType>();
 
 vi.hoisted(() => {
-  process.env.OPENAI_API_KEY = "test-key";
-  process.env.WORKOUT_API_BASE_URL = "http://test-api";
-  process.env.WORKOUT_API_KEY = "test-key";
-  process.env.JWT_ACCESS_TOKEN_SECRET = "test-access-secret";
-  process.env.JWT_REFRESH_TOKEN_SECRET = "test-refresh-secret";
-  process.env.FRONT_END_ORIGIN = "http://localhost:5173";
-  process.env.GOOGLE_CLIENT_ID = "test-google-id";
-  process.env.GOOGLE_CLIENT_SECRET = "test-google-secret";
+  process.env.OPENAI_API_KEY = "open-ai-api-key";
+  process.env.JWT_ACCESS_TOKEN_SECRET = "jwt-access-secret";
+  process.env.JWT_REFRESH_TOKEN_SECRET = "jwt-refresh-secret";
 });
 
 vi.mock("@/clients", () => ({

@@ -1,11 +1,13 @@
 import { describe, expect, test } from "vitest";
 import request from "supertest";
-import { prismaMock } from "./setup";
+
+import "./setup";
+import app from "@/app";
 import { authRequest, expectClearedAuthCookies } from "./helpers";
 import { ErrorCode } from "@/exceptions";
-import { user } from "../fixtures/user";
 import { onboarding } from "../fixtures/onboarding";
-import app from "@/app";
+import { prismaMock } from "./setup";
+import { user } from "../fixtures/user";
 
 describe("GET /api/user", () => {
   test("returns user without password", async () => {
@@ -74,7 +76,7 @@ describe("PATCH /api/user", () => {
   });
 
   test("returns 400 when body is invalid", async () => {
-    const response = await authRequest.patch("/api/user").send({ firstName: "J", lastName: "", email: "not-an-email" });
+    const response = await authRequest.patch("/api/user").send({ firstName: "J", lastName: "", email: "fake-email" });
 
     expect(response.status).toBe(400);
     expect(response.body.errorCode).toBe(ErrorCode.UNPROCESSABLE_ENTITY);
@@ -139,7 +141,7 @@ describe("PATCH /api/user/password", () => {
   });
 
   test("returns 400 when body is invalid", async () => {
-    const response = await authRequest.patch("/api/user/password").send({ currentPassword: "", newPassword: "weak" });
+    const response = await authRequest.patch("/api/user/password").send({ currentPassword: "", newPassword: "" });
 
     expect(response.status).toBe(400);
     expect(response.body.errorCode).toBe(ErrorCode.UNPROCESSABLE_ENTITY);
