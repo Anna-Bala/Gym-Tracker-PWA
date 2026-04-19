@@ -3,7 +3,7 @@ import { ApiWorkoutPlanSchema, FullOnboarding } from "@gym-tracker-pwa/schemas";
 import { prismaClient } from "@/clients";
 import { BadRequestException } from "../exceptions/bad-request";
 import { calculateWorkoutPlanCalories, calculateWorkoutPlanDuration, mapMusclesToFocusArea } from "../helpers";
-import { ErrorCode } from "../exceptions";
+import { ErrorCode, HttpException } from "../exceptions";
 import { InternalException } from "../exceptions/internal-exception";
 import { NotFoundException } from "../exceptions/not-found";
 import exerciseApiService from "../services/exerciseApi.service";
@@ -56,10 +56,11 @@ export const create = async (req: Request, res: Response) => {
       return workoutPlan;
     })
     .catch((error) => {
+      if (error instanceof HttpException) throw error;
       throw new InternalException("Something went wrong while creating workout plan", error, ErrorCode.INTERNAL_EXCEPTION);
     });
 
-  res.json(createdWorkoutPlan);
+  res.status(201).json(createdWorkoutPlan);
 };
 
 export const createWithAI = async (req: Request, res: Response) => {
@@ -106,10 +107,11 @@ export const createWithAI = async (req: Request, res: Response) => {
       return workoutPlan;
     })
     .catch((error) => {
+      if (error instanceof HttpException) throw error;
       throw new InternalException("Something went wrong while creating workout plan", error, ErrorCode.INTERNAL_EXCEPTION);
     });
 
-  res.json(createdWorkoutPlan);
+  res.status(201).json(createdWorkoutPlan);
 };
 
 export const patch = async (req: Request, res: Response) => {
@@ -155,6 +157,7 @@ export const patch = async (req: Request, res: Response) => {
       return updatedWorkoutPlanResult;
     })
     .catch((error) => {
+      if (error instanceof HttpException) throw error;
       throw new InternalException("Something went wrong while updating workout plan", error, ErrorCode.INTERNAL_EXCEPTION);
     });
 

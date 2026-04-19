@@ -109,7 +109,7 @@ describe("POST /api/workout-plans", () => {
 
     const response = await authRequest.post("/api/workout-plans").send(validPlanRequestBody);
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(201);
     expect(response.body).toMatchObject({ id: workoutPlan.id, name: workoutPlan.name });
 
     expect(prismaMock.workoutPlan.create).toHaveBeenCalledWith({
@@ -139,14 +139,14 @@ describe("POST /api/workout-plans", () => {
     expect(response.body.errorCode).toBe(ErrorCode.UNPROCESSABLE_ENTITY);
   });
 
-  test("returns 500 when onboarding is missing", async () => {
+  test("returns 404 when onboarding is missing", async () => {
     prismaMock.$transaction.mockImplementation(async (cb: any) => cb(prismaMock));
     prismaMock.onboarding.findUnique.mockResolvedValue(null);
 
     const response = await authRequest.post("/api/workout-plans").send(validPlanRequestBody);
 
-    expect(response.status).toBe(500);
-    expect(response.body.errorCode).toBe(ErrorCode.INTERNAL_EXCEPTION);
+    expect(response.status).toBe(404);
+    expect(response.body.errorCode).toBe(ErrorCode.USER_ONBOARDING_MISSING);
   });
 });
 
@@ -160,7 +160,7 @@ describe("POST /api/workout-plans/ai", () => {
 
     const response = await authRequest.post("/api/workout-plans/ai");
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(201);
     expect(response.body).toMatchObject({ id: workoutPlan.id, ai: true, name: aiWorkoutPlan.name });
 
     expect(openAiApiMock.createWorkoutPlan).toHaveBeenCalledWith(onboarding);

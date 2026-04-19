@@ -3,7 +3,7 @@ import { compareSync, hashSync } from "bcrypt";
 import { BadRequestException } from "../exceptions/bad-request";
 import { ChangePasswordSchema, UserPersonalInfoSchema, UserThemeSchema } from "@gym-tracker-pwa/schemas";
 import { prismaClient } from "@/clients";
-import { ErrorCode } from "../exceptions";
+import { ErrorCode, HttpException } from "../exceptions";
 import { NotFoundException } from "../exceptions/not-found";
 
 export const get = async (req: Request, res: Response) => {
@@ -105,7 +105,8 @@ export const changePassword = async (req: Request, res: Response) => {
     res.clearCookie("access_token");
     res.clearCookie("refresh_token");
     res.status(204).end();
-  } catch {
+  } catch (error) {
+    if (error instanceof HttpException) throw error;
     res.status(500).json({ error: "Failed to change password" });
   }
 };

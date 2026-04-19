@@ -44,7 +44,7 @@ describe("POST /api/onboarding", () => {
 
     const response = await authRequest.post("/api/onboarding").send(validBody);
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(201);
     expect(response.body).toMatchObject(validBody);
     expect(prismaMock.onboarding.create).toHaveBeenCalledWith({
       data: { ...validBody, userId: onboarding.userId },
@@ -58,12 +58,12 @@ describe("POST /api/onboarding", () => {
     expect(response.body.errorCode).toBe(ErrorCode.INVALID_TOKEN);
   });
 
-  test("returns 400 when onboarding already exists", async () => {
+  test("returns 409 when onboarding already exists", async () => {
     prismaMock.onboarding.findFirst.mockResolvedValue(onboarding);
 
     const response = await authRequest.post("/api/onboarding").send(validBody);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(409);
     expect(response.body.errorCode).toBe(ErrorCode.USER_ONBOARDING_ALREADY_EXISTS);
   });
 
