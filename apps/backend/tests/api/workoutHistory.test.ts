@@ -1,11 +1,13 @@
 import { describe, expect, test } from "vitest";
 import request from "supertest";
-import { prismaMock } from "./setup";
+
+import "./setup";
+import app from "@/app";
 import { authRequest } from "./helpers";
 import { ErrorCode } from "@/exceptions";
+import { prismaMock } from "./setup";
 import { workoutHistory } from "../fixtures/workoutHistory";
 import { workoutPlan } from "../fixtures/workoutPlan";
-import app from "@/app";
 
 describe("GET /api/workout-history", () => {
   const historyWithPlan = {

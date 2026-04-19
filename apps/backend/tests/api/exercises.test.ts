@@ -1,10 +1,11 @@
 import { describe, expect, test, vi, beforeEach } from "vitest";
 import request from "supertest";
+
 import "./setup";
+import app from "@/app";
 import { authRequest } from "./helpers";
 import { ErrorCode } from "@/exceptions";
 import { exerciseApiItem } from "../fixtures/exercise-api";
-import app from "@/app";
 
 const { mockService } = vi.hoisted(() => ({
   mockService: {

@@ -1,7 +1,8 @@
 import request from "supertest";
 import { expect } from "vitest";
-import { signAccessToken } from "@/helpers";
+
 import app from "@/app";
+import { signAccessToken } from "@/helpers";
 
 const TEST_USER_ID = 1;
 const authCookie = `access_token=${signAccessToken(TEST_USER_ID)}`;

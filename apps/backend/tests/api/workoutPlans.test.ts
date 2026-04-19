@@ -1,13 +1,15 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import request from "supertest";
-import { prismaMock } from "./setup";
+
+import "./setup";
+import app from "@/app";
+import { aiWorkoutPlan, workoutPlan } from "../fixtures/workoutPlan";
 import { authRequest } from "./helpers";
 import { ErrorCode } from "@/exceptions";
-import { onboarding } from "../fixtures/onboarding";
-import { aiWorkoutPlan, workoutPlan } from "../fixtures/workoutPlan";
 import { exercise1, exercise2 } from "../fixtures/exercise";
 import { exerciseApiItem } from "../fixtures/exercise-api";
-import app from "@/app";
+import { onboarding } from "../fixtures/onboarding";
+import { prismaMock } from "./setup";
 
 const { exerciseApiMock, openAiApiMock } = vi.hoisted(() => ({
   exerciseApiMock: {
