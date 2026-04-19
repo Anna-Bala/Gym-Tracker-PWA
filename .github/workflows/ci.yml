@@ -28,6 +28,9 @@ jobs:
       - name: Prisma Generate
         run: pnpm --filter backend prisma:generate
 
+      - name: Build schemas
+        run: pnpm --filter "@gym-tracker-pwa/schemas" build
+
       - name: Run unit tests
         run: pnpm run test
 
