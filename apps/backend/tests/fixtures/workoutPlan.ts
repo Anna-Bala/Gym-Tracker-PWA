@@ -1,4 +1,14 @@
+import type { AIWorkoutPlan } from "@gym-tracker-pwa/schemas";
 import type { WorkoutPlan } from "@prisma/client";
+import { exercise1, exercise2 } from "./exercise";
+
+export const aiWorkoutPlan: AIWorkoutPlan = {
+  name: "AI Generated Plan",
+  description: "Balanced split created by AI",
+  days: ["1", "3", "5"],
+  focusArea: ["chest", "back"],
+  exercises: [exercise1, exercise2],
+};
 
 export const workoutPlan: WorkoutPlan = {
   id: 1,
