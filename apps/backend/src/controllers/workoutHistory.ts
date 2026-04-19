@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { WorkoutHistoryCreationSchema } from "@gym-tracker-pwa/schemas";
 import { prismaClient } from "@/clients";
 import { BadRequestException } from "../exceptions/bad-request";
-import { ErrorCode } from "../exceptions";
+import { ErrorCode, HttpException } from "../exceptions";
 import { getEndOfTheDayDate, getStartOfTheDayDate } from "../helpers";
 import { InternalException } from "../exceptions/internal-exception";
 import { NotFoundException } from "../exceptions/not-found";
@@ -73,8 +73,9 @@ export const create = async (req: Request, res: Response) => {
       return workoutHistory;
     })
     .catch((error) => {
+      if (error instanceof HttpException) throw error;
       throw new InternalException("Something went wrong while creating workout plan history entry", error, ErrorCode.INTERNAL_EXCEPTION);
     });
 
-  res.status(200).json(createdWorkoutHistory);
+  res.status(201).json(createdWorkoutHistory);
 };

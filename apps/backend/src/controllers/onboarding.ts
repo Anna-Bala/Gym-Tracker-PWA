@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { BodyMetricsSchema, FullOnboardingSchema } from "@gym-tracker-pwa/schemas";
 import { prismaClient } from "@/clients";
+import { ConflictException } from "../exceptions/conflict";
 import { NotFoundException } from "../exceptions/not-found";
-import { BadRequestException } from "../exceptions/bad-request";
 import { ErrorCode } from "../exceptions";
 
 export const get = async (req: Request, res: Response) => {
@@ -23,7 +23,7 @@ export const create = async (req: Request, res: Response) => {
 
   let onboarding = await prismaClient.onboarding.findFirst({ where: { userId } });
   if (onboarding) {
-    throw new BadRequestException("Onboarding has been already created for this user", ErrorCode.USER_ONBOARDING_ALREADY_EXISTS);
+    throw new ConflictException("Onboarding has been already created for this user", ErrorCode.USER_ONBOARDING_ALREADY_EXISTS);
   }
 
   onboarding = await prismaClient.onboarding.create({
@@ -42,7 +42,7 @@ export const create = async (req: Request, res: Response) => {
     },
   });
 
-  res.json(onboarding);
+  res.status(201).json(onboarding);
 };
 
 export const patch = async (req: Request, res: Response) => {

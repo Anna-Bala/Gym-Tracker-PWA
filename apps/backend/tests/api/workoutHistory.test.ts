@@ -74,7 +74,7 @@ describe("POST /api/workout-history", () => {
 
     const response = await authRequest.post("/api/workout-history").send(validBody);
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(201);
     expect(response.body).toMatchObject(JSON.parse(JSON.stringify(workoutHistory)));
     expect(prismaMock.workoutHistory.create).toHaveBeenCalledWith({
       data: {
@@ -100,13 +100,13 @@ describe("POST /api/workout-history", () => {
     expect(response.body.errorCode).toBe(ErrorCode.UNPROCESSABLE_ENTITY);
   });
 
-  test("returns 500 when workout plan is missing", async () => {
+  test("returns 404 when workout plan is missing", async () => {
     prismaMock.$transaction.mockImplementation(async (cb: any) => cb(prismaMock));
     prismaMock.workoutPlan.findUnique.mockResolvedValue(null);
 
     const response = await authRequest.post("/api/workout-history").send(validBody);
 
-    expect(response.status).toBe(500);
-    expect(response.body.errorCode).toBe(ErrorCode.INTERNAL_EXCEPTION);
+    expect(response.status).toBe(404);
+    expect(response.body.errorCode).toBe(ErrorCode.WORKOUT_PLAN_MISSING);
   });
 });

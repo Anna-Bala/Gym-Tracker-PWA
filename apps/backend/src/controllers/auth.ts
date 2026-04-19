@@ -2,13 +2,14 @@ import { Request, Response } from "express";
 import { compareSync, hashSync } from "bcrypt";
 import { JwtPayload } from "jsonwebtoken";
 import { SignupSchema } from "@gym-tracker-pwa/schemas";
-import { prismaClient } from "@/clients";
+
+import { ConflictException } from "../exceptions/conflict";
 import { ENVIRONMENT } from "../secrets";
-import { BadRequestException } from "../exceptions/bad-request";
 import { ErrorCode } from "../exceptions";
 import { NotFoundException } from "../exceptions/not-found";
-import { UnauthorizedException } from "../exceptions/unauthorized";
+import { prismaClient } from "@/clients";
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../helpers";
+import { UnauthorizedException } from "../exceptions/unauthorized";
 import googleApiService from "@/services/googleApi.service";
 
 const accessTokenLifetime = 30 * 60 * 1000;
@@ -36,7 +37,7 @@ export const signup = async (req: Request, res: Response) => {
 
   let user = await prismaClient.user.findUnique({ where: { email } });
   if (user) {
-    throw new BadRequestException("User already exists", ErrorCode.USER_ALREADY_EXISTS);
+    throw new ConflictException("User already exists", ErrorCode.USER_ALREADY_EXISTS);
   }
 
   user = await prismaClient.user.create({
@@ -50,7 +51,7 @@ export const signup = async (req: Request, res: Response) => {
   });
 
   const { password: responseUserPassword, ...responseUser } = user;
-  res.json(responseUser);
+  res.status(201).json(responseUser);
 };
 
 export const login = async (req: Request, res: Response) => {
@@ -58,7 +59,7 @@ export const login = async (req: Request, res: Response) => {
 
   let user = await prismaClient.user.findUnique({ where: { email } });
   if (!user || !user.password) throw new NotFoundException("User not found", ErrorCode.USER_NOT_FOUND);
-  if (!compareSync(password, user.password)) throw new BadRequestException("Incorrect password", ErrorCode.INCORRECT_PASSWORD);
+  if (!compareSync(password, user.password)) throw new UnauthorizedException("Incorrect password", ErrorCode.INCORRECT_PASSWORD);
 
   const accessToken = signAccessToken(user.id);
   const refreshToken = signRefreshToken(user.id);
