@@ -14,6 +14,17 @@ export const authRequest = {
   delete: (url: string) => request(app).delete(url).set("Cookie", authCookie),
 };
 
+export const expectAuthCookiesSet = (setCookieHeader: string[] | undefined) => {
+  const cookies = setCookieHeader ?? [];
+  const accessCookie = cookies.find((c) => c.startsWith("access_token="));
+  const refreshCookie = cookies.find((c) => c.startsWith("refresh_token="));
+  expect(accessCookie).toBeDefined();
+  expect(refreshCookie).toBeDefined();
+  expect(accessCookie).toMatch(/HttpOnly/i);
+  expect(refreshCookie).toMatch(/HttpOnly/i);
+  expect(refreshCookie).toMatch(/Path=\/api\/auth/);
+};
+
 export const expectClearedAuthCookies = (setCookieHeader: string[] | undefined) => {
   const cookies = setCookieHeader ?? [];
   expect(cookies.some((c) => c.startsWith("access_token=;"))).toBe(true);
