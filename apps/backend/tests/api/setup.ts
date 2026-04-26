@@ -17,10 +17,17 @@ vi.mock("@/clients", () => ({
   redisClient: redisMock,
 }));
 
-vi.mock("bcrypt", () => ({
+const bcryptMocks = vi.hoisted(() => ({
   compareSync: vi.fn(() => true),
   hashSync: vi.fn(() => "new-hashed-password"),
 }));
+
+vi.mock("bcrypt", () => ({
+  ...bcryptMocks,
+  default: bcryptMocks,
+}));
+
+export { bcryptMocks };
 
 beforeAll(() => {
   vi.useRealTimers();
