@@ -129,17 +129,25 @@ export const googleAuth = async (req: Request, res: Response) => {
   const firstName = given_name || name?.split(" ")[0] || "Guest";
   const lastName = family_name || name?.split(" ")[1] || "User";
 
-  const user = await prismaClient.user.upsert({
-    where: { googleId: sub },
-    update: { firstName, lastName },
-    create: {
-      googleId: sub,
-      firstName,
-      lastName,
-      email: email || `${sub}@no-email.google.com`,
-      theme: null,
-    },
-  });
+  const resolvedEmail = email || `${sub}@no-email.google.com`;
+  const existingByGoogleId = await prismaClient.user.findUnique({ where: { googleId: sub } });
+
+  const user = existingByGoogleId
+    ? await prismaClient.user.update({
+        where: { id: existingByGoogleId.id },
+        data: { firstName, lastName },
+      })
+    : await prismaClient.user.upsert({
+        where: { email: resolvedEmail },
+        update: { googleId: sub, firstName, lastName },
+        create: {
+          googleId: sub,
+          firstName,
+          lastName,
+          email: resolvedEmail,
+          theme: null,
+        },
+      });
 
   const accessToken = signAccessToken(user.id);
   const refreshToken = signRefreshToken(user.id);
