@@ -17,6 +17,6 @@ export default defineConfig({
   preview: {
     host: "0.0.0.0",
     strictPort: false,
-    allowedHosts: ["gym-tracker-pwa.up.railway.app"],
+    allowedHosts: ["gym-tracker-pwa.up.railway.app", "www.trackgym.app", "trackgym.app"],
   },
 });
