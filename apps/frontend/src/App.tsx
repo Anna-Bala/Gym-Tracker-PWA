@@ -1,7 +1,8 @@
-import { Routes, Route } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import { AuthProvider } from "./contexts/auth/AuthProvider";
+import { useAuth } from "./contexts/auth/useAuth";
 import { ThemeProvider } from "./contexts/theme/ThemeProvider";
 import { OnboardingFormProvider } from "./contexts/onboarding/OnboardingFormProvider";
 import { WorkoutPlanFormProvider } from "./contexts/workoutPlan/WorkoutPlanFormProvider";
@@ -35,6 +36,14 @@ import Settings from "./pages/settings/Settings";
 import WorkoutPlanDetails from "./pages/workoutPlans/WorkoutPlanDetails";
 import WorkoutPlanForm from "./pages/workoutPlans/WorkoutPlanForm";
 
+const RootRedirect = () => {
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) return null;
+
+  return <Navigate to={user ? "/home" : "/login"} replace />;
+};
+
 function App() {
   return (
     <AuthProvider>
@@ -44,6 +53,7 @@ function App() {
 
           <Routes>
             <Route path="/" element={<Layout />}>
+              <Route index element={<RootRedirect />} />
               <Route path="login" element={<Login />} />
               <Route path="registration" element={<Registration />} />
 
